@@ -1,0 +1,39 @@
+name: Build & Deploy to Vultr
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install & Build
+        run: |
+          pnpm install --ignore-scripts
+          pnpm build
+
+      - name: SSH Deploy via Password
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          port: 22
+          strict: false
+          script: |
+            cd ~/triviaBot              # adjust to your bot’s folder
+            git pull origin main
+            pnpm install
+            pnpm build
+            pm2 restart russell || pm2 start dist/index.js --name russell

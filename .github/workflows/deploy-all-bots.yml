@@ -1,0 +1,57 @@
+name: Build & Deploy All Bots
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        bot:
+          - name: triviaBot
+            folder: triviaBot
+            process: russell
+          - name: opie-bot
+            folder: opie-bot
+            process: opie-bot
+          - name: embed-handler
+            folder: Embed-Handler
+            process: embed-handler
+        #   - name: genie-bot
+        #     folder: genie-bot
+        #     process: genie-bot
+          # …add more bots here
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install & Build ${{ matrix.bot.name }}
+        run: |
+          cd ${{ matrix.bot.folder }}
+          pnpm install --ignore-scripts
+          pnpm build
+
+      - name: SSH Deploy ${{ matrix.bot.name }}
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          port: 22
+          strict: false
+          ssh_option: -o PreferredAuthentications=password
+          script: |
+            cd ~/${{ matrix.bot.folder }}
+            git pull origin main
+            pnpm install
+            pnpm build
+            pm2 restart ${{ matrix.bot.process }} || pm2 start dist/index.js --name ${{ matrix.bot.process }}

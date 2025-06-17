@@ -1,0 +1,37 @@
+{
+	"name": "ts-example",
+	"version": "1.0.0",
+	"private": true,
+	"description": "",
+	"main": "dist/index.js",
+	"scripts": {
+		"build": "sern build",
+		"clear": "rm -rf ./dist",
+		"start": "node .",
+		"install": "sern build",
+		"commands:publish": "sern commands publish",
+		"dev": "concurrently \"sern build --watch\" \"nodemon --watch dist --ext js,json --exec node dist/index.js\""
+	},
+	"keywords": [
+		"typescript",
+		"sern",
+		"discord.js"
+	],
+	"dependencies": {
+		"@prisma/client": "^6.9.0",
+		"@sern/handler": "^4.0.0",
+		"@sern/publisher": "^1.1.1",
+		"discord.js": "latest",
+		"dotenv": "^16.3.1",
+		"node-cron": "^4.1.0"
+	},
+	"devDependencies": {
+		"@types/node": "^17.0.25",
+		"concurrently": "^9.1.2",
+		"nodemon": "^3.1.10",
+		"prisma": "^6.9.0",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.0"
+	},
+	"type": "module"
+}

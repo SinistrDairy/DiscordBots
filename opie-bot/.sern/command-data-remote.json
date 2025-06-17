@@ -1,0 +1,771 @@
+{
+    "global": [],
+    "1324370750131404893": [
+        {
+            "id": "1383066668703551539",
+            "application_id": "1365134052402925590",
+            "version": "1383066668703551540",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "ping",
+            "name_localizations": null,
+            "description": "A ping command",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1383065229398642688",
+            "application_id": "1365134052402925590",
+            "version": "1383065229516341299",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "add-plants",
+            "name_localizations": null,
+            "description": "Use this command to add more plants to the garden.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "new-plant",
+                    "name_localizations": null,
+                    "description": "plants name",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "plant-image",
+                    "name_localizations": null,
+                    "description": "plants image",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383065229398642689",
+            "application_id": "1365134052402925590",
+            "version": "1383065229516341300",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "add-beads",
+            "name_localizations": null,
+            "description": "Use this command to add more beads to the bracelet.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "new-bead",
+                    "name_localizations": null,
+                    "description": "The name of the bead.",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "bead-image",
+                    "name_localizations": null,
+                    "description": "bead image",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "type",
+                    "name_localizations": null,
+                    "description": "what type of bead is it?",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383065229398642690",
+            "application_id": "1365134052402925590",
+            "version": "1383065229516341301",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "add-character",
+            "name_localizations": null,
+            "description": "Use this command to add more characters to the list.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "new-character",
+                    "name_localizations": null,
+                    "description": "The name of the character.",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "character-image",
+                    "name_localizations": null,
+                    "description": "Link to the character image.",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383065229398642691",
+            "application_id": "1365134052402925590",
+            "version": "1383083669023100990",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "init-profiles",
+            "name_localizations": null,
+            "description": "🔧 Initialize water-gun profiles for everyone in GUILD_ID2 (admin only)",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1383065229398642692",
+            "application_id": "1365134052402925590",
+            "version": "1383083669023100991",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "delete-command",
+            "name_localizations": null,
+            "description": "Developer only: Delete a slash command by its command ID",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "command_id",
+                    "name_localizations": null,
+                    "description": "The ID of the command to delete",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "guild_id",
+                    "name_localizations": null,
+                    "description": "Optional guild ID if deleting a guild command",
+                    "description_localizations": null
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1377623543348461645",
+            "application_id": "1365134052402925590",
+            "version": "1377623543717691397",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "watergun-profile",
+            "name_localizations": null,
+            "description": "View your water-gun stats",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1383065229398642693",
+            "application_id": "1365134052402925590",
+            "version": "1383065229516341304",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "view-bracelet",
+            "name_localizations": null,
+            "description": "View your bracelet and extra charms.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1377623543348461646",
+            "application_id": "1365134052402925590",
+            "version": "1383060569929814037",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "startfight",
+            "name_localizations": null,
+            "description": "Begin the Splash Showdown",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1377623543348461647",
+            "application_id": "1365134052402925590",
+            "version": "1377623543717691399",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "spray",
+            "name_localizations": null,
+            "description": "Spray someone with your water gun",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 6,
+                    "name": "target",
+                    "name_localizations": null,
+                    "description": "Who would you like to spray?",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383065229398642694",
+            "application_id": "1365134052402925590",
+            "version": "1383065229516341305",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "send-bracelet",
+            "name_localizations": null,
+            "description": "Send your finished bracelet to another member in the server.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 6,
+                    "name": "member",
+                    "name_localizations": null,
+                    "description": "Which member would you like to send a bracelet to?",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1365843381653082274",
+            "application_id": "1365134052402925590",
+            "version": "1365843381653082275",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "garden",
+            "name_localizations": null,
+            "description": "Rummage through Rabbit's Garden to see what you can find!",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1383065229398642695",
+            "application_id": "1365134052402925590",
+            "version": "1383065229516341306",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "reset-user-profiles",
+            "name_localizations": null,
+            "description": "Resets collected beads and marks user profiles as incomplete (admins only).",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1377623543348461648",
+            "application_id": "1365134052402925590",
+            "version": "1379609539141308517",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "fill",
+            "name_localizations": null,
+            "description": "Fill your water gun (takes 1 minute to complete)",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1377623543717691392",
+            "application_id": "1365134052402925590",
+            "version": "1383060569929814038",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "endfight",
+            "name_localizations": null,
+            "description": "End the Splash Showdown",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1383065229398642696",
+            "application_id": "1365134052402925590",
+            "version": "1383083669023100992",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "check-profile",
+            "name_localizations": null,
+            "description": "Admins use this command to view target user's bracelet profile.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 6,
+                    "name": "member",
+                    "name_localizations": null,
+                    "description": "Which member's bracelet profile would you like to view?",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1367904691203215512",
+            "application_id": "1365134052402925590",
+            "version": "1383065229516341308",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "collect-bead",
+            "name_localizations": null,
+            "description": "Use this command to collect a bead for your friendship bracelet.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1383065229398642697",
+            "application_id": "1365134052402925590",
+            "version": "1383065229541244999",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "adjust-beads",
+            "name_localizations": null,
+            "description": "Admins use this command to adjust beads on target user's bracelet profile.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 6,
+                    "name": "member",
+                    "name_localizations": null,
+                    "description": "Which member's bracelet profile would you like to adjust?",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 10,
+                    "name": "bead-option1",
+                    "name_localizations": null,
+                    "description": "Would you like to give them all beads, or a specific bead?",
+                    "description_localizations": null,
+                    "required": true,
+                    "choices": [
+                        {
+                            "name": "Single Bead",
+                            "name_localizations": null,
+                            "value": 1
+                        },
+                        {
+                            "name": "All Beads",
+                            "name_localizations": null,
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "type": 3,
+                    "name": "specific-bead",
+                    "name_localizations": null,
+                    "description": "Which bead would you like to give them?",
+                    "description_localizations": null,
+                    "autocomplete": true
+                }
+            ],
+            "nsfw": false
+        }
+    ],
+    "830604135748337673": [
+        {
+            "id": "1383967333227167887",
+            "application_id": "1365134052402925590",
+            "version": "1383967333336485936",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "ping",
+            "name_localizations": null,
+            "description": "A ping command",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "nsfw": false
+        },
+        {
+            "id": "1383967333227167888",
+            "application_id": "1365134052402925590",
+            "version": "1383967333336485937",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "add-plants",
+            "name_localizations": null,
+            "description": "Use this command to add more plants to the garden.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "new-plant",
+                    "name_localizations": null,
+                    "description": "plants name",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "plant-image",
+                    "name_localizations": null,
+                    "description": "plants image",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383967333227167889",
+            "application_id": "1365134052402925590",
+            "version": "1383967333462052916",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "add-beads",
+            "name_localizations": null,
+            "description": "Use this command to add more beads to the bracelet.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "new-bead",
+                    "name_localizations": null,
+                    "description": "The name of the bead.",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "bead-image",
+                    "name_localizations": null,
+                    "description": "bead image",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "type",
+                    "name_localizations": null,
+                    "description": "what type of bead is it?",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383967333227167890",
+            "application_id": "1365134052402925590",
+            "version": "1383967333462052917",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "add-character",
+            "name_localizations": null,
+            "description": "Use this command to add more characters to the list.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "new-character",
+                    "name_localizations": null,
+                    "description": "The name of the character.",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "character-image",
+                    "name_localizations": null,
+                    "description": "Link to the character image.",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383967333227167891",
+            "application_id": "1365134052402925590",
+            "version": "1383967333462052918",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "init-profiles",
+            "name_localizations": null,
+            "description": "🔧 Initialize water-gun profiles for everyone in GUILD_ID2 (admin only)",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "nsfw": false
+        },
+        {
+            "id": "1383967333227167892",
+            "application_id": "1365134052402925590",
+            "version": "1383967333462052919",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "delete-command",
+            "name_localizations": null,
+            "description": "Developer only: Delete a slash command by its command ID",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "command_id",
+                    "name_localizations": null,
+                    "description": "The ID of the command to delete",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "guild_id",
+                    "name_localizations": null,
+                    "description": "Optional guild ID if deleting a guild command",
+                    "description_localizations": null
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383967333227167893",
+            "application_id": "1365134052402925590",
+            "version": "1383967333462052920",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "watergun-profile",
+            "name_localizations": null,
+            "description": "View your water-gun stats",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "nsfw": false
+        },
+        {
+            "id": "1383967333227167894",
+            "application_id": "1365134052402925590",
+            "version": "1383967333462052921",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "view-bracelet",
+            "name_localizations": null,
+            "description": "View your bracelet and extra charms.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "nsfw": false
+        },
+        {
+            "id": "1383967333227167895",
+            "application_id": "1365134052402925590",
+            "version": "1383967333462052922",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "startfight",
+            "name_localizations": null,
+            "description": "Begin the Splash Showdown",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "nsfw": false
+        },
+        {
+            "id": "1383967333227167896",
+            "application_id": "1365134052402925590",
+            "version": "1383967333462052923",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "spray",
+            "name_localizations": null,
+            "description": "Spray someone with your water gun",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 6,
+                    "name": "target",
+                    "name_localizations": null,
+                    "description": "Who would you like to spray?",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383967333336485928",
+            "application_id": "1365134052402925590",
+            "version": "1383967333462052924",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "send-bracelet",
+            "name_localizations": null,
+            "description": "Send your finished bracelet to another member in the server.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 6,
+                    "name": "member",
+                    "name_localizations": null,
+                    "description": "Which member would you like to send a bracelet to?",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383967333336485929",
+            "application_id": "1365134052402925590",
+            "version": "1383967333462052925",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "garden",
+            "name_localizations": null,
+            "description": "Rummage through Rabbit's Garden to see what you can find!",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "nsfw": false
+        },
+        {
+            "id": "1383967333336485930",
+            "application_id": "1365134052402925590",
+            "version": "1383967333499797514",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "reset-user-profiles",
+            "name_localizations": null,
+            "description": "Resets collected beads and marks user profiles as incomplete (admins only).",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "nsfw": false
+        },
+        {
+            "id": "1383967333336485931",
+            "application_id": "1365134052402925590",
+            "version": "1383967333499797515",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "fill",
+            "name_localizations": null,
+            "description": "Fill your water gun (takes 1 minute to complete)",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "nsfw": false
+        },
+        {
+            "id": "1383967333336485932",
+            "application_id": "1365134052402925590",
+            "version": "1383967333499797516",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "endfight",
+            "name_localizations": null,
+            "description": "End the Splash Showdown",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "nsfw": false
+        },
+        {
+            "id": "1383967333336485933",
+            "application_id": "1365134052402925590",
+            "version": "1383967333499797517",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "check-profile",
+            "name_localizations": null,
+            "description": "Admins use this command to view target user's bracelet profile.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 6,
+                    "name": "member",
+                    "name_localizations": null,
+                    "description": "Which member's bracelet profile would you like to view?",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383967333336485934",
+            "application_id": "1365134052402925590",
+            "version": "1383967333499797518",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "collect-bead",
+            "name_localizations": null,
+            "description": "Use this command to collect a bead for your friendship bracelet.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "nsfw": false
+        },
+        {
+            "id": "1383967333336485935",
+            "application_id": "1365134052402925590",
+            "version": "1383967333499797519",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "adjust-beads",
+            "name_localizations": null,
+            "description": "Admins use this command to adjust beads on target user's bracelet profile.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 6,
+                    "name": "member",
+                    "name_localizations": null,
+                    "description": "Which member's bracelet profile would you like to adjust?",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 10,
+                    "name": "bead-option1",
+                    "name_localizations": null,
+                    "description": "Would you like to give them all beads, or a specific bead?",
+                    "description_localizations": null,
+                    "required": true,
+                    "choices": [
+                        {
+                            "name": "Single Bead",
+                            "name_localizations": null,
+                            "value": 1
+                        },
+                        {
+                            "name": "All Beads",
+                            "name_localizations": null,
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "type": 3,
+                    "name": "specific-bead",
+                    "name_localizations": null,
+                    "description": "Which bead would you like to give them?",
+                    "description_localizations": null,
+                    "autocomplete": true
+                }
+            ],
+            "nsfw": false
+        }
+    ]
+}

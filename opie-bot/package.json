@@ -1,0 +1,34 @@
+{
+	"name": "ts-example",
+	"version": "1.0.0",
+	"private": true,
+	"description": "",
+	"main": "dist/index.js",
+	"scripts": {
+		"build": "sern build",
+		"start": "node .",
+		"clear": "rm -rf ./dist",
+		"dev": "concurrently \"sern build --watch\" \"nodemon dist/index.js\"",
+		"install": "sern build",
+		"commands:publish": "sern commands publish"
+	},
+	"keywords": [
+		"typescript",
+		"sern",
+		"discord.js"
+	],
+	"dependencies": {
+		"@sern/handler": "^4.2.4",
+		"@sern/publisher": "^1.1.1",
+		"discord.js": "latest",
+		"dotenv": "^16.3.1",
+		"mongoose": "^8.13.3"
+	},
+	"devDependencies": {
+		"@types/node": "^17.0.25",
+		"concurrently": "^9.1.2",
+		"nodemon": "^3.1.10",
+		"typescript": "^5.0"
+	},
+	"type": "module"
+}

@@ -1,0 +1,32 @@
+- pipeline: TB Pipeline
+  events:
+  - type: PUSH
+    refs:
+    - refs/heads/main
+  fail_on_prepare_env_warning: true
+  actions:
+  - action: Transfer to 173.199.115.131
+    type: TRANSFER
+    targets:
+    - target: t_173_199_115_131
+      type: VULTR
+      name: 173.199.115.131
+      host: 173.199.115.131
+      path: /root/triviaBot
+      auth:
+        username: root
+        password: secure!1arfi/JQUgIdzOBChaIN8pXntM09VeF2ttRodkgzJW0=.4tIxEfaWkPlJ7T7RutyLXg==
+      integration: Vultr
+  - action: "[173.199.115.131] Execute pm2 restart triviaBot"
+    type: SSH_COMMAND
+    commands:
+    - pm2 restart triviaBot
+    targets:
+    - target: t_173_199_115_131
+      type: SSH
+      name: 173.199.115.131
+      host: 173.199.115.131
+      auth:
+        username: root
+        password: secure!1arfi/JQUgIdzOBChaIN8pXntM09VeF2ttRodkgzJW0=.4tIxEfaWkPlJ7T7RutyLXg==
+    run_as_script: true

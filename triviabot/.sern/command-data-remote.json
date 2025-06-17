@@ -1,0 +1,2415 @@
+{
+    "global": [
+        {
+            "id": "1197386522647871541",
+            "application_id": "1196458687955480677",
+            "version": "1382728151683305582",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "ping",
+            "name_localizations": null,
+            "description": "A ping command",
+            "description_localizations": null,
+            "dm_permission": true,
+            "contexts": null,
+            "integration_types": [
+                0
+            ],
+            "nsfw": false
+        }
+    ],
+    "830604135748337673": [
+        {
+            "id": "1383083760756461679",
+            "application_id": "1196458687955480677",
+            "version": "1383083761020833897",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "view-schedule",
+            "name_localizations": null,
+            "description": "View a specific schedule with autocomplete.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "schedule",
+                    "name_localizations": null,
+                    "description": "Select the schedule you'd like to view",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083760756461680",
+            "application_id": "1196458687955480677",
+            "version": "1383083761020833898",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "profile",
+            "name_localizations": null,
+            "description": "View your profile",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "nsfw": false
+        },
+        {
+            "id": "1383083760756461681",
+            "application_id": "1196458687955480677",
+            "version": "1383083761020833899",
+            "default_member_permissions": "16",
+            "type": 1,
+            "name": "clear-profiles",
+            "name_localizations": null,
+            "description": "clear user profiles to start fresh.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "nsfw": false
+        },
+        {
+            "id": "1383083760756461682",
+            "application_id": "1196458687955480677",
+            "version": "1383083761020833900",
+            "default_member_permissions": "16",
+            "type": 1,
+            "name": "special-updates",
+            "name_localizations": null,
+            "description": "Special updates for land changes.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "new-land",
+                    "name_localizations": null,
+                    "description": "What is the name of the land they're going to?",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                },
+                {
+                    "type": 3,
+                    "name": "role",
+                    "name_localizations": null,
+                    "description": "What is the mention role for the new land?",
+                    "description_localizations": null
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083760756461683",
+            "application_id": "1196458687955480677",
+            "version": "1383083761020833901",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "remove-event",
+            "name_localizations": null,
+            "description": "Use this command to remove an existing event.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "event",
+                    "name_localizations": null,
+                    "description": "What is the name of the event you wish to delete?",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083760756461684",
+            "application_id": "1196458687955480677",
+            "version": "1383083761020833902",
+            "default_member_permissions": "16",
+            "type": 1,
+            "name": "update-profiles",
+            "name_localizations": null,
+            "description": "Update a user profile for land changes.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 6,
+                    "name": "user",
+                    "name_localizations": null,
+                    "description": "Which user?",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "land",
+                    "name_localizations": null,
+                    "description": "What is the name of the land?",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083760756461685",
+            "application_id": "1196458687955480677",
+            "version": "1383083761130012813",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "land-totals",
+            "name_localizations": null,
+            "description": "View total points for each land",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 5,
+                    "name": "special",
+                    "name_localizations": null,
+                    "description": "Is this a special event month?",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 10,
+                    "name": "land-count",
+                    "name_localizations": null,
+                    "description": "How many lands would you like to view? (1–4; default 3 if omitted)",
+                    "description_localizations": null
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083760756461686",
+            "application_id": "1196458687955480677",
+            "version": "1383083761130012814",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "clear-schedules",
+            "name_localizations": null,
+            "description": "Use this command to clear all saved schedules",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "nsfw": false
+        },
+        {
+            "id": "1383083760756461687",
+            "application_id": "1196458687955480677",
+            "version": "1383083761130012815",
+            "default_member_permissions": "16",
+            "type": 1,
+            "name": "clear-lands",
+            "name_localizations": null,
+            "description": "Use this command to clear stats in land profiles",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "nsfw": false
+        },
+        {
+            "id": "1383083760756461688",
+            "application_id": "1196458687955480677",
+            "version": "1383083761130012816",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "update-messages",
+            "name_localizations": null,
+            "description": "Use this command to update the messages for events.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "messages",
+                    "name_localizations": null,
+                    "description": "Which message would you like to update?",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                },
+                {
+                    "type": 3,
+                    "name": "options",
+                    "name_localizations": null,
+                    "description": "What part of the message would you like to change?",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                },
+                {
+                    "type": 3,
+                    "name": "change",
+                    "name_localizations": null,
+                    "description": "What is the new change you are making?",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083760916107335",
+            "application_id": "1196458687955480677",
+            "version": "1383083761130012817",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "add-profile",
+            "name_localizations": null,
+            "description": "Use this command to add user profiles.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 6,
+                    "name": "user",
+                    "name_localizations": null,
+                    "description": "Which user?",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083760916107336",
+            "application_id": "1196458687955480677",
+            "version": "1383083761130012818",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "add-message",
+            "name_localizations": null,
+            "description": "Use this command to add a new message.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "title",
+                    "name_localizations": null,
+                    "description": "Enter the name of the event",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "body",
+                    "name_localizations": null,
+                    "description": "Enter the body of the message",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "emoji",
+                    "name_localizations": null,
+                    "description": "Enter the emojiID",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "tags",
+                    "name_localizations": null,
+                    "description": "Enter who you would like to tag for the event separated by a comma with no spaces",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083760916107337",
+            "application_id": "1196458687955480677",
+            "version": "1383083761130012819",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "add-lands",
+            "name_localizations": null,
+            "description": "Use this command to add a land.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "land",
+                    "name_localizations": null,
+                    "description": "Which land?",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "emoji",
+                    "name_localizations": null,
+                    "description": "emoji ID associated with land",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 5,
+                    "name": "special",
+                    "name_localizations": null,
+                    "description": "Is this a special land related to a unique event?",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083760916107339",
+            "application_id": "1196458687955480677",
+            "version": "1383083761130012821",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "leaderboard",
+            "name_localizations": null,
+            "description": "Use this command to check the leaderboard!",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "nsfw": false
+        },
+        {
+            "id": "1383101577509998774",
+            "application_id": "1196458687955480677",
+            "version": "1383458631936376914",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "event-management",
+            "name_localizations": null,
+            "description": "🛠 Multi-step event wizard",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "title_emoji",
+                    "name_localizations": null,
+                    "description": "Emoji to prefix your event title (e.g. ✨)",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "rules_emoji",
+                    "name_localizations": null,
+                    "description": "Bullet emoji for each rule (e.g. 🐾)",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "jewel_emoji",
+                    "name_localizations": null,
+                    "description": "Jewel emoji for scoring (e.g. 💎)",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "event_emoji",
+                    "name_localizations": null,
+                    "description": "Event emoji for scheduling (e.g. <:fk_trivia:1267638143079944347>)",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 8,
+                    "name": "tags",
+                    "name_localizations": null,
+                    "description": "Tag the appropriate role (limit one)",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083760916107338",
+            "application_id": "1196458687955480677",
+            "version": "1383199721342107801",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "add-event",
+            "name_localizations": null,
+            "description": "Use this command to add an event.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "name",
+                    "name_localizations": null,
+                    "description": "Name of the event?",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "points",
+                    "name_localizations": null,
+                    "description": "Enter in the points used in this event separated by a comma with no spaces.",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "title",
+                    "name_localizations": null,
+                    "description": "Enter the title for the event",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "bullet",
+                    "name_localizations": null,
+                    "description": "Enter the emoji you would like to use as bullet points",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "rules",
+                    "name_localizations": null,
+                    "description": "Enter the rules for the event separated by a comma with no spaces.",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "tags",
+                    "name_localizations": null,
+                    "description": "Enter who you would like to tag for the event.",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "scoring",
+                    "name_localizations": null,
+                    "description": "Enter the rules for scoring the event separated by a comma with no spaces.",
+                    "description_localizations": null
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083760916107340",
+            "application_id": "1196458687955480677",
+            "version": "1383083761130012822",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "todays-schedule",
+            "name_localizations": null,
+            "description": "Use this command to view todays scheduled events",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "nsfw": false
+        },
+        {
+            "id": "1382728152786141246",
+            "application_id": "1196458687955480677",
+            "version": "1383083761176019140",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "stretch",
+            "name_localizations": null,
+            "description": "Record stretches and award jewels to lands",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 6,
+                    "name": "member1",
+                    "name_localizations": null,
+                    "description": "First member.",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 10,
+                    "name": "jewels",
+                    "name_localizations": null,
+                    "description": "Number of jewels earned",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "word",
+                    "name_localizations": null,
+                    "description": "Word formed by stretches",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 6,
+                    "name": "member2",
+                    "name_localizations": null,
+                    "description": "Second member (optional)",
+                    "description_localizations": null
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1382728152786141247",
+            "application_id": "1196458687955480677",
+            "version": "1383083761176019141",
+            "default_member_permissions": "16",
+            "type": 1,
+            "name": "start-schedule",
+            "name_localizations": null,
+            "description": "Use this command to start scheduling",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "month",
+                    "name_localizations": null,
+                    "description": "Select which month would you like to schedule for?",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                },
+                {
+                    "type": 3,
+                    "name": "week-number",
+                    "name_localizations": null,
+                    "description": "Which week number would you like to schedule for?",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                },
+                {
+                    "type": 3,
+                    "name": "weekly-event",
+                    "name_localizations": null,
+                    "description": "What is the weekly event?",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083760916107341",
+            "application_id": "1196458687955480677",
+            "version": "1383083761176019142",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "start-event",
+            "name_localizations": null,
+            "description": "Use this command to start your event!",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "event",
+                    "name_localizations": null,
+                    "description": "Select which event you're going to run",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083760916107342",
+            "application_id": "1196458687955480677",
+            "version": "1383083761176019143",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "jewel-adjust",
+            "name_localizations": null,
+            "description": "Use this command to adjust jewel counts.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 6,
+                    "name": "user",
+                    "name_localizations": null,
+                    "description": "What is the name of the user you'd wish to take jewels from?",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "event",
+                    "name_localizations": null,
+                    "description": "Which event are you adjusting for?",
+                    "description_localizations": null,
+                    "required": true,
+                    "choices": [
+                        {
+                            "name": "trivia",
+                            "name_localizations": null,
+                            "value": "trivia"
+                        },
+                        {
+                            "name": "pop quiz",
+                            "name_localizations": null,
+                            "value": "pop quiz"
+                        },
+                        {
+                            "name": "misc",
+                            "name_localizations": null,
+                            "value": "misc"
+                        }
+                    ]
+                },
+                {
+                    "type": 10,
+                    "name": "adjustment-type",
+                    "name_localizations": null,
+                    "description": "Please select whether you would like to add or subtract jewels.",
+                    "description_localizations": null,
+                    "required": true,
+                    "choices": [
+                        {
+                            "name": "add",
+                            "name_localizations": null,
+                            "value": 1
+                        },
+                        {
+                            "name": "subtract",
+                            "name_localizations": null,
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "type": 10,
+                    "name": "jewels",
+                    "name_localizations": null,
+                    "description": "How many jewels?",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083760916107343",
+            "application_id": "1196458687955480677",
+            "version": "1383083761176019144",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "land-adjust",
+            "name_localizations": null,
+            "description": "Use this command to adjust jewel counts for lands directly.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "land",
+                    "name_localizations": null,
+                    "description": "What is the name of the land?",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                },
+                {
+                    "type": 10,
+                    "name": "adjustment-type",
+                    "name_localizations": null,
+                    "description": "Please select whether you would like to add or subtract jewels.",
+                    "description_localizations": null,
+                    "required": true,
+                    "choices": [
+                        {
+                            "name": "add",
+                            "name_localizations": null,
+                            "value": 1
+                        },
+                        {
+                            "name": "subtract",
+                            "name_localizations": null,
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "type": 10,
+                    "name": "jewels",
+                    "name_localizations": null,
+                    "description": "How many jewels?",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083760916107344",
+            "application_id": "1196458687955480677",
+            "version": "1383083761176019145",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "jewels",
+            "name_localizations": null,
+            "description": "Use this command to assign points after each question",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "event",
+                    "name_localizations": null,
+                    "description": "Choose which type of event you’re running.",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                },
+                {
+                    "type": 6,
+                    "name": "first",
+                    "name_localizations": null,
+                    "description": "Choose the user who was in first place",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 10,
+                    "name": "first-points",
+                    "name_localizations": null,
+                    "description": "Select the amount of points for first place",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                },
+                {
+                    "type": 6,
+                    "name": "second",
+                    "name_localizations": null,
+                    "description": "Choose the user who was in second place",
+                    "description_localizations": null
+                },
+                {
+                    "type": 10,
+                    "name": "second-points",
+                    "name_localizations": null,
+                    "description": "Select the amount of points for second place",
+                    "description_localizations": null,
+                    "autocomplete": true
+                },
+                {
+                    "type": 6,
+                    "name": "third",
+                    "name_localizations": null,
+                    "description": "Choose the user who was in third place",
+                    "description_localizations": null
+                },
+                {
+                    "type": 10,
+                    "name": "third-points",
+                    "name_localizations": null,
+                    "description": "Select the amount of points for third place",
+                    "description_localizations": null,
+                    "autocomplete": true
+                },
+                {
+                    "type": 6,
+                    "name": "fourth",
+                    "name_localizations": null,
+                    "description": "Choose the user who was in fourth place",
+                    "description_localizations": null
+                },
+                {
+                    "type": 10,
+                    "name": "fourth-points",
+                    "name_localizations": null,
+                    "description": "Select the amount of points for fourth place",
+                    "description_localizations": null,
+                    "autocomplete": true
+                },
+                {
+                    "type": 6,
+                    "name": "fifth",
+                    "name_localizations": null,
+                    "description": "Choose the user who was in fifth place",
+                    "description_localizations": null
+                },
+                {
+                    "type": 10,
+                    "name": "fifth-points",
+                    "name_localizations": null,
+                    "description": "Select the amount of points for fifth place",
+                    "description_localizations": null,
+                    "autocomplete": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083761020833893",
+            "application_id": "1196458687955480677",
+            "version": "1383083761176019146",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "end-task",
+            "name_localizations": null,
+            "description": "End the task and allocate jewels to the three lands.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "task",
+                    "name_localizations": null,
+                    "description": "What task are you ending?",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 10,
+                    "name": "agrabah",
+                    "name_localizations": null,
+                    "description": "Jewels for Agrabah",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 10,
+                    "name": "hundred_acre_wood",
+                    "name_localizations": null,
+                    "description": "Jewels for Hundred Acre Wood",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 10,
+                    "name": "monstropolis",
+                    "name_localizations": null,
+                    "description": "Jewels for Monstropolis",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083761020833894",
+            "application_id": "1196458687955480677",
+            "version": "1383083761176019147",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "end-event",
+            "name_localizations": null,
+            "description": "Use this command to end your event!",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "event",
+                    "name_localizations": null,
+                    "description": "Choose which event you were hosting",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                },
+                {
+                    "type": 5,
+                    "name": "special",
+                    "name_localizations": null,
+                    "description": "Is this a special event month?",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 10,
+                    "name": "land-count",
+                    "name_localizations": null,
+                    "description": "How many lands are competing?",
+                    "description_localizations": null
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1382728152786141248",
+            "application_id": "1196458687955480677",
+            "version": "1383083761176019148",
+            "default_member_permissions": "16",
+            "type": 1,
+            "name": "edit-schedule",
+            "name_localizations": null,
+            "description": "Remove an entry from the schedule or set a new weekly event.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "day",
+                    "name_localizations": null,
+                    "description": "Which day to remove the event from.",
+                    "description_localizations": null,
+                    "choices": [
+                        {
+                            "name": "Monday",
+                            "name_localizations": null,
+                            "value": "monday"
+                        },
+                        {
+                            "name": "Tuesday",
+                            "name_localizations": null,
+                            "value": "tuesday"
+                        },
+                        {
+                            "name": "Wednesday",
+                            "name_localizations": null,
+                            "value": "wednesday"
+                        },
+                        {
+                            "name": "Thursday",
+                            "name_localizations": null,
+                            "value": "thursday"
+                        },
+                        {
+                            "name": "Friday",
+                            "name_localizations": null,
+                            "value": "friday"
+                        },
+                        {
+                            "name": "Saturday",
+                            "name_localizations": null,
+                            "value": "saturday"
+                        },
+                        {
+                            "name": "Sunday",
+                            "name_localizations": null,
+                            "value": "sunday"
+                        }
+                    ]
+                },
+                {
+                    "type": 3,
+                    "name": "weekly",
+                    "name_localizations": null,
+                    "description": "What would you like to change the weekly event to?",
+                    "description_localizations": null
+                },
+                {
+                    "type": 3,
+                    "name": "event",
+                    "name_localizations": null,
+                    "description": "Choose the event to remove.",
+                    "description_localizations": null,
+                    "autocomplete": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083761020833895",
+            "application_id": "1196458687955480677",
+            "version": "1383083761176019149",
+            "default_member_permissions": "16",
+            "type": 1,
+            "name": "close-schedule",
+            "name_localizations": null,
+            "description": "Use this command to close an open schedule",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "nsfw": false
+        },
+        {
+            "id": "1383083761020833896",
+            "application_id": "1196458687955480677",
+            "version": "1383083761255579648",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "add-to-schedule",
+            "name_localizations": null,
+            "description": "Use this command to add yourself to this week’s schedule.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "event",
+                    "name_localizations": null,
+                    "description": "Which event are you hosting?",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                },
+                {
+                    "type": 3,
+                    "name": "day",
+                    "name_localizations": null,
+                    "description": "Which day are you hosting?",
+                    "description_localizations": null,
+                    "required": true,
+                    "choices": [
+                        {
+                            "name": "Monday",
+                            "name_localizations": null,
+                            "value": "monday"
+                        },
+                        {
+                            "name": "Tuesday",
+                            "name_localizations": null,
+                            "value": "tuesday"
+                        },
+                        {
+                            "name": "Wednesday",
+                            "name_localizations": null,
+                            "value": "wednesday"
+                        },
+                        {
+                            "name": "Thursday",
+                            "name_localizations": null,
+                            "value": "thursday"
+                        },
+                        {
+                            "name": "Friday",
+                            "name_localizations": null,
+                            "value": "friday"
+                        },
+                        {
+                            "name": "Saturday",
+                            "name_localizations": null,
+                            "value": "saturday"
+                        },
+                        {
+                            "name": "Sunday",
+                            "name_localizations": null,
+                            "value": "sunday"
+                        }
+                    ]
+                },
+                {
+                    "type": 3,
+                    "name": "am-pm",
+                    "name_localizations": null,
+                    "description": "Choose AM or PM",
+                    "description_localizations": null,
+                    "required": true,
+                    "choices": [
+                        {
+                            "name": "AM",
+                            "name_localizations": null,
+                            "value": "am"
+                        },
+                        {
+                            "name": "PM",
+                            "name_localizations": null,
+                            "value": "pm"
+                        }
+                    ]
+                },
+                {
+                    "type": 3,
+                    "name": "hour",
+                    "name_localizations": null,
+                    "description": "Hour you’re hosting (1-12)",
+                    "description_localizations": null,
+                    "required": true,
+                    "choices": [
+                        {
+                            "name": "1",
+                            "name_localizations": null,
+                            "value": "1"
+                        },
+                        {
+                            "name": "2",
+                            "name_localizations": null,
+                            "value": "2"
+                        },
+                        {
+                            "name": "3",
+                            "name_localizations": null,
+                            "value": "3"
+                        },
+                        {
+                            "name": "4",
+                            "name_localizations": null,
+                            "value": "4"
+                        },
+                        {
+                            "name": "5",
+                            "name_localizations": null,
+                            "value": "5"
+                        },
+                        {
+                            "name": "6",
+                            "name_localizations": null,
+                            "value": "6"
+                        },
+                        {
+                            "name": "7",
+                            "name_localizations": null,
+                            "value": "7"
+                        },
+                        {
+                            "name": "8",
+                            "name_localizations": null,
+                            "value": "8"
+                        },
+                        {
+                            "name": "9",
+                            "name_localizations": null,
+                            "value": "9"
+                        },
+                        {
+                            "name": "10",
+                            "name_localizations": null,
+                            "value": "10"
+                        },
+                        {
+                            "name": "11",
+                            "name_localizations": null,
+                            "value": "11"
+                        },
+                        {
+                            "name": "12",
+                            "name_localizations": null,
+                            "value": "12"
+                        }
+                    ]
+                },
+                {
+                    "type": 3,
+                    "name": "minutes",
+                    "name_localizations": null,
+                    "description": "Optional minutes",
+                    "description_localizations": null,
+                    "choices": [
+                        {
+                            "name": "00",
+                            "name_localizations": null,
+                            "value": "00"
+                        },
+                        {
+                            "name": "15",
+                            "name_localizations": null,
+                            "value": "15"
+                        },
+                        {
+                            "name": "30",
+                            "name_localizations": null,
+                            "value": "30"
+                        },
+                        {
+                            "name": "45",
+                            "name_localizations": null,
+                            "value": "45"
+                        }
+                    ]
+                }
+            ],
+            "nsfw": false
+        }
+    ],
+    "1324370750131404893": [
+        {
+            "id": "1383083762056958094",
+            "application_id": "1196458687955480677",
+            "version": "1383083762652287065",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "view-schedule",
+            "name_localizations": null,
+            "description": "View a specific schedule with autocomplete.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "schedule",
+                    "name_localizations": null,
+                    "description": "Select the schedule you'd like to view",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083762056958095",
+            "application_id": "1196458687955480677",
+            "version": "1383083762803540080",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "profile",
+            "name_localizations": null,
+            "description": "View your profile",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1383083762056958096",
+            "application_id": "1196458687955480677",
+            "version": "1383083762803540081",
+            "default_member_permissions": "16",
+            "type": 1,
+            "name": "clear-profiles",
+            "name_localizations": null,
+            "description": "clear user profiles to start fresh.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1383083762056958097",
+            "application_id": "1196458687955480677",
+            "version": "1383083762803540082",
+            "default_member_permissions": "16",
+            "type": 1,
+            "name": "special-updates",
+            "name_localizations": null,
+            "description": "Special updates for land changes.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "new-land",
+                    "name_localizations": null,
+                    "description": "What is the name of the land they're going to?",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                },
+                {
+                    "type": 3,
+                    "name": "role",
+                    "name_localizations": null,
+                    "description": "What is the mention role for the new land?",
+                    "description_localizations": null
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083762056958098",
+            "application_id": "1196458687955480677",
+            "version": "1383083762803540083",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "remove-event",
+            "name_localizations": null,
+            "description": "Use this command to remove an existing event.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "event",
+                    "name_localizations": null,
+                    "description": "What is the name of the event you wish to delete?",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083762056958100",
+            "application_id": "1196458687955480677",
+            "version": "1383083762803540084",
+            "default_member_permissions": "16",
+            "type": 1,
+            "name": "update-profiles",
+            "name_localizations": null,
+            "description": "Update a user profile for land changes.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 6,
+                    "name": "user",
+                    "name_localizations": null,
+                    "description": "Which user?",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "land",
+                    "name_localizations": null,
+                    "description": "What is the name of the land?",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083762056958102",
+            "application_id": "1196458687955480677",
+            "version": "1383083762803540085",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "land-totals",
+            "name_localizations": null,
+            "description": "View total points for each land",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 5,
+                    "name": "special",
+                    "name_localizations": null,
+                    "description": "Is this a special event month?",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 10,
+                    "name": "land-count",
+                    "name_localizations": null,
+                    "description": "How many lands would you like to view? (1–4; default 3 if omitted)",
+                    "description_localizations": null
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083762056958103",
+            "application_id": "1196458687955480677",
+            "version": "1383083762803540086",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "clear-schedules",
+            "name_localizations": null,
+            "description": "Use this command to clear all saved schedules",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1383083762358681792",
+            "application_id": "1196458687955480677",
+            "version": "1383083762803540087",
+            "default_member_permissions": "16",
+            "type": 1,
+            "name": "clear-lands",
+            "name_localizations": null,
+            "description": "Use this command to clear stats in land profiles",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1383083762358681793",
+            "application_id": "1196458687955480677",
+            "version": "1383083762803540088",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "update-messages",
+            "name_localizations": null,
+            "description": "Use this command to update the messages for events.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "messages",
+                    "name_localizations": null,
+                    "description": "Which message would you like to update?",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                },
+                {
+                    "type": 3,
+                    "name": "options",
+                    "name_localizations": null,
+                    "description": "What part of the message would you like to change?",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                },
+                {
+                    "type": 3,
+                    "name": "change",
+                    "name_localizations": null,
+                    "description": "What is the new change you are making?",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083762358681794",
+            "application_id": "1196458687955480677",
+            "version": "1383083762803540089",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "add-profile",
+            "name_localizations": null,
+            "description": "Use this command to add user profiles.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 6,
+                    "name": "user",
+                    "name_localizations": null,
+                    "description": "Which user?",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083762358681795",
+            "application_id": "1196458687955480677",
+            "version": "1383083762882969691",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "add-message",
+            "name_localizations": null,
+            "description": "Use this command to add a new message.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "title",
+                    "name_localizations": null,
+                    "description": "Enter the name of the event",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "body",
+                    "name_localizations": null,
+                    "description": "Enter the body of the message",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "emoji",
+                    "name_localizations": null,
+                    "description": "Enter the emojiID",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "tags",
+                    "name_localizations": null,
+                    "description": "Enter who you would like to tag for the event separated by a comma with no spaces",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083762358681796",
+            "application_id": "1196458687955480677",
+            "version": "1383083762882969692",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "add-lands",
+            "name_localizations": null,
+            "description": "Use this command to add a land.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "land",
+                    "name_localizations": null,
+                    "description": "Which land?",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "emoji",
+                    "name_localizations": null,
+                    "description": "emoji ID associated with land",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 5,
+                    "name": "special",
+                    "name_localizations": null,
+                    "description": "Is this a special land related to a unique event?",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083762358681798",
+            "application_id": "1196458687955480677",
+            "version": "1383083762882969694",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "leaderboard",
+            "name_localizations": null,
+            "description": "Use this command to check the leaderboard!",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1383101578692661289",
+            "application_id": "1196458687955480677",
+            "version": "1383458632578105436",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "event-management",
+            "name_localizations": null,
+            "description": "🛠 Multi-step event wizard",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "title_emoji",
+                    "name_localizations": null,
+                    "description": "Emoji to prefix your event title (e.g. ✨)",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "rules_emoji",
+                    "name_localizations": null,
+                    "description": "Bullet emoji for each rule (e.g. 🐾)",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "jewel_emoji",
+                    "name_localizations": null,
+                    "description": "Jewel emoji for scoring (e.g. 💎)",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "event_emoji",
+                    "name_localizations": null,
+                    "description": "Event emoji for scheduling (e.g. <:fk_trivia:1267638143079944347>)",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 8,
+                    "name": "tags",
+                    "name_localizations": null,
+                    "description": "Tag the appropriate role (limit one)",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083762358681797",
+            "application_id": "1196458687955480677",
+            "version": "1383199722214391990",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "add-event",
+            "name_localizations": null,
+            "description": "Use this command to add an event.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "name",
+                    "name_localizations": null,
+                    "description": "Name of the event?",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "points",
+                    "name_localizations": null,
+                    "description": "Enter in the points used in this event separated by a comma with no spaces.",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "title",
+                    "name_localizations": null,
+                    "description": "Enter the title for the event",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "bullet",
+                    "name_localizations": null,
+                    "description": "Enter the emoji you would like to use as bullet points",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "rules",
+                    "name_localizations": null,
+                    "description": "Enter the rules for the event separated by a comma with no spaces.",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "tags",
+                    "name_localizations": null,
+                    "description": "Enter who you would like to tag for the event.",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "scoring",
+                    "name_localizations": null,
+                    "description": "Enter the rules for scoring the event separated by a comma with no spaces.",
+                    "description_localizations": null
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083762358681799",
+            "application_id": "1196458687955480677",
+            "version": "1383083762882969695",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "todays-schedule",
+            "name_localizations": null,
+            "description": "Use this command to view todays scheduled events",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1382728153272942755",
+            "application_id": "1196458687955480677",
+            "version": "1383083762882969696",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "stretch",
+            "name_localizations": null,
+            "description": "Record stretches and award jewels to lands",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 6,
+                    "name": "member1",
+                    "name_localizations": null,
+                    "description": "First member.",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 10,
+                    "name": "jewels",
+                    "name_localizations": null,
+                    "description": "Number of jewels earned",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "word",
+                    "name_localizations": null,
+                    "description": "Word formed by stretches",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 6,
+                    "name": "member2",
+                    "name_localizations": null,
+                    "description": "Second member (optional)",
+                    "description_localizations": null
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1382728153272942756",
+            "application_id": "1196458687955480677",
+            "version": "1383083762882969697",
+            "default_member_permissions": "16",
+            "type": 1,
+            "name": "start-schedule",
+            "name_localizations": null,
+            "description": "Use this command to start scheduling",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "month",
+                    "name_localizations": null,
+                    "description": "Select which month would you like to schedule for?",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                },
+                {
+                    "type": 3,
+                    "name": "week-number",
+                    "name_localizations": null,
+                    "description": "Which week number would you like to schedule for?",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                },
+                {
+                    "type": 3,
+                    "name": "weekly-event",
+                    "name_localizations": null,
+                    "description": "What is the weekly event?",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083762358681800",
+            "application_id": "1196458687955480677",
+            "version": "1383083762882969698",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "start-event",
+            "name_localizations": null,
+            "description": "Use this command to start your event!",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "event",
+                    "name_localizations": null,
+                    "description": "Select which event you're going to run",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083762652287056",
+            "application_id": "1196458687955480677",
+            "version": "1383083762882969699",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "jewel-adjust",
+            "name_localizations": null,
+            "description": "Use this command to adjust jewel counts.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 6,
+                    "name": "user",
+                    "name_localizations": null,
+                    "description": "What is the name of the user you'd wish to take jewels from?",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 3,
+                    "name": "event",
+                    "name_localizations": null,
+                    "description": "Which event are you adjusting for?",
+                    "description_localizations": null,
+                    "required": true,
+                    "choices": [
+                        {
+                            "name": "trivia",
+                            "name_localizations": null,
+                            "value": "trivia"
+                        },
+                        {
+                            "name": "pop quiz",
+                            "name_localizations": null,
+                            "value": "pop quiz"
+                        },
+                        {
+                            "name": "misc",
+                            "name_localizations": null,
+                            "value": "misc"
+                        }
+                    ]
+                },
+                {
+                    "type": 10,
+                    "name": "adjustment-type",
+                    "name_localizations": null,
+                    "description": "Please select whether you would like to add or subtract jewels.",
+                    "description_localizations": null,
+                    "required": true,
+                    "choices": [
+                        {
+                            "name": "add",
+                            "name_localizations": null,
+                            "value": 1
+                        },
+                        {
+                            "name": "subtract",
+                            "name_localizations": null,
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "type": 10,
+                    "name": "jewels",
+                    "name_localizations": null,
+                    "description": "How many jewels?",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083762652287057",
+            "application_id": "1196458687955480677",
+            "version": "1383083762882969700",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "land-adjust",
+            "name_localizations": null,
+            "description": "Use this command to adjust jewel counts for lands directly.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "land",
+                    "name_localizations": null,
+                    "description": "What is the name of the land?",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                },
+                {
+                    "type": 10,
+                    "name": "adjustment-type",
+                    "name_localizations": null,
+                    "description": "Please select whether you would like to add or subtract jewels.",
+                    "description_localizations": null,
+                    "required": true,
+                    "choices": [
+                        {
+                            "name": "add",
+                            "name_localizations": null,
+                            "value": 1
+                        },
+                        {
+                            "name": "subtract",
+                            "name_localizations": null,
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "type": 10,
+                    "name": "jewels",
+                    "name_localizations": null,
+                    "description": "How many jewels?",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083762652287058",
+            "application_id": "1196458687955480677",
+            "version": "1383083762966986833",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "jewels",
+            "name_localizations": null,
+            "description": "Use this command to assign points after each question",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "event",
+                    "name_localizations": null,
+                    "description": "Choose which type of event you’re running.",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                },
+                {
+                    "type": 6,
+                    "name": "first",
+                    "name_localizations": null,
+                    "description": "Choose the user who was in first place",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 10,
+                    "name": "first-points",
+                    "name_localizations": null,
+                    "description": "Select the amount of points for first place",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                },
+                {
+                    "type": 6,
+                    "name": "second",
+                    "name_localizations": null,
+                    "description": "Choose the user who was in second place",
+                    "description_localizations": null
+                },
+                {
+                    "type": 10,
+                    "name": "second-points",
+                    "name_localizations": null,
+                    "description": "Select the amount of points for second place",
+                    "description_localizations": null,
+                    "autocomplete": true
+                },
+                {
+                    "type": 6,
+                    "name": "third",
+                    "name_localizations": null,
+                    "description": "Choose the user who was in third place",
+                    "description_localizations": null
+                },
+                {
+                    "type": 10,
+                    "name": "third-points",
+                    "name_localizations": null,
+                    "description": "Select the amount of points for third place",
+                    "description_localizations": null,
+                    "autocomplete": true
+                },
+                {
+                    "type": 6,
+                    "name": "fourth",
+                    "name_localizations": null,
+                    "description": "Choose the user who was in fourth place",
+                    "description_localizations": null
+                },
+                {
+                    "type": 10,
+                    "name": "fourth-points",
+                    "name_localizations": null,
+                    "description": "Select the amount of points for fourth place",
+                    "description_localizations": null,
+                    "autocomplete": true
+                },
+                {
+                    "type": 6,
+                    "name": "fifth",
+                    "name_localizations": null,
+                    "description": "Choose the user who was in fifth place",
+                    "description_localizations": null
+                },
+                {
+                    "type": 10,
+                    "name": "fifth-points",
+                    "name_localizations": null,
+                    "description": "Select the amount of points for fifth place",
+                    "description_localizations": null,
+                    "autocomplete": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083762652287060",
+            "application_id": "1196458687955480677",
+            "version": "1383083762966986834",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "end-task",
+            "name_localizations": null,
+            "description": "End the task and allocate jewels to the three lands.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "task",
+                    "name_localizations": null,
+                    "description": "What task are you ending?",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 10,
+                    "name": "agrabah",
+                    "name_localizations": null,
+                    "description": "Jewels for Agrabah",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 10,
+                    "name": "hundred_acre_wood",
+                    "name_localizations": null,
+                    "description": "Jewels for Hundred Acre Wood",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 10,
+                    "name": "monstropolis",
+                    "name_localizations": null,
+                    "description": "Jewels for Monstropolis",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083762652287062",
+            "application_id": "1196458687955480677",
+            "version": "1383083762966986835",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "end-event",
+            "name_localizations": null,
+            "description": "Use this command to end your event!",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "event",
+                    "name_localizations": null,
+                    "description": "Choose which event you were hosting",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                },
+                {
+                    "type": 5,
+                    "name": "special",
+                    "name_localizations": null,
+                    "description": "Is this a special event month?",
+                    "description_localizations": null,
+                    "required": true
+                },
+                {
+                    "type": 10,
+                    "name": "land-count",
+                    "name_localizations": null,
+                    "description": "How many lands are competing?",
+                    "description_localizations": null
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1382728153272942757",
+            "application_id": "1196458687955480677",
+            "version": "1383083762966986836",
+            "default_member_permissions": "16",
+            "type": 1,
+            "name": "edit-schedule",
+            "name_localizations": null,
+            "description": "Remove an entry from the schedule or set a new weekly event.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "day",
+                    "name_localizations": null,
+                    "description": "Which day to remove the event from.",
+                    "description_localizations": null,
+                    "choices": [
+                        {
+                            "name": "Monday",
+                            "name_localizations": null,
+                            "value": "monday"
+                        },
+                        {
+                            "name": "Tuesday",
+                            "name_localizations": null,
+                            "value": "tuesday"
+                        },
+                        {
+                            "name": "Wednesday",
+                            "name_localizations": null,
+                            "value": "wednesday"
+                        },
+                        {
+                            "name": "Thursday",
+                            "name_localizations": null,
+                            "value": "thursday"
+                        },
+                        {
+                            "name": "Friday",
+                            "name_localizations": null,
+                            "value": "friday"
+                        },
+                        {
+                            "name": "Saturday",
+                            "name_localizations": null,
+                            "value": "saturday"
+                        },
+                        {
+                            "name": "Sunday",
+                            "name_localizations": null,
+                            "value": "sunday"
+                        }
+                    ]
+                },
+                {
+                    "type": 3,
+                    "name": "weekly",
+                    "name_localizations": null,
+                    "description": "What would you like to change the weekly event to?",
+                    "description_localizations": null
+                },
+                {
+                    "type": 3,
+                    "name": "event",
+                    "name_localizations": null,
+                    "description": "Choose the event to remove.",
+                    "description_localizations": null,
+                    "autocomplete": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1383083762652287063",
+            "application_id": "1196458687955480677",
+            "version": "1383083762966986837",
+            "default_member_permissions": "16",
+            "type": 1,
+            "name": "close-schedule",
+            "name_localizations": null,
+            "description": "Use this command to close an open schedule",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1383083762652287064",
+            "application_id": "1196458687955480677",
+            "version": "1383083762966986838",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "add-to-schedule",
+            "name_localizations": null,
+            "description": "Use this command to add yourself to this week’s schedule.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "event",
+                    "name_localizations": null,
+                    "description": "Which event are you hosting?",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                },
+                {
+                    "type": 3,
+                    "name": "day",
+                    "name_localizations": null,
+                    "description": "Which day are you hosting?",
+                    "description_localizations": null,
+                    "required": true,
+                    "choices": [
+                        {
+                            "name": "Monday",
+                            "name_localizations": null,
+                            "value": "monday"
+                        },
+                        {
+                            "name": "Tuesday",
+                            "name_localizations": null,
+                            "value": "tuesday"
+                        },
+                        {
+                            "name": "Wednesday",
+                            "name_localizations": null,
+                            "value": "wednesday"
+                        },
+                        {
+                            "name": "Thursday",
+                            "name_localizations": null,
+                            "value": "thursday"
+                        },
+                        {
+                            "name": "Friday",
+                            "name_localizations": null,
+                            "value": "friday"
+                        },
+                        {
+                            "name": "Saturday",
+                            "name_localizations": null,
+                            "value": "saturday"
+                        },
+                        {
+                            "name": "Sunday",
+                            "name_localizations": null,
+                            "value": "sunday"
+                        }
+                    ]
+                },
+                {
+                    "type": 3,
+                    "name": "am-pm",
+                    "name_localizations": null,
+                    "description": "Choose AM or PM",
+                    "description_localizations": null,
+                    "required": true,
+                    "choices": [
+                        {
+                            "name": "AM",
+                            "name_localizations": null,
+                            "value": "am"
+                        },
+                        {
+                            "name": "PM",
+                            "name_localizations": null,
+                            "value": "pm"
+                        }
+                    ]
+                },
+                {
+                    "type": 3,
+                    "name": "hour",
+                    "name_localizations": null,
+                    "description": "Hour you’re hosting (1-12)",
+                    "description_localizations": null,
+                    "required": true,
+                    "choices": [
+                        {
+                            "name": "1",
+                            "name_localizations": null,
+                            "value": "1"
+                        },
+                        {
+                            "name": "2",
+                            "name_localizations": null,
+                            "value": "2"
+                        },
+                        {
+                            "name": "3",
+                            "name_localizations": null,
+                            "value": "3"
+                        },
+                        {
+                            "name": "4",
+                            "name_localizations": null,
+                            "value": "4"
+                        },
+                        {
+                            "name": "5",
+                            "name_localizations": null,
+                            "value": "5"
+                        },
+                        {
+                            "name": "6",
+                            "name_localizations": null,
+                            "value": "6"
+                        },
+                        {
+                            "name": "7",
+                            "name_localizations": null,
+                            "value": "7"
+                        },
+                        {
+                            "name": "8",
+                            "name_localizations": null,
+                            "value": "8"
+                        },
+                        {
+                            "name": "9",
+                            "name_localizations": null,
+                            "value": "9"
+                        },
+                        {
+                            "name": "10",
+                            "name_localizations": null,
+                            "value": "10"
+                        },
+                        {
+                            "name": "11",
+                            "name_localizations": null,
+                            "value": "11"
+                        },
+                        {
+                            "name": "12",
+                            "name_localizations": null,
+                            "value": "12"
+                        }
+                    ]
+                },
+                {
+                    "type": 3,
+                    "name": "minutes",
+                    "name_localizations": null,
+                    "description": "Optional minutes",
+                    "description_localizations": null,
+                    "choices": [
+                        {
+                            "name": "00",
+                            "name_localizations": null,
+                            "value": "00"
+                        },
+                        {
+                            "name": "15",
+                            "name_localizations": null,
+                            "value": "15"
+                        },
+                        {
+                            "name": "30",
+                            "name_localizations": null,
+                            "value": "30"
+                        },
+                        {
+                            "name": "45",
+                            "name_localizations": null,
+                            "value": "45"
+                        }
+                    ]
+                }
+            ],
+            "nsfw": false
+        }
+    ]
+}
