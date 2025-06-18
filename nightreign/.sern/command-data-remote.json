@@ -1,0 +1,243 @@
+{
+    "global": [
+        {
+            "id": "1383978795031199952",
+            "application_id": "1383969056289460324",
+            "version": "1383978795031199954",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "ping",
+            "name_localizations": null,
+            "description": "A ping command",
+            "description_localizations": null,
+            "dm_permission": true,
+            "contexts": null,
+            "integration_types": [
+                0,
+                1
+            ],
+            "nsfw": false
+        }
+    ],
+    "1138916032539537539": [
+        {
+            "id": "1384538712766943284",
+            "application_id": "1383969056289460324",
+            "version": "1384539131308408995",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "roll",
+            "name_localizations": null,
+            "description": "🎲 Roll Daggerheart’s Duality Dice (Hope & Fear)",
+            "description_localizations": null,
+            "guild_id": "1138916032539537539",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "mode",
+                    "name_localizations": null,
+                    "description": "Roll mode: normal, advantage, or disadvantage",
+                    "description_localizations": null,
+                    "choices": [
+                        {
+                            "name": "normal",
+                            "name_localizations": null,
+                            "value": "normal"
+                        },
+                        {
+                            "name": "advantage",
+                            "name_localizations": null,
+                            "value": "advantage"
+                        },
+                        {
+                            "name": "disadvantage",
+                            "name_localizations": null,
+                            "value": "disadvantage"
+                        }
+                    ]
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1384156510887739392",
+            "application_id": "1383969056289460324",
+            "version": "1384156510887739397",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "loot",
+            "name_localizations": null,
+            "description": "🎲 Roll a weighted random weapon from the loot pool.",
+            "description_localizations": null,
+            "guild_id": "1138916032539537539",
+            "nsfw": false
+        },
+        {
+            "id": "1384156510887739393",
+            "application_id": "1383969056289460324",
+            "version": "1384156510887739398",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "character",
+            "name_localizations": null,
+            "description": "📜 View your character sheet and equipment.",
+            "description_localizations": null,
+            "guild_id": "1138916032539537539",
+            "nsfw": false
+        },
+        {
+            "id": "1383978796331307039",
+            "application_id": "1383969056289460324",
+            "version": "1383978796331307042",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "timetoloot",
+            "name_localizations": null,
+            "description": "🔓 Toggle loot availability for players.",
+            "description_localizations": null,
+            "guild_id": "1138916032539537539",
+            "nsfw": false
+        },
+        {
+            "id": "1384532568371757228",
+            "application_id": "1383969056289460324",
+            "version": "1384532568858431508",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "get-weapon-types",
+            "name_localizations": null,
+            "description": "Fetch each weapon type from the DB",
+            "description_localizations": null,
+            "guild_id": "1138916032539537539",
+            "nsfw": false
+        },
+        {
+            "id": "1384156510887739394",
+            "application_id": "1383969056289460324",
+            "version": "1384156510887739399",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "adjust-character",
+            "name_localizations": null,
+            "description": "🔧 Adjust your character’s Hope, Stress, or Damage.",
+            "description_localizations": null,
+            "guild_id": "1138916032539537539",
+            "options": [
+                {
+                    "type": 4,
+                    "name": "hope",
+                    "name_localizations": null,
+                    "description": "New Hope value",
+                    "description_localizations": null
+                },
+                {
+                    "type": 4,
+                    "name": "stress",
+                    "name_localizations": null,
+                    "description": "New Stress value",
+                    "description_localizations": null
+                },
+                {
+                    "type": 4,
+                    "name": "minor",
+                    "name_localizations": null,
+                    "description": "Minor wounds",
+                    "description_localizations": null
+                },
+                {
+                    "type": 4,
+                    "name": "major",
+                    "name_localizations": null,
+                    "description": "Major wounds",
+                    "description_localizations": null
+                },
+                {
+                    "type": 4,
+                    "name": "severe",
+                    "name_localizations": null,
+                    "description": "Severe wounds",
+                    "description_localizations": null
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1384156510887739395",
+            "application_id": "1383969056289460324",
+            "version": "1384529741641682944",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "startcharacter",
+            "name_localizations": null,
+            "description": "🎭 Begin your Nightreign journey with a custom class and name.",
+            "description_localizations": null,
+            "guild_id": "1138916032539537539",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "class",
+                    "name_localizations": null,
+                    "description": "Choose your character class",
+                    "description_localizations": null,
+                    "required": true,
+                    "choices": [
+                        {
+                            "name": "Bard",
+                            "name_localizations": null,
+                            "value": "Bard"
+                        },
+                        {
+                            "name": "Druid",
+                            "name_localizations": null,
+                            "value": "Druid"
+                        },
+                        {
+                            "name": "Guardian",
+                            "name_localizations": null,
+                            "value": "Guardian"
+                        },
+                        {
+                            "name": "Ranger",
+                            "name_localizations": null,
+                            "value": "Ranger"
+                        },
+                        {
+                            "name": "Rogue",
+                            "name_localizations": null,
+                            "value": "Rogue"
+                        },
+                        {
+                            "name": "Seraph",
+                            "name_localizations": null,
+                            "value": "Seraph"
+                        },
+                        {
+                            "name": "Sorcerer",
+                            "name_localizations": null,
+                            "value": "Sorcerer"
+                        },
+                        {
+                            "name": "Warrior",
+                            "name_localizations": null,
+                            "value": "Warrior"
+                        },
+                        {
+                            "name": "Wizard",
+                            "name_localizations": null,
+                            "value": "Wizard"
+                        }
+                    ]
+                },
+                {
+                    "type": 3,
+                    "name": "name",
+                    "name_localizations": null,
+                    "description": "Your character's name",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
+            "nsfw": false
+        }
+    ]
+}
