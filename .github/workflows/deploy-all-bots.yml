@@ -2,8 +2,7 @@ name: Build & Deploy All Bots
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   build-and-deploy:
@@ -51,7 +50,7 @@ jobs:
           script: |
             cd ~/DiscordBots
             git pull origin main
-            pnpm install --ignore-scripts
-            cd ${{matrix.bot.folder}}
-            pnpm run build || echo "No build script; skipping"
-            pm2 restart ${{ matrix.bot.process }} || pm2 start dist/index.js --name ${{ matrix.bot.process }}
+            bash -lc "pnpm install --ignore-scripts"
+            cd ${{ matrix.bot.folder }}
+            bash -lc "pnpm run build || echo \"No build script; skipping\""
+            pm2 restart ${{ matrix.bot.process }} || pm2 start dist/index.js --name ${{ matrix.bot.process }} --update-env

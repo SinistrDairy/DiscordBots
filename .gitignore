@@ -1,16 +1,6 @@
-# Ignore all node_modules in any subfolder
 **/node_modules/
-
-# Ignore build outputs
 **/dist/
-
-# Ignore lockfiles if you prefer regenerating them
+.npmrc
 pnpm-lock.yaml
-yarn.lock
-package-lock.json
-
-# Environment files
-**/.env
-
-# VS Code settings
+.env
 .vscode/
