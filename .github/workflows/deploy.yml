@@ -23,6 +23,7 @@ jobs:
             echo "Building $dir"
             cd "$dir"
             npm ci
+            npm install --no-save @sern/cli@latest
             npm run build
             cd ..
           done
