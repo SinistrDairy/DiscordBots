@@ -38,7 +38,7 @@ jobs:
       - name: Install & Build ${{ matrix.bot.name }}
         run: |
           cd ${{ matrix.bot.folder }}
-          pnpm install --ignore-scripts
+          pnpm install
           pnpm run build || echo "No build script; skipping"
 
       - name: SSH Deploy ${{ matrix.bot.name }}
