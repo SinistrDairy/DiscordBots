@@ -31,6 +31,17 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.VPS_Host }} >> ~/.ssh/known_hosts
 
+      - name: Debug SSH authentication
+        env:
+          PRIVATE_KEY: ${{ secrets.VPS_PRIVATE_KEY }}
+        run: |
+          echo "$PRIVATE_KEY" > id_rsa
+          chmod 600 id_rsa
+          echo "=== SSH verbose output ==="
+          ssh -vvv -i id_rsa -o StrictHostKeyChecking=no \
+            ${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }} \
+            'echo SUCCESS' || echo "SSH failed"
+
       - name: Verify SSH connectivity
         run: ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }} 'echo Connected'
 
