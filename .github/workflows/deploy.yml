@@ -50,6 +50,6 @@ jobs:
 
             ssh "${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}" \
               "cd /var/www/discord-bots/DiscordBots/$dir && \
-               npm ci --production --ignore-scripts && \
-               pm2 reload $dir --env production"
+               npm ci --production --omit=dev --ignore-scripts && \
+               pm2 reload $dir"
           done
