@@ -1,0 +1,10 @@
+{
+  "name": "discord-bots",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "triviabot",
+    "genie-bot",
+    "opie-bot"
+  ]
+}
