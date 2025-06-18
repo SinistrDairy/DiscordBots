@@ -2,20 +2,20 @@ name: CI/CD Discord Bots
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        bot-dir: [ genie-bot, triviabot, opie-bot ]
+        bot-dir: [genie-bot, triviabot, opie-bot]
 
     steps:
-      - name: Checkout repo
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -26,25 +26,33 @@ jobs:
           npm ci
           npm run build
 
+      - name: Add VPS to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.VPS_Host }} >> ~/.ssh/known_hosts
+
+      - name: Verify SSH connectivity
+        run: ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }} 'echo Connected'
+
       - name: Copy build → VPS
         uses: appleboy/scp-action@v0.1.0
         with:
-          host: ${{ secrets.VPS_HOST }}
+          host: ${{ secrets.VPS_Host }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_PRIVATE_KEY }}
           source: |
-            ${{ matrix.bot-dir }}/dist/**
+            ${{ matrix.bot-dir }}/dist
             ${{ matrix.bot-dir }}/package.json
             ${{ matrix.bot-dir }}/package-lock.json
-          target: /var/www/discord-bots/${{ matrix.bot-dir }}
+          target: /var/www/discord-bots/DiscordBots/${{ matrix.bot-dir }}
 
       - name: Install prod deps & reload PM2
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: ${{ secrets.VPS_HOST }}
+          host: ${{ secrets.VPS_Host }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_PRIVATE_KEY }}
           script: |
-            cd /var/www/discord-bots/${{ matrix.bot-dir }}
+            cd /var/www/discord-bots/DiscordBots/${{ matrix.bot-dir }}
             npm ci --production
             pm2 reload ecosystem.config.js --only "${{ matrix.bot-dir }}" --env production
