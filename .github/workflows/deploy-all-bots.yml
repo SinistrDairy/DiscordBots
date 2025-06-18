@@ -48,9 +48,19 @@ jobs:
           password: ${{ secrets.VPS_PASSWORD }}
           port: 22
           script: |
-            cd ~/DiscordBots
+            # 1) Go to the real clone location
+            cd /home/ubuntu/DiscordBots
+
+            # 2) Pull the latest changes
             git pull origin main
+
+            # 3) Install dependencies under a login shell
             bash -lc "pnpm install --ignore-scripts"
+
+            # 4) Build just this bot
             cd ${{ matrix.bot.folder }}
             bash -lc "pnpm run build || echo \"No build script; skipping\""
-            pm2 restart ${{ matrix.bot.process }} || pm2 start dist/index.js --name ${{ matrix.bot.process }} --update-env
+
+            # 5) Restart (or start) the right PM2 process
+            pm2 restart ${{ matrix.bot.process }} \
+                || pm2 start dist/index.js --name ${{ matrix.bot.process }} --update-env
