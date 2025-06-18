@@ -29,9 +29,10 @@ jobs:
       - name: Copy build → VPS
         uses: appleboy/scp-action@v0.1.0
         with:
-          host: ${{ secrets.VPS_SSH_HOST }}
-          username: ${{ secrets.VPS_SSH_USER }}
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
+          password: ${{secrets.VPS_PASSWORD}}
           source: |
             ${{ matrix.bot-dir }}/dist/**
             ${{ matrix.bot-dir }}/package.json
@@ -44,6 +45,7 @@ jobs:
           host: ${{ secrets.VPS_SSH_HOST }}
           username: ${{ secrets.VPS_SSH_USER }}
           key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
+          password: ${{secrets.VPS_PASSWORD}}
           script: |
             cd /var/www/discord-bots/${{ matrix.bot-dir }}
             npm ci --production
