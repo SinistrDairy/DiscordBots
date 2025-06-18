@@ -3,7 +3,7 @@ module.exports = {
   apps: [
     {
       name: 'genie-bot',
-      cwd: '/var/www/discord-bots/genie-bot',
+      cwd: '/var/www/discord-bots/DiscordBots/genie-bot',
       script: './dist/index.js',
       instances: 1,
       autorestart: true,
@@ -12,7 +12,7 @@ module.exports = {
     },
     {
       name: 'triviabot',
-      cwd: '/var/www/discord-bots/triviabot',
+      cwd: '/var/www/discord-bots/DiscordBots/triviabot',
       script: './dist/index.js',
       instances: 1,
       autorestart: true,
@@ -21,7 +21,7 @@ module.exports = {
     },
     {
       name: 'opie-bot',
-      cwd: '/var/www/discord-bots/opie-bot',
+      cwd: '/var/www/discord-bots/DiscordBots/opie-bot',
       script: './dist/index.js',
       instances: 1,
       autorestart: true,
