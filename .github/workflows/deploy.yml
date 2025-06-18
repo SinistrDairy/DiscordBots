@@ -47,9 +47,8 @@ jobs:
               "$dir/package-lock.json" \
               "${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}:/var/www/discord-bots/DiscordBots/$dir"
 
-            ssh "${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}" <<EOF
-            cd /var/www/discord-bots/DiscordBots/$dir
-            npm ci --production
-            pm2 reload ecosystem.config.js --only "$dir" --env production
-            EOF
-                      done
+            ssh "${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}" \
+              "cd /var/www/discord-bots/DiscordBots/$dir && \
+               npm ci --production && \
+               pm2 reload ecosystem.config.js --only \"$dir\" --env production"
+          done
