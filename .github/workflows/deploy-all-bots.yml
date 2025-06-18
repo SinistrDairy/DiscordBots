@@ -11,19 +11,15 @@ jobs:
     strategy:
       matrix:
         bot:
-          - name: triviaBot
+          - name: russell
             folder: triviabot
             process: russell
-          - name: opie-bot
+          - name: opie
             folder: opie-bot
-            process: opie-bot
-          - name: embed-handler
-            folder: Embed-Handler
-            process: embed-handler
-        #   - name: genie-bot
-        #     folder: genie-bot
-        #     process: genie-bot
-        # …add more bots here
+            process: opie
+          - name: genie
+            folder: genie-bot
+            process: genie
 
     steps:
       - name: Checkout code
