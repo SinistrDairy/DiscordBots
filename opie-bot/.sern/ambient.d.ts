@@ -63,7 +63,6 @@ declare namespace NodeJS {
         npm_package_name:string
         npm_package_version:string
         NUMBER_OF_PROCESSORS:string
-        OLDPWD:string
         OneDrive:string
         OneDriveConsumer:string
         ORIGINAL_PATH:string
