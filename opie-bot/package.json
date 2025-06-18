@@ -25,6 +25,7 @@
 		"mongoose": "^8.13.3"
 	},
 	"devDependencies": {
+		"@sern/cli": "^1.4.0",
 		"@types/node": "^17.0.25",
 		"concurrently": "^9.1.2",
 		"nodemon": "^3.1.10",
