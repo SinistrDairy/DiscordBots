@@ -21,7 +21,7 @@ jobs:
         run: |
           for dir in genie-bot triviabot opie-bot; do
             echo "Building $dir"
-            cd $dir
+            cd "$dir"
             npm ci
             npm run build
             cd ..
