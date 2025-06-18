@@ -11,7 +11,7 @@ jobs:
       matrix:
         bot:
           - name: russell
-            folder: triviabot
+            folder: triviaBot
             process: russell
           - name: opie
             folder: opie-bot
