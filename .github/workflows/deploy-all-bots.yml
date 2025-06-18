@@ -44,8 +44,9 @@ jobs:
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }} # e.g. root
-          key: ${{ secrets.VPS_PASSWORD }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{secrets.VPS_PASSWORD}} # e.g. root
+          key: ${{ secrets.SSH_KEY }}
           port: 22
           script: |
             # go to your repo root
