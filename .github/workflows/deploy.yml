@@ -42,14 +42,14 @@ jobs:
           for dir in genie-bot triviabot opie-bot; do
             echo "Deploying $dir"
             scp -r \
-              $dir/dist \
-              $dir/package.json \
-              $dir/package-lock.json \
-              ${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}:/var/www/discord-bots/DiscordBots/$dir
+              "$dir/dist" \
+              "$dir/package.json" \
+              "$dir/package-lock.json" \
+              "${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}:/var/www/discord-bots/DiscordBots/$dir"
 
-            ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }} << 'EOF'
-              cd /var/www/discord-bots/DiscordBots/$dir
-              npm ci --production
-              pm2 reload ecosystem.config.js --only "$dir" --env production
+            ssh "${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}" <<EOF
+            cd /var/www/discord-bots/DiscordBots/$dir
+            npm ci --production
+            pm2 reload ecosystem.config.js --only "$dir" --env production
             EOF
-          done
+                      done
