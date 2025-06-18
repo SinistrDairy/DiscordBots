@@ -2,7 +2,8 @@ name: CI/CD Discord Bots
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   deploy:
@@ -22,13 +23,13 @@ jobs:
           for dir in genie-bot triviabot opie-bot; do
             echo "Building $dir"
             cd "$dir"
-            npm ci --production --ignore-scripts
+            npm ci
             npm install --no-save @sern/cli@latest
             npm run build
             cd ..
           done
 
-      - name: Start SSH agent
+      - name: Load SSH key
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.VPS_PRIVATE_KEY }}
@@ -38,18 +39,23 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.VPS_Host }} >> ~/.ssh/known_hosts
 
-      - name: Deploy bots to VPS
+      - name: Deploy artifacts and reload via PM2
         run: |
+          # Copy built code
           for dir in genie-bot triviabot opie-bot; do
             echo "Deploying $dir"
-            scp -r \
-              "$dir/dist" \
-              "$dir/package.json" \
-              "$dir/package-lock.json" \
+            scp -r "$dir/dist" "$dir/package.json" "$dir/package-lock.json" \
               "${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}:/var/www/discord-bots/DiscordBots/$dir"
-
-            ssh "${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}" \
-              "cd /var/www/discord-bots/DiscordBots/$dir && \
-               npm ci --production --omit=dev --ignore-scripts && \
-               pm2 reload $dir"
           done
+
+          # Install and reload on VPS in one SSH command
+          ssh "${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}" "bash -lc '
+            # Install production deps in each bot
+            for dir in genie-bot triviabot opie-bot; do
+              cd /var/www/discord-bots/DiscordBots/\$dir
+              npm ci --production --omit=dev --ignore-scripts
+            done
+
+            # Start or reload all apps via shared ecosystem file
+            pm2 startOrReload /var/www/discord-bots/DiscordBots/ecosystem.config.js
+          '"
