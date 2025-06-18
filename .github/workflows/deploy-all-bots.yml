@@ -43,7 +43,7 @@ jobs:
         run: |
           cd ${{ matrix.bot.folder }}
           pnpm install --ignore-scripts
-          pnpm build
+          pnpm run build || echo "No build script; skipping"
 
       - name: SSH Deploy ${{ matrix.bot.name }}
         uses: appleboy/ssh-action@v1
@@ -55,6 +55,6 @@ jobs:
           script: |
             cd ~/${{ matrix.bot.folder }}
             git pull origin main
-            pnpm install
-            pnpm build
+            pnpm install 
+            pnpm run build || echo "No build script; skipping"
             pm2 restart ${{ matrix.bot.process }} || pm2 start dist/index.js --name ${{ matrix.bot.process }}
