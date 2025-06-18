@@ -44,23 +44,28 @@ jobs:
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          password: ${{ secrets.VPS_PASSWORD }}
+          username: ${{ secrets.VPS_USER }} # e.g. root
+          key: ${{ secrets.SSH_KEY }}
           port: 22
           script: |
-            # 1) Go to the real clone location
+            # go to your repo root
             cd /root/DiscordBots
 
-            # 2) Pull the latest changes
+            # pull the latest
             git pull origin main
 
-            # 3) Install dependencies under a login shell
-            bash -lc "pnpm install --ignore-scripts"
+            # ensure pnpm is available (installs globally if needed)
+            if ! command -v pnpm > /dev/null; then
+                npm install -g pnpm@latest
+            fi
 
-            # 4) Build just this bot
-            cd ${{ matrix.bot.folder }}
-            bash -lc "pnpm run build || echo \"No build script; skipping\""
+            # install all workspace deps
+            pnpm install --ignore-scripts
 
-            # 5) Restart (or start) the right PM2 process
+            # build & reload this bot
+            cd /root/DiscordBots/${{ matrix.bot.folder }}
+            pnpm run build || echo "No build script; skipping"
+
+            # restart under the exact PM2 name
             pm2 restart ${{ matrix.bot.process }} \
                 || pm2 start dist/index.js --name ${{ matrix.bot.process }} --update-env
