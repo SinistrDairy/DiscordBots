@@ -22,7 +22,7 @@ jobs:
           for dir in genie-bot triviabot opie-bot; do
             echo "Building $dir"
             cd "$dir"
-            npm ci
+            npm ci --production --ignore-scripts
             npm install --no-save @sern/cli@latest
             npm run build
             cd ..
@@ -50,6 +50,6 @@ jobs:
 
             ssh "${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}" \
               "cd /var/www/discord-bots/DiscordBots/$dir && \
-               npm ci --production && \
+               npm ci --production --ignore-scripts && \
                pm2 reload ecosystem.config.js --only \"$dir\" --env production"
           done
