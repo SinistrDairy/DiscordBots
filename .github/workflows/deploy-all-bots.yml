@@ -37,8 +37,8 @@ jobs:
 
       - name: Install & Build ${{ matrix.bot.name }}
         run: |
+          pnpm install
           cd ${{ matrix.bot.folder }}
-          pnpm install --ignore-scripts
           pnpm run build || echo "No build script; skipping"
 
       - name: SSH Deploy ${{ matrix.bot.name }}
@@ -49,8 +49,9 @@ jobs:
           password: ${{ secrets.VPS_PASSWORD }}
           port: 22
           script: |
-            cd ~/${{ matrix.bot.folder }}
+            cd ~/DiscordBots
             git pull origin main
-            pnpm install --ignore-scripts
+            pnpm install
+            cd ${{matrix.bot.folder}}
             pnpm run build || echo "No build script; skipping"
             pm2 restart ${{ matrix.bot.process }} || pm2 start dist/index.js --name ${{ matrix.bot.process }}
