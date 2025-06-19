@@ -6,6 +6,7 @@ declare namespace NodeJS {
         ACLOCAL_PATH:string
         ALLUSERSPROFILE:string
         APPDATA:string
+        APP_ID:string
         ChocolateyInstall:string
         ChocolateyLastPathUpdate:string
         CHROME_CRASHPAD_PIPE_NAME:string
@@ -22,6 +23,8 @@ declare namespace NodeJS {
         DriverData:string
         EFC_7332_1592913036:string
         EXEPATH:string
+        FPS_BROWSER_APP_PROFILE_STRING:string
+        FPS_BROWSER_USER_PROFILE_STRING:string
         GIT_ASKPASS:string
         GUILD_ID1:string
         GUILD_ID2:string
@@ -61,7 +64,6 @@ declare namespace NodeJS {
         npm_package_name:string
         npm_package_version:string
         NUMBER_OF_PROCESSORS:string
-        OLDPWD:string
         OneDrive:string
         OneDriveConsumer:string
         ORIGINAL_PATH:string

@@ -20,9 +20,9 @@
     ],
     "830604135748337673": [
         {
-            "id": "1383083760756461679",
+            "id": "1383930633499443270",
             "application_id": "1196458687955480677",
-            "version": "1383083761020833897",
+            "version": "1383930633683996830",
             "default_member_permissions": "8192",
             "type": 1,
             "name": "view-schedule",
@@ -44,9 +44,9 @@
             "nsfw": false
         },
         {
-            "id": "1383083760756461680",
+            "id": "1383930633499443271",
             "application_id": "1196458687955480677",
-            "version": "1383083761020833898",
+            "version": "1383930633683996831",
             "default_member_permissions": null,
             "type": 1,
             "name": "profile",
@@ -57,9 +57,9 @@
             "nsfw": false
         },
         {
-            "id": "1383083760756461681",
+            "id": "1383930633499443272",
             "application_id": "1196458687955480677",
-            "version": "1383083761020833899",
+            "version": "1383930633683996832",
             "default_member_permissions": "16",
             "type": 1,
             "name": "clear-profiles",
@@ -70,9 +70,9 @@
             "nsfw": false
         },
         {
-            "id": "1383083760756461682",
+            "id": "1383930633499443273",
             "application_id": "1196458687955480677",
-            "version": "1383083761020833900",
+            "version": "1383930633772073040",
             "default_member_permissions": "16",
             "type": 1,
             "name": "special-updates",
@@ -101,9 +101,9 @@
             "nsfw": false
         },
         {
-            "id": "1383083760756461683",
+            "id": "1383930633499443274",
             "application_id": "1196458687955480677",
-            "version": "1383083761020833901",
+            "version": "1383930633772073041",
             "default_member_permissions": "8",
             "type": 1,
             "name": "remove-event",
@@ -125,9 +125,9 @@
             "nsfw": false
         },
         {
-            "id": "1383083760756461684",
+            "id": "1383930633499443275",
             "application_id": "1196458687955480677",
-            "version": "1383083761020833902",
+            "version": "1383930633772073042",
             "default_member_permissions": "16",
             "type": 1,
             "name": "update-profiles",
@@ -157,9 +157,9 @@
             "nsfw": false
         },
         {
-            "id": "1383083760756461685",
+            "id": "1383930633499443276",
             "application_id": "1196458687955480677",
-            "version": "1383083761130012813",
+            "version": "1383930633772073043",
             "default_member_permissions": "8192",
             "type": 1,
             "name": "land-totals",
@@ -187,9 +187,9 @@
             "nsfw": false
         },
         {
-            "id": "1383083760756461686",
+            "id": "1383930633499443277",
             "application_id": "1196458687955480677",
-            "version": "1383083761130012814",
+            "version": "1383930633772073044",
             "default_member_permissions": "8",
             "type": 1,
             "name": "clear-schedules",
@@ -200,9 +200,9 @@
             "nsfw": false
         },
         {
-            "id": "1383083760756461687",
+            "id": "1383930633499443278",
             "application_id": "1196458687955480677",
-            "version": "1383083761130012815",
+            "version": "1383930633772073045",
             "default_member_permissions": "16",
             "type": 1,
             "name": "clear-lands",
@@ -213,9 +213,9 @@
             "nsfw": false
         },
         {
-            "id": "1383083760756461688",
+            "id": "1383930633499443279",
             "application_id": "1196458687955480677",
-            "version": "1383083761130012816",
+            "version": "1383930633772073046",
             "default_member_permissions": "8",
             "type": 1,
             "name": "update-messages",
@@ -254,9 +254,9 @@
             "nsfw": false
         },
         {
-            "id": "1383083760916107335",
+            "id": "1383930633591591033",
             "application_id": "1196458687955480677",
-            "version": "1383083761130012817",
+            "version": "1383930633772073047",
             "default_member_permissions": "8",
             "type": 1,
             "name": "add-profile",
@@ -277,9 +277,9 @@
             "nsfw": false
         },
         {
-            "id": "1383083760916107336",
+            "id": "1383930633591591034",
             "application_id": "1196458687955480677",
-            "version": "1383083761130012818",
+            "version": "1383930633772073048",
             "default_member_permissions": "8",
             "type": 1,
             "name": "add-message",
@@ -324,9 +324,9 @@
             "nsfw": false
         },
         {
-            "id": "1383083760916107337",
+            "id": "1383930633591591035",
             "application_id": "1196458687955480677",
-            "version": "1383083761130012819",
+            "version": "1383930633772073049",
             "default_member_permissions": "8",
             "type": 1,
             "name": "add-lands",
@@ -363,9 +363,9 @@
             "nsfw": false
         },
         {
-            "id": "1383083760916107339",
+            "id": "1383930633591591037",
             "application_id": "1196458687955480677",
-            "version": "1383083761130012821",
+            "version": "1383930633801171065",
             "default_member_permissions": "8192",
             "type": 1,
             "name": "leaderboard",
@@ -376,9 +376,9 @@
             "nsfw": false
         },
         {
-            "id": "1383101577509998774",
+            "id": "1384993909553369243",
             "application_id": "1196458687955480677",
-            "version": "1383458631936376914",
+            "version": "1384993909553369245",
             "default_member_permissions": "8",
             "type": 1,
             "name": "event-management",
@@ -431,9 +431,9 @@
             "nsfw": false
         },
         {
-            "id": "1383083760916107338",
+            "id": "1383930633591591036",
             "application_id": "1196458687955480677",
-            "version": "1383199721342107801",
+            "version": "1384993909553369246",
             "default_member_permissions": "8",
             "type": 1,
             "name": "add-event",
@@ -501,9 +501,9 @@
             "nsfw": false
         },
         {
-            "id": "1383083760916107340",
+            "id": "1383930633591591038",
             "application_id": "1196458687955480677",
-            "version": "1383083761130012822",
+            "version": "1383930633801171066",
             "default_member_permissions": "8192",
             "type": 1,
             "name": "todays-schedule",
@@ -514,9 +514,9 @@
             "nsfw": false
         },
         {
-            "id": "1382728152786141246",
+            "id": "1383930633591591039",
             "application_id": "1196458687955480677",
-            "version": "1383083761176019140",
+            "version": "1383930633801171067",
             "default_member_permissions": "8192",
             "type": 1,
             "name": "stretch",
@@ -560,9 +560,9 @@
             "nsfw": false
         },
         {
-            "id": "1382728152786141247",
+            "id": "1383930633591591040",
             "application_id": "1196458687955480677",
-            "version": "1383083761176019141",
+            "version": "1383930633801171068",
             "default_member_permissions": "16",
             "type": 1,
             "name": "start-schedule",
@@ -601,9 +601,9 @@
             "nsfw": false
         },
         {
-            "id": "1383083760916107341",
+            "id": "1383930633591591041",
             "application_id": "1196458687955480677",
-            "version": "1383083761176019142",
+            "version": "1383930633801171069",
             "default_member_permissions": "8192",
             "type": 1,
             "name": "start-event",
@@ -625,9 +625,9 @@
             "nsfw": false
         },
         {
-            "id": "1383083760916107342",
+            "id": "1383930633591591042",
             "application_id": "1196458687955480677",
-            "version": "1383083761176019143",
+            "version": "1383930633801171070",
             "default_member_permissions": "8192",
             "type": 1,
             "name": "jewel-adjust",
@@ -701,9 +701,9 @@
             "nsfw": false
         },
         {
-            "id": "1383083760916107343",
+            "id": "1383930633683996823",
             "application_id": "1196458687955480677",
-            "version": "1383083761176019144",
+            "version": "1383930633801171071",
             "default_member_permissions": "8192",
             "type": 1,
             "name": "land-adjust",
@@ -753,9 +753,9 @@
             "nsfw": false
         },
         {
-            "id": "1383083760916107344",
+            "id": "1383930633683996824",
             "application_id": "1196458687955480677",
-            "version": "1383083761176019145",
+            "version": "1383930633801171072",
             "default_member_permissions": "8192",
             "type": 1,
             "name": "jewels",
@@ -854,9 +854,9 @@
             "nsfw": false
         },
         {
-            "id": "1383083761020833893",
+            "id": "1383930633683996825",
             "application_id": "1196458687955480677",
-            "version": "1383083761176019146",
+            "version": "1383930633801171073",
             "default_member_permissions": "8192",
             "type": 1,
             "name": "end-task",
@@ -901,9 +901,9 @@
             "nsfw": false
         },
         {
-            "id": "1383083761020833894",
+            "id": "1383930633683996826",
             "application_id": "1196458687955480677",
-            "version": "1383083761176019147",
+            "version": "1383930633843380375",
             "default_member_permissions": "8192",
             "type": 1,
             "name": "end-event",
@@ -940,9 +940,9 @@
             "nsfw": false
         },
         {
-            "id": "1382728152786141248",
+            "id": "1383930633683996827",
             "application_id": "1196458687955480677",
-            "version": "1383083761176019148",
+            "version": "1383930633843380376",
             "default_member_permissions": "16",
             "type": 1,
             "name": "edit-schedule",
@@ -1014,9 +1014,9 @@
             "nsfw": false
         },
         {
-            "id": "1383083761020833895",
+            "id": "1383930633683996828",
             "application_id": "1196458687955480677",
-            "version": "1383083761176019149",
+            "version": "1383930633843380377",
             "default_member_permissions": "16",
             "type": 1,
             "name": "close-schedule",
@@ -1027,9 +1027,9 @@
             "nsfw": false
         },
         {
-            "id": "1383083761020833896",
+            "id": "1383930633683996829",
             "application_id": "1196458687955480677",
-            "version": "1383083761255579648",
+            "version": "1383930633843380378",
             "default_member_permissions": "8192",
             "type": 1,
             "name": "add-to-schedule",
@@ -1573,9 +1573,9 @@
             "nsfw": false
         },
         {
-            "id": "1383101578692661289",
+            "id": "1384993910580838522",
             "application_id": "1196458687955480677",
-            "version": "1383458632578105436",
+            "version": "1384993910580838524",
             "default_member_permissions": "8",
             "type": 1,
             "name": "event-management",
@@ -1630,7 +1630,7 @@
         {
             "id": "1383083762358681797",
             "application_id": "1196458687955480677",
-            "version": "1383199722214391990",
+            "version": "1384993910580838525",
             "default_member_permissions": "8",
             "type": 1,
             "name": "add-event",

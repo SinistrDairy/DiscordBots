@@ -2,5 +2,9 @@
   "extends": "./.sern/tsconfig.json",
   "compilerOptions": {
     "moduleResolution": "node",
-  }
+  },
+  "include": [
+    "src",
+    "src/scripts"
+  ]
 }
