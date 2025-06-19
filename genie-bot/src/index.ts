@@ -2,7 +2,8 @@ import "dotenv/config";
 import { Client, GatewayIntentBits, Partials } from "discord.js";
 import { Sern, makeDependencies } from "@sern/handler";
 import { Publisher } from "@sern/publisher";
-import { PrismaClient } from "@prisma/client";
+import * as Prisma from "@prisma/client";
+const { PrismaClient } = Prisma;
 import { startArchiveScheduler } from "./scheduler/archiveThreads.js";
 
 const prisma = new PrismaClient();

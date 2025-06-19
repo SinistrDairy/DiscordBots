@@ -1,7 +1,8 @@
 import { commandModule, CommandType } from "@sern/handler";
 import { draftCache } from "../utils/embedDraftCache.js";
 import { MessageFlags } from "discord.js";
-import { PrismaClient } from "@prisma/client";
+import * as Prisma from "@prisma/client";
+const { PrismaClient } = Prisma;
 const prisma = new PrismaClient();
 var embedSend_default = commandModule({
   type: CommandType.Button,

@@ -2,8 +2,8 @@
 import { commandModule, CommandType } from "@sern/handler";
 import { draftCache } from "../utils/embedDraftCache.js";
 import { ButtonInteraction, TextChannel, MessageFlags } from "discord.js";
-import { PrismaClient } from "@prisma/client";
-import { convertTimeToMilliseconds } from "../utils/strToMilli.js";
+import * as Prisma from "@prisma/client";
+const { PrismaClient } = Prisma;
 const prisma = new PrismaClient();
 
 export default commandModule({
