@@ -11,7 +11,7 @@ jobs:
     outputs:
       genie-changed: ${{ steps.filter.outputs['genie-bot'] }}
       trivia-changed: ${{ steps.filter.outputs['triviabot'] }}
-      opie-changed:   ${{ steps.filter.outputs['opie-bot'] }}
+      opie-changed: ${{ steps.filter.outputs['opie-bot'] }}
     steps:
       - uses: actions/checkout@v4
       - id: filter
@@ -40,56 +40,57 @@ jobs:
 
     steps:
       - name: Skip if unchanged
-        if: ${{matrix.changed != 'true'}}
+        if: ${{ matrix.changed != 'true' }}
         run: echo "No changes detected in ${{ matrix.bot-dir }}, skipping."
 
       - name: Checkout code
-        if: ${{matrix.changed == 'true'}}
+        if: ${{ matrix.changed == 'true' }}
         uses: actions/checkout@v4
 
       - name: Setup Node.js 20
-        if: ${{matrix.changed == 'true'}}
+        if: ${{ matrix.changed == 'true' }}
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: "pnpm"
 
-      - name: Build ${{ matrix.bot-dir }}
-        if: ${{matrix.changed == 'true'}}
+      - name: Install and Build ${{ matrix.bot-dir }}
+        if: ${{ matrix.changed == 'true' }}
         run: |
           cd "${{ matrix.bot-dir }}"
           pnpm install --frozen-lockfile
-          npm install --no-save @sern/cli@latest
-          npm run build
+          pnpm add --no-save @sern/cli@latest
+          pnpm build
 
       - name: Load SSH key
-        if: ${{matrix.changed == 'true'}}
+        if: ${{ matrix.changed == 'true' }}
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.VPS_PRIVATE_KEY }}
 
       - name: Add VPS to known_hosts
-        if: ${{matrix.changed == 'true'}}
+        if: ${{ matrix.changed == 'true' }}
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.VPS_Host }} >> ~/.ssh/known_hosts
 
       - name: Deploy ${{ matrix.bot-dir }} to VPS
-        if: ${{matrix.changed == 'true'}}
+        if: ${{ matrix.changed == 'true' }}
         run: |
           scp -r \
             "${{ matrix.bot-dir }}/dist" \
             "${{ matrix.bot-dir }}/package.json" \
-            "${{ matrix.bot-dir }}/package-lock.json" \
+            "${{ matrix.bot-dir }}/pnpm-lock.yaml" \
             "${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}:/var/www/discord-bots/DiscordBots/${{ matrix.bot-dir }}"
 
           ssh "${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}" \
             "bash -lc '
               cd /var/www/discord-bots/DiscordBots/${{ matrix.bot-dir }}
-              npm ci --production --omit=dev --ignore-scripts
+              pnpm install --prod --frozen-lockfile --ignore-scripts
             '"
 
       - name: Reload PM2 for ${{ matrix.bot-dir }}
-        if: ${{matrix.changed == 'true'}}
+        if: ${{ matrix.changed == 'true' }}
         run: |
           ssh "${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}" \
             "bash -lc '
