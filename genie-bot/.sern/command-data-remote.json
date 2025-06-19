@@ -59,78 +59,6 @@
             "nsfw": false
         },
         {
-            "id": "1385074733732593785",
-            "application_id": "1058382075620769823",
-            "version": "1385074733732593790",
-            "default_member_permissions": "8192",
-            "type": 1,
-            "name": "embed-create",
-            "name_localizations": null,
-            "description": "Start building an embed via multi-step modals",
-            "description_localizations": null,
-            "guild_id": "1324370750131404893",
-            "options": [
-                {
-                    "type": 7,
-                    "name": "channel",
-                    "name_localizations": null,
-                    "description": "What channel is this being sent to?",
-                    "description_localizations": null,
-                    "required": true,
-                    "channel_types": [
-                        0,
-                        5,
-                        10,
-                        11,
-                        12
-                    ]
-                },
-                {
-                    "type": 6,
-                    "name": "mention_user",
-                    "name_localizations": null,
-                    "description": "Which user would you like to mention?",
-                    "description_localizations": null
-                },
-                {
-                    "type": 8,
-                    "name": "mention_role",
-                    "name_localizations": null,
-                    "description": "Which role would you like to mention?",
-                    "description_localizations": null
-                },
-                {
-                    "type": 7,
-                    "name": "mention_channel",
-                    "name_localizations": null,
-                    "description": "Which channel would you like to mention?",
-                    "description_localizations": null,
-                    "channel_types": [
-                        0,
-                        5,
-                        10,
-                        11,
-                        12
-                    ]
-                },
-                {
-                    "type": 3,
-                    "name": "title_emoji",
-                    "name_localizations": null,
-                    "description": "Upload emoji's for the title",
-                    "description_localizations": null
-                },
-                {
-                    "type": 3,
-                    "name": "description_emoji",
-                    "name_localizations": null,
-                    "description": "Upload emoji's for the description",
-                    "description_localizations": null
-                }
-            ],
-            "nsfw": false
-        },
-        {
             "id": "1385074733732593786",
             "application_id": "1058382075620769823",
             "version": "1385074733732593791",
@@ -169,98 +97,13 @@
                 }
             ],
             "nsfw": false
-        },
-        {
-            "id": "1385074733732593787",
-            "application_id": "1058382075620769823",
-            "version": "1385074733732593792",
-            "default_member_permissions": null,
-            "type": 1,
-            "name": "clear-embeds",
-            "name_localizations": null,
-            "description": "Clear all in-progress embed drafts",
-            "description_localizations": null,
-            "guild_id": "1324370750131404893",
-            "nsfw": false
-        },
-        {
-            "id": "1385074733732593788",
-            "application_id": "1058382075620769823",
-            "version": "1385074733732593793",
-            "default_member_permissions": "8",
-            "type": 1,
-            "name": "admin-embed",
-            "name_localizations": null,
-            "description": "Start building an embed via multi-step modals",
-            "description_localizations": null,
-            "guild_id": "1324370750131404893",
-            "options": [
-                {
-                    "type": 7,
-                    "name": "channel",
-                    "name_localizations": null,
-                    "description": "What channel is this being sent to?",
-                    "description_localizations": null,
-                    "required": true,
-                    "channel_types": [
-                        0,
-                        5,
-                        10,
-                        11,
-                        12
-                    ]
-                },
-                {
-                    "type": 6,
-                    "name": "mention_user",
-                    "name_localizations": null,
-                    "description": "Which user would you like to mention?",
-                    "description_localizations": null
-                },
-                {
-                    "type": 8,
-                    "name": "mention_role",
-                    "name_localizations": null,
-                    "description": "Which role would you like to mention?",
-                    "description_localizations": null
-                },
-                {
-                    "type": 7,
-                    "name": "mention_channel",
-                    "name_localizations": null,
-                    "description": "Which channel would you like to mention?",
-                    "description_localizations": null,
-                    "channel_types": [
-                        0,
-                        5,
-                        10,
-                        11,
-                        12
-                    ]
-                },
-                {
-                    "type": 3,
-                    "name": "title_emoji",
-                    "name_localizations": null,
-                    "description": "Upload emoji's for the title",
-                    "description_localizations": null
-                },
-                {
-                    "type": 3,
-                    "name": "description_emoji",
-                    "name_localizations": null,
-                    "description": "Upload emoji's for the description",
-                    "description_localizations": null
-                }
-            ],
-            "nsfw": false
         }
     ],
     "830604135748337673": [
         {
-            "id": "1385074734345224192",
+            "id": "1385278569432743957",
             "application_id": "1058382075620769823",
-            "version": "1385074734345224197",
+            "version": "1385278569432743962",
             "default_member_permissions": null,
             "type": 1,
             "name": "submit",
@@ -297,81 +140,9 @@
             "nsfw": false
         },
         {
-            "id": "1385074734345224193",
+            "id": "1385278569432743959",
             "application_id": "1058382075620769823",
-            "version": "1385074734345224198",
-            "default_member_permissions": "8192",
-            "type": 1,
-            "name": "embed-create",
-            "name_localizations": null,
-            "description": "Start building an embed via multi-step modals",
-            "description_localizations": null,
-            "guild_id": "830604135748337673",
-            "options": [
-                {
-                    "type": 7,
-                    "name": "channel",
-                    "name_localizations": null,
-                    "description": "What channel is this being sent to?",
-                    "description_localizations": null,
-                    "required": true,
-                    "channel_types": [
-                        0,
-                        5,
-                        10,
-                        11,
-                        12
-                    ]
-                },
-                {
-                    "type": 6,
-                    "name": "mention_user",
-                    "name_localizations": null,
-                    "description": "Which user would you like to mention?",
-                    "description_localizations": null
-                },
-                {
-                    "type": 8,
-                    "name": "mention_role",
-                    "name_localizations": null,
-                    "description": "Which role would you like to mention?",
-                    "description_localizations": null
-                },
-                {
-                    "type": 7,
-                    "name": "mention_channel",
-                    "name_localizations": null,
-                    "description": "Which channel would you like to mention?",
-                    "description_localizations": null,
-                    "channel_types": [
-                        0,
-                        5,
-                        10,
-                        11,
-                        12
-                    ]
-                },
-                {
-                    "type": 3,
-                    "name": "title_emoji",
-                    "name_localizations": null,
-                    "description": "Upload emoji's for the title",
-                    "description_localizations": null
-                },
-                {
-                    "type": 3,
-                    "name": "description_emoji",
-                    "name_localizations": null,
-                    "description": "Upload emoji's for the description",
-                    "description_localizations": null
-                }
-            ],
-            "nsfw": false
-        },
-        {
-            "id": "1385074734345224194",
-            "application_id": "1058382075620769823",
-            "version": "1385074734345224199",
+            "version": "1385278569432743964",
             "default_member_permissions": null,
             "type": 1,
             "name": "create-cow",
@@ -403,91 +174,6 @@
                     "name": "delay",
                     "name_localizations": null,
                     "description": "How long until the thread auto‐closes (e.g. '15min', '3h', '1d')",
-                    "description_localizations": null
-                }
-            ],
-            "nsfw": false
-        },
-        {
-            "id": "1385074734345224195",
-            "application_id": "1058382075620769823",
-            "version": "1385074734345224200",
-            "default_member_permissions": null,
-            "type": 1,
-            "name": "clear-embeds",
-            "name_localizations": null,
-            "description": "Clear all in-progress embed drafts",
-            "description_localizations": null,
-            "guild_id": "830604135748337673",
-            "nsfw": false
-        },
-        {
-            "id": "1385074734345224196",
-            "application_id": "1058382075620769823",
-            "version": "1385074734345224201",
-            "default_member_permissions": "8",
-            "type": 1,
-            "name": "admin-embed",
-            "name_localizations": null,
-            "description": "Start building an embed via multi-step modals",
-            "description_localizations": null,
-            "guild_id": "830604135748337673",
-            "options": [
-                {
-                    "type": 7,
-                    "name": "channel",
-                    "name_localizations": null,
-                    "description": "What channel is this being sent to?",
-                    "description_localizations": null,
-                    "required": true,
-                    "channel_types": [
-                        0,
-                        5,
-                        10,
-                        11,
-                        12
-                    ]
-                },
-                {
-                    "type": 6,
-                    "name": "mention_user",
-                    "name_localizations": null,
-                    "description": "Which user would you like to mention?",
-                    "description_localizations": null
-                },
-                {
-                    "type": 8,
-                    "name": "mention_role",
-                    "name_localizations": null,
-                    "description": "Which role would you like to mention?",
-                    "description_localizations": null
-                },
-                {
-                    "type": 7,
-                    "name": "mention_channel",
-                    "name_localizations": null,
-                    "description": "Which channel would you like to mention?",
-                    "description_localizations": null,
-                    "channel_types": [
-                        0,
-                        5,
-                        10,
-                        11,
-                        12
-                    ]
-                },
-                {
-                    "type": 3,
-                    "name": "title_emoji",
-                    "name_localizations": null,
-                    "description": "Upload emoji's for the title",
-                    "description_localizations": null
-                },
-                {
-                    "type": 3,
-                    "name": "description_emoji",
-                    "name_localizations": null,
-                    "description": "Upload emoji's for the description",
                     "description_localizations": null
                 }
             ],

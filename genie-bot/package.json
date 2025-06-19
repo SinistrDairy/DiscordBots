@@ -1,38 +1,41 @@
 {
-	"name": "genie",
-	"version": "1.0.0",
-	"private": true,
-	"description": "",
-	"main": "dist/index.js",
-	"scripts": {
-		"build": "sern build",
-		"clear": "rm -rf ./dist",
-		"start": "node .",
-		"install": "sern build",
-		"commands:publish": "sern commands publish",
-		"dev": "concurrently \"sern build --watch\" \"nodemon --watch dist --ext js,json --exec node dist/index.js\""
-	},
-	"keywords": [
-		"typescript",
-		"sern",
-		"discord.js"
-	],
-	"dependencies": {
-		"@sern/handler": "^4.0.0",
-		"@sern/publisher": "^1.1.1",
-		"discord.js": "latest",
-		"dotenv": "^16.3.1",
-		"mongoose": "^8.16.0",
-		"node-cron": "^4.1.0"
-	},
-	"devDependencies": {
-		"@esbuild-kit/esm-loader": "^2.6.5",
-		"@sern/cli": "^1.4.0",
-		"@types/node": "^17.0.25",
-		"concurrently": "^9.1.2",
-		"nodemon": "^3.1.10",
-		"ts-node": "^10.9.2",
-		"typescript": "^5.0"
-	},
-	"type": "module"
+  "name": "genie",
+  "version": "1.1.0",
+  "private": true,
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "release": "release-it",
+    "release:patch": "release-it --release-as patch",
+    "clean": "rimraf dist",
+    "build": "sern build",
+    "watch:build": "chokidar 'src/**/*' -c \"npm run clean && npm run build\"",
+    "dev": "npm run clean && npm run build && concurrently \"npm:watch:build\" \"nodemon --watch dist --ext js,json --exec node dist/index.js\""
+  },
+  "keywords": [
+    "typescript",
+    "sern",
+    "discord.js"
+  ],
+  "dependencies": {
+    "@sern/cli": "^1.4.0",
+    "@sern/handler": "^4.2.4",
+    "@sern/publisher": "^1.1.2",
+    "discord.js": "latest",
+    "dotenv": "^16.5.0",
+    "mongoose": "^8.16.0",
+    "node-cron": "^4.1.0"
+  },
+  "devDependencies": {
+    "@release-it/conventional-changelog": "^10.0.1",
+    "@types/node": "^24.0.3",
+    "chokidar-cli": "^3.0.0",
+    "concurrently": "^9.1.2",
+    "nodemon": "^3.1.10",
+    "release-it": "^19.0.3",
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "type": "module"
 }
