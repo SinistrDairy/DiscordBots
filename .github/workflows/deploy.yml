@@ -63,7 +63,7 @@ jobs:
         run: |
           cd "${{ matrix.bot-dir }}"
           pnpm install --frozen-lockfile
-          pnpm add -g @sern/cli@latest
+          pnpm add -D @sern/cli@latest
           pnpm build
 
       - name: Load SSH key
