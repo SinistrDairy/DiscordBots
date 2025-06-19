@@ -22,6 +22,7 @@ declare namespace NodeJS {
         DriverData:string
         EFC_7332_1592913036:string
         EXEPATH:string
+        FORCE_COLOR:string
         GIT_ASKPASS:string
         GUILD_ID1:string
         GUILD_ID2:string
@@ -45,6 +46,7 @@ declare namespace NodeJS {
         MSYSTEM_PREFIX:string
         NODE:string
         NODE_ENV:string
+        NODE_PATH:string
         npm_command:string
         npm_config_frozen_lockfile:string
         npm_config_global_bin_dir:string

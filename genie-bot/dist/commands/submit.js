@@ -4,9 +4,9 @@ import {
   MessageFlags,
   PermissionFlagsBits
 } from "discord.js";
-import { prisma } from "../prisma.js";
 import { publishConfig } from "@sern/publisher";
 import { requirePermission } from "../plugins/requirePermission.js";
+import Land from "../models/Land.js";
 var submit_default = commandModule({
   name: "submit",
   description: "Distribute cow-post jewels \xD7 participants to each land",
@@ -83,8 +83,8 @@ var submit_default = commandModule({
       if (count <= 0)
         continue;
       const total = count * jewelsPerPost;
-      const land = await prisma.land.findUnique({
-        where: { name: landName }
+      const land = await Land.findOne({
+        name: landName
       });
       if (!land) {
         return await ctx.reply({
@@ -92,10 +92,10 @@ var submit_default = commandModule({
           flags: MessageFlags.Ephemeral
         });
       }
-      await prisma.land.update({
-        where: { name: landName },
-        data: { totalPoints: { increment: total } }
-      });
+      await Land.updateOne(
+        { name: landName },
+        { $inc: { totalPoints: total } }
+      );
       results.push({ landName, total, emoji: land.emojiID });
     }
     results.sort((a, b) => b.total - a.total);

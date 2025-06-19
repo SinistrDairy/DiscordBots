@@ -1,10 +1,6 @@
 {
   "extends": "./.sern/tsconfig.json",
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es2020",
-    "esModuleInterop": true,
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
   }
 }

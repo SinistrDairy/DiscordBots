@@ -2,10 +2,8 @@ import "dotenv/config";
 import { Client, GatewayIntentBits, Partials } from "discord.js";
 import { Sern, makeDependencies } from "@sern/handler";
 import { Publisher } from "@sern/publisher";
-import * as Prisma from "@prisma/client";
-const { PrismaClient } = Prisma;
 import { startArchiveScheduler } from "./scheduler/archiveThreads.js";
-const prisma = new PrismaClient();
+import { disconnectDB } from "./db.js";
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -31,9 +29,18 @@ Sern.init({
   commands: "dist/commands"
 });
 startArchiveScheduler(client);
-process.on("SIGINT", () => prisma.$disconnect());
-process.on("SIGTERM", () => prisma.$disconnect());
 await client.login(process.env.DISCORD_TOKEN);
+console.log("\u2705 Bot logged in");
+process.on("SIGINT", async () => {
+  console.log("SIGINT\u2014disconnecting DB");
+  await disconnectDB();
+  process.exit(0);
+});
+process.on("SIGTERM", async () => {
+  console.log("SIGTERM\u2014disconnecting DB");
+  await disconnectDB();
+  process.exit(0);
+});
 export {
   client
 };

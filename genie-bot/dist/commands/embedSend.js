@@ -1,9 +1,7 @@
 import { commandModule, CommandType } from "@sern/handler";
 import { draftCache } from "../utils/embedDraftCache.js";
 import { MessageFlags } from "discord.js";
-import * as Prisma from "@prisma/client";
-const { PrismaClient } = Prisma;
-const prisma = new PrismaClient();
+import { ThreadArchive } from "../models/ThreadArchive.js";
 var embedSend_default = commandModule({
   type: CommandType.Button,
   name: "embed_post",
@@ -42,7 +40,7 @@ var embedSend_default = commandModule({
       });
       const delayMs = draft.archiveDelayMs ?? 24 * 60 * 60 * 1e3;
       const archiveAt = new Date(Date.now() + delayMs);
-      await prisma.threadArchive.create({
+      await ThreadArchive.create({
         data: {
           threadId: thread.id,
           archiveAt

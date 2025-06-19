@@ -1,94 +1,112 @@
-// src/scheduler/archiveThreads.ts
 import cron from "node-cron";
-import * as Prisma from "@prisma/client";
-const { PrismaClient } = Prisma;
 import type { Client } from "discord.js";
-
-const prisma = new PrismaClient();
+import { ThreadArchive } from "../models/ThreadArchive.js";
+import { connectDB, disconnectDB } from "../db.js";
 
 export function startArchiveScheduler(client: Client) {
-  client.once("ready", () => {
-    console.log("Archive scheduler running");
+  client.once("ready", async () => {
+    console.log("Archive scheduler starting…");
 
+    // 1) Establish Mongo connection
+    try {
+      await connectDB();
+      console.log("✅ MongoDB connected for scheduler");
+    } catch (err) {
+      console.error("❌ Failed to connect to MongoDB:", err);
+      return; // abort scheduling if we can’t talk to the DB
+    }
+
+    // 2) Schedule the job
     cron.schedule("* * * * *", async () => {
       const now = new Date();
 
-      // 1) Pre-close notices
-      const toNotify = await prisma.threadArchive.findMany({
-        where: {
+      // A) Pre-close notices
+      try {
+        const toNotify = await ThreadArchive.find({
           archived: false,
           endNotified: false,
-          archiveAt: {
-            gt: now,
-            lte: new Date(now.getTime() + 60_000),
-          },
-        },
-      });
+          archiveAt: { $gt: now, $lte: new Date(now.getTime() + 60_000) },
+        });
 
-      for (const job of toNotify) {
-        let ch;
-        try {
-          ch = await client.channels.fetch(job.threadId);
-          if (!ch?.isThread()) throw new Error("Not a thread");
-        } catch {
-          console.warn(`Cleaning up stale job ${job.id}`);
-          await prisma.threadArchive.delete({ where: { id: job.id } });
-          continue;
-        }
+        for (const job of toNotify) {
+          let ch;
+          try {
+            ch = await client.channels.fetch(job.threadId);
+            if (!ch?.isThread()) throw new Error("Not a thread");
+          } catch {
+            console.warn(`Cleaning up stale job ${job.id}`);
+            await ThreadArchive.deleteOne({ id: job.id });
+            continue;
+          }
 
-        try {
-          await ch.send({
-            files: [
-              "https://www.emhuf.xyz/uploads/Quest_Posts/1749663293918-584663827.png",
-            ],
-          });
-          await prisma.threadArchive.update({
-            where: { id: job.id },
-            data: { endNotified: true },
-          });
-        } catch (err) {
-          console.error(`Failed to send notice for ${job.threadId}:`, err);
+          try {
+            await ch.send({
+              files: [
+                "https://www.emhuf.xyz/uploads/Quest_Posts/1749663293918-584663827.png",
+              ],
+            });
+            await ThreadArchive.updateOne(
+              { id: job.id },
+              { $set: { endNotified: true } }
+            );
+          } catch (err) {
+            console.error(`Failed to send notice for ${job.threadId}:`, err);
+          }
         }
+      } catch (err) {
+        console.error("Error during pre-close notifications:", err);
       }
 
-      // 2) Actual archiving
-      const toArchive = await prisma.threadArchive.findMany({
-        where: { archived: false, archiveAt: { lte: now } },
-      });
+      // B) Actual archiving
+      try {
+        const toArchive = await ThreadArchive.find({
+          archived: false,
+          archiveAt: { $lte: now },
+        });
 
-      for (const job of toArchive) {
-        let ch;
-        // 1) Try fetching, bail & delete on Unknown Channel
-        try {
-          ch = await client.channels.fetch(job.threadId);
-          if (!ch?.isThread()) throw new Error("Not a thread");
-        } catch (fetchErr: any) {
-          console.warn(
-            `[archiveThreads] Thread ${job.threadId} not found or not a thread—removing job ${job.id}`
-          );
-          await prisma.threadArchive.delete({ where: { id: job.id } });
-          continue;
-        }
+        for (const job of toArchive) {
+          let ch;
+          try {
+            ch = await client.channels.fetch(job.threadId);
+            if (!ch?.isThread()) throw new Error("Not a thread");
+          } catch {
+            console.warn(
+              `[archiveThreads] Removing job ${job.id}: channel not found`
+            );
+            await ThreadArchive.deleteOne({ id: job.id });
+            continue;
+          }
 
-        // 2) Archive it and mark as archived
-        try {
-          await ch.setArchived(true);
-          await prisma.threadArchive.update({
-            where: { id: job.id },
-            data: { archived: true },
-          });
-        } catch (sendErr) {
-          console.error(
-            `[archiveThreads] Failed to archive thread ${job.threadId}:`,
-            sendErr
-          );
-          // Optionally you could also clean up here if you never want to retry
+          try {
+            await ch.setArchived(true);
+            await ThreadArchive.updateOne(
+              { id: job.id },
+              { $set: { archived: true } }
+            );
+          } catch (err) {
+            console.error(
+              `[archiveThreads] Failed to archive ${job.threadId}:`,
+              err
+            );
+          }
         }
+      } catch (err) {
+        console.error("Error during archiving step:", err);
       }
     });
+
+    console.log("✅ Archive scheduler running every minute");
   });
 
-  // clean up Prisma on shutdown
-  process.on("SIGINT", () => prisma.$disconnect());
-  process.on("SIGTERM", () => prisma.$disconnect());
+  // Clean up on exit
+  process.on("SIGINT", async () => {
+    console.log("SIGINT received");
+    await disconnectDB();
+    process.exit(0);
+  });
+  process.on("SIGTERM", async () => {
+    console.log("SIGTERM received");
+    await disconnectDB();
+    process.exit(0);
+  });
 }

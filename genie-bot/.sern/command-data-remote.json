@@ -1,9 +1,9 @@
 {
     "global": [
         {
-            "id": "1385053478233047227",
+            "id": "1385074732382294146",
             "application_id": "1058382075620769823",
-            "version": "1385053478233047228",
+            "version": "1385074732382294147",
             "default_member_permissions": null,
             "type": 1,
             "name": "ping",
@@ -20,9 +20,9 @@
     ],
     "1324370750131404893": [
         {
-            "id": "1385053480141717625",
+            "id": "1385074733732593784",
             "application_id": "1058382075620769823",
-            "version": "1385053480141717630",
+            "version": "1385074733732593789",
             "default_member_permissions": null,
             "type": 1,
             "name": "submit",
@@ -59,9 +59,9 @@
             "nsfw": false
         },
         {
-            "id": "1385053480141717626",
+            "id": "1385074733732593785",
             "application_id": "1058382075620769823",
-            "version": "1385053480141717631",
+            "version": "1385074733732593790",
             "default_member_permissions": "8192",
             "type": 1,
             "name": "embed-create",
@@ -131,9 +131,9 @@
             "nsfw": false
         },
         {
-            "id": "1385053480141717627",
+            "id": "1385074733732593786",
             "application_id": "1058382075620769823",
-            "version": "1385053480141717632",
+            "version": "1385074733732593791",
             "default_member_permissions": null,
             "type": 1,
             "name": "create-cow",
@@ -171,9 +171,9 @@
             "nsfw": false
         },
         {
-            "id": "1385053480141717628",
+            "id": "1385074733732593787",
             "application_id": "1058382075620769823",
-            "version": "1385053480141717633",
+            "version": "1385074733732593792",
             "default_member_permissions": null,
             "type": 1,
             "name": "clear-embeds",
@@ -184,9 +184,9 @@
             "nsfw": false
         },
         {
-            "id": "1385053480141717629",
+            "id": "1385074733732593788",
             "application_id": "1058382075620769823",
-            "version": "1385053480141717634",
+            "version": "1385074733732593793",
             "default_member_permissions": "8",
             "type": 1,
             "name": "admin-embed",
@@ -258,9 +258,9 @@
     ],
     "830604135748337673": [
         {
-            "id": "1385053480796033034",
+            "id": "1385074734345224192",
             "application_id": "1058382075620769823",
-            "version": "1385053480796033039",
+            "version": "1385074734345224197",
             "default_member_permissions": null,
             "type": 1,
             "name": "submit",
@@ -297,9 +297,9 @@
             "nsfw": false
         },
         {
-            "id": "1385053480796033035",
+            "id": "1385074734345224193",
             "application_id": "1058382075620769823",
-            "version": "1385053480796033040",
+            "version": "1385074734345224198",
             "default_member_permissions": "8192",
             "type": 1,
             "name": "embed-create",
@@ -369,9 +369,9 @@
             "nsfw": false
         },
         {
-            "id": "1385053480796033036",
+            "id": "1385074734345224194",
             "application_id": "1058382075620769823",
-            "version": "1385053480796033041",
+            "version": "1385074734345224199",
             "default_member_permissions": null,
             "type": 1,
             "name": "create-cow",
@@ -409,9 +409,9 @@
             "nsfw": false
         },
         {
-            "id": "1385053480796033037",
+            "id": "1385074734345224195",
             "application_id": "1058382075620769823",
-            "version": "1385053480796033042",
+            "version": "1385074734345224200",
             "default_member_permissions": null,
             "type": 1,
             "name": "clear-embeds",
@@ -422,9 +422,9 @@
             "nsfw": false
         },
         {
-            "id": "1385053480796033038",
+            "id": "1385074734345224196",
             "application_id": "1058382075620769823",
-            "version": "1385053480796033043",
+            "version": "1385074734345224201",
             "default_member_permissions": "8",
             "type": 1,
             "name": "admin-embed",

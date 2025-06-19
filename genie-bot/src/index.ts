@@ -2,11 +2,8 @@ import "dotenv/config";
 import { Client, GatewayIntentBits, Partials } from "discord.js";
 import { Sern, makeDependencies } from "@sern/handler";
 import { Publisher } from "@sern/publisher";
-import * as Prisma from "@prisma/client";
-const { PrismaClient } = Prisma;
 import { startArchiveScheduler } from "./scheduler/archiveThreads.js";
-
-const prisma = new PrismaClient();
+import { connectDB, disconnectDB } from "./db.js";
 
 export const client = new Client({
   intents: [
@@ -35,13 +32,20 @@ Sern.init({
   defaultPrefix: "$",
   commands: "dist/commands",
 });
-
 // --- START the archive scheduler here ---
 startArchiveScheduler(client);
 
-// Graceful shutdown for Prisma
-process.on("SIGINT", () => prisma.$disconnect());
-process.on("SIGTERM", () => prisma.$disconnect());
-
 // Finally, log in your bot
 await client.login(process.env.DISCORD_TOKEN);
+console.log("✅ Bot logged in");
+
+process.on("SIGINT", async () => {
+  console.log("SIGINT—disconnecting DB");
+  await disconnectDB();
+  process.exit(0);
+});
+process.on("SIGTERM", async () => {
+  console.log("SIGTERM—disconnecting DB");
+  await disconnectDB();
+  process.exit(0);
+});

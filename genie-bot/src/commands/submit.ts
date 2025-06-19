@@ -6,9 +6,9 @@ import {
   Message,
   PermissionFlagsBits,
 } from "discord.js";
-import { prisma } from "../prisma.js";
 import { publishConfig } from "@sern/publisher";
 import { requirePermission } from "../plugins/requirePermission.js";
+import Land from "../models/Land.js";
 
 export default commandModule({
   name: "submit",
@@ -52,7 +52,7 @@ export default commandModule({
         flags: MessageFlags.Ephemeral,
       });
 
-    let report = '';
+    let report = "";
     // 1) Attempt to fetch the starter message
     let embed;
     try {
@@ -105,8 +105,8 @@ export default commandModule({
 
       const total = count * jewelsPerPost;
 
-      const land = await prisma.land.findUnique({
-        where: { name: landName },
+      const land = await Land.findOne({
+        name: landName,
       });
       if (!land) {
         return await ctx.reply({
@@ -115,21 +115,20 @@ export default commandModule({
         });
       }
 
-      await prisma.land.update({
-        where: { name: landName },
-        data: { totalPoints: { increment: total } },
-      });
+      await Land.updateOne(
+        { name: landName },
+        { $inc: { totalPoints: total } }
+      );
 
-      results.push({landName, total, emoji: land.emojiID})
-
+      results.push({ landName, total, emoji: land.emojiID });
     }
 
     results.sort((a, b) => b.total - a.total);
 
     report = `\#\# <a:fk_sparkles:1073627951989534800> **${embed.title?.toUpperCase()} TOTALS** <a:fk_sparkles:1073627951989534800>\n\n`;
-    for(const result of results){
-        const {landName, total, emoji} = result
-        report += `${landName}: ${total} ${emoji}\n`;
+    for (const result of results) {
+      const { landName, total, emoji } = result;
+      report += `${landName}: ${total} ${emoji}\n`;
     }
     report += `\n-# Check out <#830617045741731910> for our weekly scheduled events to earn your land more jewels. We hope to see you there!`;
 
