@@ -6,56 +6,94 @@ on:
       - main
 
 jobs:
-  deploy:
+  filter:
     runs-on: ubuntu-latest
+    outputs:
+      genie-changed: ${{ steps.filter.outputs.genie-bot }}
+      trivia-changed: ${{ steps.filter.outputs.triviabot }}
+      opie-changed: ${{ steps.filter.outputs.opie-bot }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: filter
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            genie-bot:
+              - 'genie-bot/**'
+            triviabot:
+              - 'triviabot/**'
+            opie-bot:
+              - 'opie-bot/**'
+
+  deploy:
+    needs: filter
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - bot-dir: genie-bot
+            changed: ${{ needs.filter.outputs.genie-changed }}
+          - bot-dir: triviabot
+            changed: ${{ needs.filter.outputs.trivia-changed }}
+          - bot-dir: opie-bot
+            changed: ${{ needs.filter.outputs.opie-changed }}
 
     steps:
+      - name: Skip if unchanged
+        if: matrix.changed != 'true'
+        run: |
+          echo "No changes detected in ${matrix.bot-dir}, skipping."
+
       - name: Checkout code
+        if: matrix.changed == 'true'
         uses: actions/checkout@v4
 
       - name: Setup Node.js 20
+        if: matrix.changed == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Build all bots
+      - name: Build ${{ matrix.bot-dir }}
+        if: matrix.changed == 'true'
         run: |
-          for dir in genie-bot triviabot opie-bot; do
-            echo "Building $dir"
-            cd "$dir"
-            npm ci
-            npm install --no-save @sern/cli@latest
-            npm run build
-            cd ..
-          done
+          cd "${{ matrix.bot-dir }}"
+          npm ci
+          npm install --no-save @sern/cli@latest
+          npm run build
 
       - name: Load SSH key
+        if: matrix.changed == 'true'
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.VPS_PRIVATE_KEY }}
 
       - name: Add VPS to known_hosts
+        if: matrix.changed == 'true'
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.VPS_Host }} >> ~/.ssh/known_hosts
 
-      - name: Deploy artifacts and reload via PM2
+      - name: Deploy ${{ matrix.bot-dir }} to VPS
+        if: matrix.changed == 'true'
         run: |
-          # Copy built code
-          for dir in genie-bot triviabot opie-bot; do
-            echo "Deploying $dir"
-            scp -r "$dir/dist" "$dir/package.json" "$dir/package-lock.json" \
-              "${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}:/var/www/discord-bots/DiscordBots/$dir"
-          done
+          scp -r \
+            "${{ matrix.bot-dir }}/dist" \
+            "${{ matrix.bot-dir }}/package.json" \
+            "${{ matrix.bot-dir }}/package-lock.json" \
+            "${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}:/var/www/discord-bots/DiscordBots/${{ matrix.bot-dir }}"
 
-          # Install and reload on VPS in one SSH command
-          ssh "${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}" "bash -lc '
-            # Install production deps in each bot
-            for dir in genie-bot triviabot opie-bot; do
-              cd /var/www/discord-bots/DiscordBots/\$dir
+          ssh "${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}" \
+            "bash -lc '
+              cd /var/www/discord-bots/DiscordBots/${{ matrix.bot-dir }}
               npm ci --production --omit=dev --ignore-scripts
-            done
+            '"
 
-            # Start or reload all apps via shared ecosystem file
-            pm2 startOrReload /var/www/discord-bots/DiscordBots/ecosystem.config.js
-          '"
+      - name: Reload PM2 for ${{ matrix.bot-dir }}
+        if: matrix.changed == 'true'
+        run: |
+          ssh "${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}" \
+            "bash -lc '
+              cd /var/www/discord-bots/DiscordBots
+              pm2 startOrReload ecosystem.config.js
+            '"
