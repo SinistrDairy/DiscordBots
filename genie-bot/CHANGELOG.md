@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.3.0](https://github.com/SinistrDairy/DiscordBots/compare/v1.2.0...v1.3.0) (2025-06-19)
+
+
+### Features
+
+* add pnpm installation step to deployment workflow ([29e71b8](https://github.com/SinistrDairy/DiscordBots/commit/29e71b8582ff44e036deb43e6498a3711ff13f13))
+
 # [1.2.0](https://github.com/SinistrDairy/DiscordBots/compare/v1.1.0...v1.2.0) (2025-06-19)
 
 
