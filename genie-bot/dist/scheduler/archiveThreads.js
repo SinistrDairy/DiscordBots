@@ -1,5 +1,6 @@
 import cron from "node-cron";
-import { PrismaClient } from "@prisma/client";
+import * as Prisma from "@prisma/client";
+const { PrismaClient } = Prisma;
 const prisma = new PrismaClient();
 function startArchiveScheduler(client) {
   client.once("ready", () => {

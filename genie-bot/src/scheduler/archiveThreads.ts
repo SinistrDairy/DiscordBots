@@ -1,6 +1,7 @@
 // src/scheduler/archiveThreads.ts
 import cron from "node-cron";
-import { PrismaClient } from "@prisma/client";
+import * as Prisma from "@prisma/client";
+const { PrismaClient } = Prisma;
 import type { Client } from "discord.js";
 
 const prisma = new PrismaClient();
