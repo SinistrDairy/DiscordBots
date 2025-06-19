@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.2](https://github.com/SinistrDairy/DiscordBots/compare/v1.3.1...v1.3.2) (2025-06-19)
+
+
+### Bug Fixes
+
+* change @sern/cli installation from global to dev dependency in deployment workflow ([6fc2e0f](https://github.com/SinistrDairy/DiscordBots/commit/6fc2e0f3cec14f9e5c3511dde7806fbeec54b87e))
+
 ## [1.3.1](https://github.com/SinistrDairy/DiscordBots/compare/v1.3.0...v1.3.1) (2025-06-19)
 
 
