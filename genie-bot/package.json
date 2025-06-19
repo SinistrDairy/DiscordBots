@@ -18,7 +18,7 @@
 		"discord.js"
 	],
 	"dependencies": {
-		"@prisma/client": "6.10.1",
+		"@prisma/client": "^6.10.1",
 		"@sern/handler": "^4.0.0",
 		"@sern/publisher": "^1.1.1",
 		"discord.js": "latest",
