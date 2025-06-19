@@ -6,33 +6,15 @@ import type { EmbedFlow } from "./embedDraftCache.js"; // adjust the path as nee
  * Centralized menu options per embed flow.
  */
 export const menuOptions: Record<EmbedFlow, APISelectMenuOption[]> = {
-  admin: [
-    { label: "Edit Title",        value: "edit_title" },
-    { label: "Edit Description",  value: "edit_description" },
-    { label: "Add Color",         value: "add_color" },
-    { label: "Add Thumbnail",     value: "add_thumbnail" },
-    { label: "Add Emoji",         value: "add_emoji" },
-    { label: "Add Main Image",    value: "add_image" },
-    { label: "Add Footer",        value: "add_footer" },
-    { label: "Add Fields",        value: "add_fields" },
-    { label: "Toggle Timestamp",  value: "toggle_timestamp" },
-    { label: "Done Editing",      value: "finalize" },
-  ],
-  mod: [
-    { label: "Edit Title",        value: "edit_title" },
-    { label: "Edit Description",  value: "edit_description" },
-    { label: "Add Thumbnail",     value: "add_thumbnail" },
-    { label: "Add Main Image",    value: "add_image" },
-    { label: "Add Emoji",         value: "add_emoji" },
-    { label: "Done Editing",      value: "finalize" },
-  ],
   cow: [
-    { label: "Edit Title",        value: "edit_title" },
-    { label: "Edit Description",  value: "edit_description" },
-    { label: "Add Main Image",    value: "add_image" },
-    { label: "Add Emoji",         value: "add_emoji" },
-    { label: "Done Editing",      value: "finalize" },
+    { label: "Edit Title", value: "edit_title" },
+    { label: "Edit Description", value: "edit_description" },
+    { label: "Add Main Image", value: "add_image" },
+    { label: "Add Emoji", value: "add_emoji" },
+    { label: "Done Editing", value: "finalize" },
   ],
+  admin: [],
+  mod: []
 };
 
 /**

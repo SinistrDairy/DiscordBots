@@ -1,9 +1,9 @@
 {
     "global": [
         {
-            "id": "1381646430074179644",
+            "id": "1385053478233047227",
             "application_id": "1058382075620769823",
-            "version": "1381725470516580543",
+            "version": "1385053478233047228",
             "default_member_permissions": null,
             "type": 1,
             "name": "ping",
@@ -20,9 +20,9 @@
     ],
     "1324370750131404893": [
         {
-            "id": "1382552745935896596",
+            "id": "1385053480141717625",
             "application_id": "1058382075620769823",
-            "version": "1382552745935896597",
+            "version": "1385053480141717630",
             "default_member_permissions": null,
             "type": 1,
             "name": "submit",
@@ -59,10 +59,10 @@
             "nsfw": false
         },
         {
-            "id": "1382017387674599485",
+            "id": "1385053480141717626",
             "application_id": "1058382075620769823",
-            "version": "1382017387674599486",
-            "default_member_permissions": null,
+            "version": "1385053480141717631",
+            "default_member_permissions": "8192",
             "type": 1,
             "name": "embed-create",
             "name_localizations": null,
@@ -131,9 +131,9 @@
             "nsfw": false
         },
         {
-            "id": "1382054081438158869",
+            "id": "1385053480141717627",
             "application_id": "1058382075620769823",
-            "version": "1382467534707757278",
+            "version": "1385053480141717632",
             "default_member_permissions": null,
             "type": 1,
             "name": "create-cow",
@@ -171,9 +171,9 @@
             "nsfw": false
         },
         {
-            "id": "1382553143212118086",
+            "id": "1385053480141717628",
             "application_id": "1058382075620769823",
-            "version": "1382553143212118087",
+            "version": "1385053480141717633",
             "default_member_permissions": null,
             "type": 1,
             "name": "clear-embeds",
@@ -184,10 +184,10 @@
             "nsfw": false
         },
         {
-            "id": "1381725472278319165",
+            "id": "1385053480141717629",
             "application_id": "1058382075620769823",
-            "version": "1382005317344432168",
-            "default_member_permissions": null,
+            "version": "1385053480141717634",
+            "default_member_permissions": "8",
             "type": 1,
             "name": "admin-embed",
             "name_localizations": null,
@@ -258,9 +258,9 @@
     ],
     "830604135748337673": [
         {
-            "id": "1383486000956964915",
+            "id": "1385053480796033034",
             "application_id": "1058382075620769823",
-            "version": "1383486001501966351",
+            "version": "1385053480796033039",
             "default_member_permissions": null,
             "type": 1,
             "name": "submit",
@@ -297,10 +297,10 @@
             "nsfw": false
         },
         {
-            "id": "1383486001501966347",
+            "id": "1385053480796033035",
             "application_id": "1058382075620769823",
-            "version": "1383486001501966352",
-            "default_member_permissions": null,
+            "version": "1385053480796033040",
+            "default_member_permissions": "8192",
             "type": 1,
             "name": "embed-create",
             "name_localizations": null,
@@ -369,9 +369,9 @@
             "nsfw": false
         },
         {
-            "id": "1383486001501966348",
+            "id": "1385053480796033036",
             "application_id": "1058382075620769823",
-            "version": "1383486001501966353",
+            "version": "1385053480796033041",
             "default_member_permissions": null,
             "type": 1,
             "name": "create-cow",
@@ -409,9 +409,9 @@
             "nsfw": false
         },
         {
-            "id": "1383486001501966349",
+            "id": "1385053480796033037",
             "application_id": "1058382075620769823",
-            "version": "1383486001501966354",
+            "version": "1385053480796033042",
             "default_member_permissions": null,
             "type": 1,
             "name": "clear-embeds",
@@ -422,10 +422,10 @@
             "nsfw": false
         },
         {
-            "id": "1383486001501966350",
+            "id": "1385053480796033038",
             "application_id": "1058382075620769823",
-            "version": "1383486001501966355",
-            "default_member_permissions": null,
+            "version": "1385053480796033043",
+            "default_member_permissions": "8",
             "type": 1,
             "name": "admin-embed",
             "name_localizations": null,
