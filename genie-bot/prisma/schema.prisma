@@ -2,7 +2,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  // previewFeatures removed: "esm" is not a valid option
   output = "./node_modules/@prisma/client"
   binaryTargets = ["native", "windows"]
 }
