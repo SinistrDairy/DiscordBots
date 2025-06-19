@@ -45,6 +45,7 @@ declare namespace NodeJS {
         MSYSTEM_PREFIX:string
         NODE:string
         NODE_ENV:string
+        NODE_PATH:string
         npm_command:string
         npm_config_frozen_lockfile:string
         npm_config_global_bin_dir:string
