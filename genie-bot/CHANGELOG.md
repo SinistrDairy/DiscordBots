@@ -1,5 +1,18 @@
 # Changelog
 
+# [1.2.0](https://github.com/SinistrDairy/DiscordBots/compare/v1.1.0...v1.2.0) (2025-06-19)
+
+
+### Bug Fixes
+
+* format deploy.yml for consistency and update package installation to use pnpm ([e795a3d](https://github.com/SinistrDairy/DiscordBots/commit/e795a3d49172861e2e446bd7089dfbe106f816df))
+
+
+### Features
+
+* add .release-it.json configuration for automated releases ([3143eee](https://github.com/SinistrDairy/DiscordBots/commit/3143eeecca97a8595a457aaf16feeb6b3e36be68))
+* update deployment workflow to use pnpm for package installation ([d277d35](https://github.com/SinistrDairy/DiscordBots/commit/d277d35474aa31027da61c75040759817ad211ae))
+
 # 1.1.0 (2025-06-19)
 
 
