@@ -57,7 +57,7 @@ jobs:
         if: ${{matrix.changed == 'true'}}
         run: |
           cd "${{ matrix.bot-dir }}"
-          npm ci
+          pnpm install --frozen-lockfile
           npm install --no-save @sern/cli@latest
           npm run build
 
