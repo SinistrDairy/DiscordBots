@@ -24,7 +24,7 @@ export default commandModule({
         `${number}`
       ],
     }),
-    requirePermission("user", [PermissionFlagsBits.ManageMessages]),
+    requirePermission("user", [PermissionFlagsBits.ManageChannels]),
   ],
   options: [
     {
@@ -72,22 +72,22 @@ export default commandModule({
           )) as ThreadChannel;
           // fetch the starter message that triggered this thread
           const starter = await ch.fetchStarterMessage();
-          let jewels = "N/A";
-          if (starter && starter.embeds.length) {
-            const embedMsg = starter.embeds[0];
-            // Assume the first field contains the jewel info like '**50**'
-            const field = embedMsg.fields[0];
-            const match = field?.value.match(/\*\*(\d+)\*\*/);
-            if (match) jewels = match[1];
-          }
-          return { id: a.threadId, archiveAt: a.archiveAt, jewels };
+          // let jewels = "N/A";
+          // if (starter && starter.embeds.length) {
+          //   const embedMsg = starter.embeds[0];
+          //   // Assume the first field contains the jewel info like '**50**'
+          //   const field = embedMsg.fields[0];
+          //   const match = field?.value.match(/\*\*(\d+)\*\*/);
+          //   if (match) jewels = match[1];
+          // }
+          return { id: a.threadId, archiveAt: a.archiveAt };
         })
     );
 
     // Build lines with jewel and close time
     const lines = threadInfos.map((info) => {
       const endTime = Math.floor(info.archiveAt.getTime() / 1000);
-      return `<:fk_arrow_b:1335053427956514968> • <#${info.id}> • __**${info.jewels}**__ <:fk_jewelg:1333402405257351240> • closes <t:${endTime}:R>`;
+      return `<:fk_arrow_b:1335053427956514968> • <#${info.id}> • closes <t:${endTime}:R>`;
     });
     const openThreads = lines.join("\n");
 
@@ -103,6 +103,7 @@ export default commandModule({
       .setTitle(
         `<:geniePoint:1385315727816524097> Open Quest Posts - ${dateStr}`
       )
+      .setColor("#52baff")
       .setDescription(
         `-# <#${cowChannel}> - react below if you've completed each one!\n\n${openThreads}`
       );
