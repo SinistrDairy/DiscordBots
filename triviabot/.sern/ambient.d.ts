@@ -10,7 +10,6 @@ declare namespace NodeJS {
         ChocolateyInstall:string
         ChocolateyLastPathUpdate:string
         CHROME_CRASHPAD_PIPE_NAME:string
-        COLOR:string
         COLORTERM:string
         COMMONPROGRAMFILES:string
         "CommonProgramFiles(x86)": string
@@ -22,9 +21,10 @@ declare namespace NodeJS {
         DISCORD_TOKEN:string
         DISPLAY:string
         DriverData:string
-        EDITOR:string
         EFC_7332_1592913036:string
         EXEPATH:string
+        FPS_BROWSER_APP_PROFILE_STRING:string
+        FPS_BROWSER_USER_PROFILE_STRING:string
         GIT_ASKPASS:string
         GUILD_ID1:string
         GUILD_ID2:string
@@ -52,18 +52,15 @@ declare namespace NodeJS {
         MSYSTEM_PREFIX:string
         NODE:string
         NODE_ENV:string
+        NODE_PATH:string
         npm_command:string
-        npm_config_cache:string
-        npm_config_globalconfig:string
-        npm_config_global_prefix:string
-        npm_config_init_module:string
-        npm_config_local_prefix:string
+        npm_config_frozen_lockfile:string
+        npm_config_global_bin_dir:string
         npm_config_node_gyp:string
-        npm_config_noproxy:string
-        npm_config_npm_version:string
-        npm_config_prefix:string
-        npm_config_userconfig:string
+        npm_config_registry:string
         npm_config_user_agent:string
+        npm_config_verify_deps_before_run:string
+        npm_config__jsr_registry:string
         npm_execpath:string
         npm_lifecycle_event:string
         npm_lifecycle_script:string
@@ -85,7 +82,9 @@ declare namespace NodeJS {
         PKG_CONFIG_SYSTEM_INCLUDE_PATH:string
         PKG_CONFIG_SYSTEM_LIBRARY_PATH:string
         PLINK_PROTOCOL:string
+        pnpm_config_verify_deps_before_run:string
         PNPM_HOME:string
+        PNPM_SCRIPT_SRC_DIR:string
         PROCESSOR_ARCHITECTURE:string
         PROCESSOR_IDENTIFIER:string
         PROCESSOR_LEVEL:string
@@ -120,6 +119,5 @@ declare namespace NodeJS {
         VSCODE_GIT_IPC_HANDLE:string
         WINDIR:string
         ZES_ENABLE_SYSMAN:string
-        _:string
     }
 }
