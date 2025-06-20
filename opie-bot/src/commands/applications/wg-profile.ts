@@ -87,7 +87,7 @@ export default commandModule({
       )
       .setThumbnail(`${member.displayAvatarURL()}`)
       .setImage(
-        "http://www.emhuf.xyz/uploads/Water_Gun_Event/1748307466248-611376657.png"
+        "https://emhuf.xyz/uploads/Splash_Showdown/1750365372826-250831930.png"
       );
 
     await ctx.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });

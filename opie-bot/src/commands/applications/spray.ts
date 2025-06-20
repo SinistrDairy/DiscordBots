@@ -28,13 +28,26 @@ const POINTS = {
   stitch: 100,
 };
 
+const IMAGES = {
+  thumbnail:
+    "https://emhuf.xyz/uploads/Splash_Showdown/1750365372826-250831930.png",
+  slimeThumbnail:
+    "https://emhuf.xyz/uploads/Splash_Showdown/1750365362072-804297575.png",
+  splash:
+    "https://emhuf.xyz/uploads/Splash_Showdown/1750365367669-13945623.png",
+  stitch:
+    "https://emhuf.xyz/uploads/Splash_Showdown/1750365357200-398162764.png",
+  missed:
+    "https://emhuf.xyz/uploads/Splash_Showdown/1750365779962-166341448.png",
+};
+
 export default commandModule({
   name: "spray",
   description: "Spray someone with your water gun",
   type: CommandType.Slash,
   plugins: [
     publishConfig({
-      guildIds: [process.env.GUILD_ID1!, process.env.GUILD_ID2!]
+      guildIds: [process.env.GUILD_ID1!, process.env.GUILD_ID2!],
     }),
   ],
   options: [
@@ -123,7 +136,6 @@ export default commandModule({
 
     // 9) Prevent same‐target twice
     if (shooter.lastTarget === targetUser.id) {
-      
       return await ctx.reply({
         content:
           "<:x_opie:1376727567461253150> Can’t spray the same person twice in a row!",
@@ -248,10 +260,10 @@ export default commandModule({
           ].join("\n")
         )
         .setThumbnail(
-          "https://www.emhuf.xyz/uploads/Water_Gun_Event/1748226396278-721136610.png"
+          IMAGES.thumbnail
         )
         .setImage(
-          "https://www.emhuf.xyz/uploads/Water_Gun_Event/1748307466248-611376657.png"
+          IMAGES.splash
         );
 
       const feed = guild.channels.cache.get(CHANNELS.announce) as
@@ -284,10 +296,10 @@ export default commandModule({
           ].join("\n")
         )
         .setThumbnail(
-          "https://www.emhuf.xyz/uploads/Water_Gun_Event/1748450635424-155431030.png"
+          IMAGES.slimeThumbnail
         )
         .setImage(
-          "https://www.emhuf.xyz/uploads/Water_Gun_Event/1748452096115-922124070.png"
+          IMAGES.stitch
         );
     } else {
       await shooter.save();
@@ -311,10 +323,10 @@ export default commandModule({
           ].join("\n")
         )
         .setThumbnail(
-          "https://www.emhuf.xyz/uploads/Water_Gun_Event/1748450515741-759927986.png"
+          IMAGES.thumbnail
         )
         .setImage(
-          "https://www.emhuf.xyz/uploads/Water_Gun_Event/1748307466248-611376657.png"
+          IMAGES.missed
         );
     }
 
