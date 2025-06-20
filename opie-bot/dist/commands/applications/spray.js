@@ -28,7 +28,7 @@ const IMAGES = {
   stitchThumbnail: "https://emhuf.xyz/uploads/Splash_Showdown/1750365357200-398162764.png",
   footer: "https://emhuf.xyz/uploads/Splash_Showdown/1750365372826-250831930.png",
   stitchFooter: "https://emhuf.xyz/uploads/Splash_Showdown/1750365362072-804297575.png",
-  missed: "https://emhuf.xyz/uploads/Splash_Showdown/1750365779962-166341448.png"
+  missedThumbnail: "https://emhuf.xyz/uploads/Splash_Showdown/1750365779962-166341448.png"
 };
 var spray_default = commandModule({
   name: "spray",
@@ -242,9 +242,9 @@ var spray_default = commandModule({
           `-# <:fk_arrB:1377386241187778769> Water Level: **${shooter.currSprays}**`
         ].join("\n")
       ).setThumbnail(
-        IMAGES.thumbnail
+        IMAGES.missedThumbnail
       ).setImage(
-        IMAGES.missed
+        IMAGES.footer
       );
     }
     return ctx.interaction.editReply({

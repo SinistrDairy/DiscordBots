@@ -21,6 +21,7 @@ declare namespace NodeJS {
         DriverData:string
         EFC_7332_1592913036:string
         EXEPATH:string
+        FORCE_COLOR:string
         FPS_BROWSER_APP_PROFILE_STRING:string
         FPS_BROWSER_USER_PROFILE_STRING:string
         GIT_ASKPASS:string

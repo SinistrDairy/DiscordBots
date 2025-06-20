@@ -37,7 +37,7 @@ const IMAGES = {
     "https://emhuf.xyz/uploads/Splash_Showdown/1750365372826-250831930.png",
   stitchFooter:
     "https://emhuf.xyz/uploads/Splash_Showdown/1750365362072-804297575.png",
-  missed:
+  missedThumbnail:
     "https://emhuf.xyz/uploads/Splash_Showdown/1750365779962-166341448.png",
 };
 
@@ -323,10 +323,10 @@ export default commandModule({
           ].join("\n")
         )
         .setThumbnail(
-          IMAGES.thumbnail
+          IMAGES.missedThumbnail
         )
         .setImage(
-          IMAGES.missed
+          IMAGES.footer
         );
     }
 
