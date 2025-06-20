@@ -11,7 +11,7 @@ var embedFooterModal_default = commandModule({
     const draft = draftCache.get(ctx.user.id);
     if (!draft) {
       return ctx.reply({
-        content: "<:x_genie:1376727488822247444> No draft found.",
+        content: "<:x_genie:1376727488822247444> No draft found!",
         flags: MessageFlags.Ephemeral
       });
     }

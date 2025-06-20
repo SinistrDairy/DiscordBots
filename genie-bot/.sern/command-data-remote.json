@@ -97,6 +97,28 @@
                 }
             ],
             "nsfw": false
+        },
+        {
+            "id": "1385318111854596099",
+            "application_id": "1058382075620769823",
+            "version": "1385455248289562634",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "active_threads",
+            "name_localizations": null,
+            "description": "List active threads created by this bot, with their jewel amounts and closing times.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 5,
+                    "name": "include_tests",
+                    "name_localizations": null,
+                    "description": "Include threads whose names contain 'test'?",
+                    "description_localizations": null
+                }
+            ],
+            "nsfw": false
         }
     ],
     "830604135748337673": [
@@ -174,6 +196,28 @@
                     "name": "delay",
                     "name_localizations": null,
                     "description": "How long until the thread auto‐closes (e.g. '15min', '3h', '1d')",
+                    "description_localizations": null
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1385318113058357388",
+            "application_id": "1058382075620769823",
+            "version": "1385455248486957059",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "active_threads",
+            "name_localizations": null,
+            "description": "List active threads created by this bot, with their jewel amounts and closing times.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 5,
+                    "name": "include_tests",
+                    "name_localizations": null,
+                    "description": "Include threads whose names contain 'test'?",
                     "description_localizations": null
                 }
             ],

@@ -42,7 +42,7 @@ export function startArchiveScheduler(client: Client) {
           try {
             await ch.send({
               files: [
-                "https://www.emhuf.xyz/uploads/Quest_Posts/1749663293918-584663827.png",
+                "https://www.emhuf.xyz/uploads/genie/1750358677651-963394123.png",
               ],
             });
             await ThreadArchive.updateOne(

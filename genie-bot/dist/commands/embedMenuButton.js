@@ -11,7 +11,7 @@ var embedMenuButton_default = commandModule({
   async execute(ctx) {
     const draft = draftCache.get(ctx.user.id);
     if (!draft) {
-      return ctx.reply({ content: "\u26A0\uFE0F No draft found.", flags: MessageFlags.Ephemeral });
+      return ctx.reply({ content: "\u26A0\uFE0F No draft found!", flags: MessageFlags.Ephemeral });
     }
     const menuRow = buildFlowMenu(draft.flow);
     return ctx.update({

@@ -17,7 +17,7 @@ export default commandModule({
   async execute(ctx: ButtonInteraction) {
     const draft = draftCache.get(ctx.user.id);
     if (!draft) {
-      return ctx.reply({ content: "⚠️ No draft found.", flags: MessageFlags.Ephemeral });
+      return ctx.reply({ content: "⚠️ No draft found!", flags: MessageFlags.Ephemeral });
     }
 
     const menuRow = buildFlowMenu(draft.flow);

@@ -82,6 +82,7 @@ export default commandModule({
     const embed = new EmbedBuilder()
       .setTitle(defaultTitle) // we'll append the modal's title text later
       .setDescription(initDesc)
+      .setColor(`#52baff`)
       .setFields({
         name: "\u200b",
         value: `<:fk_star_bullet_y:1377710982302011532> This quest post is worth __**${defaultJewels}**__ <:fk_jewel:1333402533439475743>`,

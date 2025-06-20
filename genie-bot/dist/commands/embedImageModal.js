@@ -11,7 +11,7 @@ var embedImageModal_default = commandModule({
     const draft = draftCache.get(ctx.user.id);
     if (!draft) {
       return ctx.editReply({
-        content: "<:x_genie:1376727488822247444> No draft found."
+        content: "<:x_genie:1376727488822247444> No draft found!"
       });
     }
     const url = ctx.fields.getTextInputValue("image_url");

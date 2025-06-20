@@ -29,7 +29,6 @@ export default commandModule({
     }
     const channel = rawChannel as TextChannel;
 
-
     const sentMsg = await channel.send({
       content: mention,
       embeds: [embed],
@@ -50,19 +49,20 @@ export default commandModule({
       });
 
       const delayMs = draft.archiveDelayMs ?? 24 * 60 * 60 * 1000;
-      const archiveAt = new Date(Date.now() + delayMs)
+      const archiveAt = new Date(Date.now() + delayMs);
       await ThreadArchive.create({
-        data: {
-          threadId: thread.id,
-          archiveAt: archiveAt,
-        },
+        threadId: thread.id,
+        archiveAt: archiveAt,
       });
-      
+
       // now send a “ping” inside the thread to pull people in
       const cowRoleId = "1080548867390570496";
-      const endTime = Math.floor((Date.now() + delayMs) / 1000)
+      const endTime = Math.floor((Date.now() + delayMs) / 1000);
       await thread.send({
-        content: `Hey <@&${cowRoleId}>, event ends in <t:${endTime}:R>`,
+        content:
+          `<:fk_colorsparkles:1367215313309138995> __**Congratulations, <@&${cowRoleId}>!**__ You've just won...a surprise Genie appearance!\n` +
+          `-# *No refunds!*\n` +
+          `This quest post ends <t:${endTime}:R>`,
         allowedMentions: { roles: [cowRoleId] },
       });
 
@@ -72,9 +72,9 @@ export default commandModule({
       ) as TextChannel;
       if (logsChannel?.isTextBased()) {
         const member = await ctx.guild?.members.fetch(userId);
-        const name = member?.nickname || member?.user.username;
+        const name = member?.nickname || member?.user.displayName;
         await logsChannel.send(
-          `<:v_genie:1376727510791880775> ${name} created the **${threadName}** thread in ${channel}.`
+          `<:v_genie:1376727510791880775> ${name} created the **${threadName}** thread in **${channel}**.`
         );
       }
     }
