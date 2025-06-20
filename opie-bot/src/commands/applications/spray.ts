@@ -30,13 +30,13 @@ const POINTS = {
 
 const IMAGES = {
   thumbnail:
-    "https://emhuf.xyz/uploads/Splash_Showdown/1750365372826-250831930.png",
-  slimeThumbnail:
-    "https://emhuf.xyz/uploads/Splash_Showdown/1750365362072-804297575.png",
-  splash:
     "https://emhuf.xyz/uploads/Splash_Showdown/1750365367669-13945623.png",
-  stitch:
+  stitchThumbnail:
     "https://emhuf.xyz/uploads/Splash_Showdown/1750365357200-398162764.png",
+  footer:
+    "https://emhuf.xyz/uploads/Splash_Showdown/1750365372826-250831930.png",
+  stitchFooter:
+    "https://emhuf.xyz/uploads/Splash_Showdown/1750365362072-804297575.png",
   missed:
     "https://emhuf.xyz/uploads/Splash_Showdown/1750365779962-166341448.png",
 };
@@ -263,7 +263,7 @@ export default commandModule({
           IMAGES.thumbnail
         )
         .setImage(
-          IMAGES.splash
+          IMAGES.footer
         );
 
       const feed = guild.channels.cache.get(CHANNELS.announce) as
@@ -296,10 +296,10 @@ export default commandModule({
           ].join("\n")
         )
         .setThumbnail(
-          IMAGES.slimeThumbnail
+          IMAGES.stitchThumbnail
         )
         .setImage(
-          IMAGES.stitch
+          IMAGES.stitchFooter
         );
     } else {
       await shooter.save();
