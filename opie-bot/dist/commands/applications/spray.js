@@ -23,6 +23,13 @@ const POINTS = {
   miss: 10,
   stitch: 100
 };
+const IMAGES = {
+  thumbnail: "https://emhuf.xyz/uploads/Splash_Showdown/1750365372826-250831930.png",
+  slimeThumbnail: "https://emhuf.xyz/uploads/Splash_Showdown/1750365362072-804297575.png",
+  splash: "https://emhuf.xyz/uploads/Splash_Showdown/1750365367669-13945623.png",
+  stitch: "https://emhuf.xyz/uploads/Splash_Showdown/1750365357200-398162764.png",
+  missed: "https://emhuf.xyz/uploads/Splash_Showdown/1750365779962-166341448.png"
+};
 var spray_default = commandModule({
   name: "spray",
   description: "Spray someone with your water gun",
@@ -188,9 +195,9 @@ var spray_default = commandModule({
           `-# <:fk_arrB:1377386241187778769> Water Level: **${shooter.currSprays}**`
         ].join("\n")
       ).setThumbnail(
-        "https://www.emhuf.xyz/uploads/Water_Gun_Event/1748226396278-721136610.png"
+        IMAGES.thumbnail
       ).setImage(
-        "https://www.emhuf.xyz/uploads/Water_Gun_Event/1748307466248-611376657.png"
+        IMAGES.splash
       );
       const feed = guild.channels.cache.get(CHANNELS.announce);
       if (feed?.isTextBased()) {
@@ -214,9 +221,9 @@ var spray_default = commandModule({
           `<:fk_arrG:1377636867675263170> ${shooterMember.displayName} got drenched in slime, but ${subjectLower} earned __**100**__ <:fk_jewel:1333402533439475743>`
         ].join("\n")
       ).setThumbnail(
-        "https://www.emhuf.xyz/uploads/Water_Gun_Event/1748450635424-155431030.png"
+        IMAGES.slimeThumbnail
       ).setImage(
-        "https://www.emhuf.xyz/uploads/Water_Gun_Event/1748452096115-922124070.png"
+        IMAGES.stitch
       );
     } else {
       await shooter.save();
@@ -235,9 +242,9 @@ var spray_default = commandModule({
           `-# <:fk_arrB:1377386241187778769> Water Level: **${shooter.currSprays}**`
         ].join("\n")
       ).setThumbnail(
-        "https://www.emhuf.xyz/uploads/Water_Gun_Event/1748450515741-759927986.png"
+        IMAGES.thumbnail
       ).setImage(
-        "https://www.emhuf.xyz/uploads/Water_Gun_Event/1748307466248-611376657.png"
+        IMAGES.missed
       );
     }
     return ctx.interaction.editReply({
