@@ -1,5 +1,7 @@
 # Changelog
 
+## [1.4.1](https://github.com/SinistrDairy/DiscordBots/compare/v1.4.0...v1.4.1) (2025-06-20)
+
 # [1.4.0](https://github.com/SinistrDairy/DiscordBots/compare/v1.3.3...v1.4.0) (2025-06-20)
 
 

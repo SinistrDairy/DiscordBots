@@ -99,14 +99,14 @@
             "nsfw": false
         },
         {
-            "id": "1385605960508375132",
+            "id": "1385617342435950664",
             "application_id": "1058382075620769823",
-            "version": "1385605960508375134",
+            "version": "1385617342435950665",
             "default_member_permissions": null,
             "type": 1,
-            "name": "active_threads",
+            "name": "view-cows",
             "name_localizations": null,
-            "description": "List active threads created by this bot, with their jewel amounts and closing times.",
+            "description": "View all open COW posts.",
             "description_localizations": null,
             "guild_id": "1324370750131404893",
             "options": [
@@ -202,14 +202,14 @@
             "nsfw": false
         },
         {
-            "id": "1385605961007501475",
+            "id": "1385617343086067714",
             "application_id": "1058382075620769823",
-            "version": "1385605961007501476",
+            "version": "1385617343086067715",
             "default_member_permissions": null,
             "type": 1,
-            "name": "active_threads",
+            "name": "view-cows",
             "name_localizations": null,
-            "description": "List active threads created by this bot, with their jewel amounts and closing times.",
+            "description": "View all open COW posts.",
             "description_localizations": null,
             "guild_id": "830604135748337673",
             "options": [

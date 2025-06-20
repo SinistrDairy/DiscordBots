@@ -71,7 +71,7 @@ var cowEmbed_default = commandModule({
     }
     const embed = new EmbedBuilder().setTitle(defaultTitle).setDescription(initDesc).setColor(`#52baff`).setFields({
       name: "\u200B",
-      value: `<:fk_star_bullet_y:1377710982302011532> This quest post is worth __**${defaultJewels}**__ <:fk_jewel:1333402533439475743>`
+      value: `<:fk_star_bullet_y:1377710982302011532> This Quest Post is worth __**${defaultJewels}**__ <:fk_jewel:1333402533439475743>`
     }).setTimestamp().setFooter({
       text: `Posted by: ${member?.displayName}`
     });

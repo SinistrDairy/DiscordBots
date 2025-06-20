@@ -60,9 +60,10 @@ export default commandModule({
       const endTime = Math.floor((Date.now() + delayMs) / 1000);
       await thread.send({
         content:
-          `<:fk_colorsparkles:1367215313309138995> __**Congratulations, <@&${cowRoleId}>!**__ You've just won...a surprise Genie appearance!\n` +
-          `-# *No refunds!*\n` +
-          `This quest post ends <t:${endTime}:R>`,
+          `### <:fk_colorsparkles:1367215313309138995> Congratulations, <@&${cowRoleId}> <:fk_genie:831617236158251078>\n` +
+          `You've just won...a *surprise* Genie appearance!\n\n` +
+          `This quest post ends <t:${endTime}:R>\n` +
+          `-# *No refunds.*\n`,
         allowedMentions: { roles: [cowRoleId] },
       });
 

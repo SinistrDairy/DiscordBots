@@ -47,9 +47,12 @@ var embedSend_default = commandModule({
       const cowRoleId = "1080548867390570496";
       const endTime = Math.floor((Date.now() + delayMs) / 1e3);
       await thread.send({
-        content: `<:fk_colorsparkles:1367215313309138995> __**Congratulations, <@&${cowRoleId}>!**__ You've just won...a surprise Genie appearance!
--# *No refunds!*
-This quest post ends <t:${endTime}:R>`,
+        content: `### <:fk_colorsparkles:1367215313309138995> Congratulations, <@&${cowRoleId}> <:fk_genie:831617236158251078>
+You've just won...a *surprise* Genie appearance!
+
+This quest post ends <t:${endTime}:R>
+-# *No refunds.*
+`,
         allowedMentions: { roles: [cowRoleId] }
       });
       const logsChannel = ctx.client.channels.cache.get(
