@@ -73,7 +73,7 @@ client.on("messageCreate", async (msg) => {
     .map((r) => r.name);
 
   // default if none
-  const land = landNames.length > 0 ? landNames.join(", ") : "Unassigned";
+  const land = landNames.length > 0 ? landNames.join(", ").toLowerCase() : "Unassigned";
 
   try {
     // upsert: only insert when missing

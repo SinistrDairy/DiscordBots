@@ -57,44 +57,31 @@
             "nsfw": false
         },
         {
-            "id": "1383930633499443272",
-            "application_id": "1196458687955480677",
-            "version": "1383930633683996832",
-            "default_member_permissions": "16",
-            "type": 1,
-            "name": "clear-profiles",
-            "name_localizations": null,
-            "description": "clear user profiles to start fresh.",
-            "description_localizations": null,
-            "guild_id": "830604135748337673",
-            "nsfw": false
-        },
-        {
             "id": "1383930633499443273",
             "application_id": "1196458687955480677",
-            "version": "1383930633772073040",
+            "version": "1386028704114671767",
             "default_member_permissions": "16",
             "type": 1,
             "name": "special-updates",
             "name_localizations": null,
-            "description": "Special updates for land changes.",
+            "description": "Batch-update users moving to a new land",
             "description_localizations": null,
             "guild_id": "830604135748337673",
             "options": [
                 {
                     "type": 3,
-                    "name": "new-land",
+                    "name": "new_land",
                     "name_localizations": null,
-                    "description": "What is the name of the land they're going to?",
+                    "description": "Land name to move users into",
                     "description_localizations": null,
                     "required": true,
                     "autocomplete": true
                 },
                 {
-                    "type": 3,
-                    "name": "role",
+                    "type": 8,
+                    "name": "mention_role",
                     "name_localizations": null,
-                    "description": "What is the mention role for the new land?",
+                    "description": "Optional: role to mention when announcing",
                     "description_localizations": null
                 }
             ],
@@ -127,12 +114,12 @@
         {
             "id": "1383930633499443275",
             "application_id": "1196458687955480677",
-            "version": "1383930633772073042",
+            "version": "1386028704114671768",
             "default_member_permissions": "16",
             "type": 1,
             "name": "update-profiles",
             "name_localizations": null,
-            "description": "Update a user profile for land changes.",
+            "description": "Update a user profile's land (normalized and validated)",
             "description_localizations": null,
             "guild_id": "830604135748337673",
             "options": [
@@ -140,7 +127,7 @@
                     "type": 6,
                     "name": "user",
                     "name_localizations": null,
-                    "description": "Which user?",
+                    "description": "Which user to update?",
                     "description_localizations": null,
                     "required": true
                 },
@@ -148,7 +135,7 @@
                     "type": 3,
                     "name": "land",
                     "name_localizations": null,
-                    "description": "What is the name of the land?",
+                    "description": "Name of the land to assign",
                     "description_localizations": null,
                     "required": true,
                     "autocomplete": true
@@ -195,6 +182,19 @@
             "name": "clear-schedules",
             "name_localizations": null,
             "description": "Use this command to clear all saved schedules",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "nsfw": false
+        },
+        {
+            "id": "1383930633499443272",
+            "application_id": "1196458687955480677",
+            "version": "1383930633683996832",
+            "default_member_permissions": "16",
+            "type": 1,
+            "name": "clear-profiles",
+            "name_localizations": null,
+            "description": "clear user profiles to start fresh.",
             "description_localizations": null,
             "guild_id": "830604135748337673",
             "nsfw": false
@@ -1254,44 +1254,31 @@
             "nsfw": false
         },
         {
-            "id": "1383083762056958096",
-            "application_id": "1196458687955480677",
-            "version": "1383083762803540081",
-            "default_member_permissions": "16",
-            "type": 1,
-            "name": "clear-profiles",
-            "name_localizations": null,
-            "description": "clear user profiles to start fresh.",
-            "description_localizations": null,
-            "guild_id": "1324370750131404893",
-            "nsfw": false
-        },
-        {
             "id": "1383083762056958097",
             "application_id": "1196458687955480677",
-            "version": "1383083762803540082",
+            "version": "1386028704710529107",
             "default_member_permissions": "16",
             "type": 1,
             "name": "special-updates",
             "name_localizations": null,
-            "description": "Special updates for land changes.",
+            "description": "Batch-update users moving to a new land",
             "description_localizations": null,
             "guild_id": "1324370750131404893",
             "options": [
                 {
                     "type": 3,
-                    "name": "new-land",
+                    "name": "new_land",
                     "name_localizations": null,
-                    "description": "What is the name of the land they're going to?",
+                    "description": "Land name to move users into",
                     "description_localizations": null,
                     "required": true,
                     "autocomplete": true
                 },
                 {
-                    "type": 3,
-                    "name": "role",
+                    "type": 8,
+                    "name": "mention_role",
                     "name_localizations": null,
-                    "description": "What is the mention role for the new land?",
+                    "description": "Optional: role to mention when announcing",
                     "description_localizations": null
                 }
             ],
@@ -1324,12 +1311,12 @@
         {
             "id": "1383083762056958100",
             "application_id": "1196458687955480677",
-            "version": "1383083762803540084",
+            "version": "1386028704710529108",
             "default_member_permissions": "16",
             "type": 1,
             "name": "update-profiles",
             "name_localizations": null,
-            "description": "Update a user profile for land changes.",
+            "description": "Update a user profile's land (normalized and validated)",
             "description_localizations": null,
             "guild_id": "1324370750131404893",
             "options": [
@@ -1337,7 +1324,7 @@
                     "type": 6,
                     "name": "user",
                     "name_localizations": null,
-                    "description": "Which user?",
+                    "description": "Which user to update?",
                     "description_localizations": null,
                     "required": true
                 },
@@ -1345,7 +1332,7 @@
                     "type": 3,
                     "name": "land",
                     "name_localizations": null,
-                    "description": "What is the name of the land?",
+                    "description": "Name of the land to assign",
                     "description_localizations": null,
                     "required": true,
                     "autocomplete": true
@@ -1392,6 +1379,19 @@
             "name": "clear-schedules",
             "name_localizations": null,
             "description": "Use this command to clear all saved schedules",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1383083762056958096",
+            "application_id": "1196458687955480677",
+            "version": "1383083762803540081",
+            "default_member_permissions": "16",
+            "type": 1,
+            "name": "clear-profiles",
+            "name_localizations": null,
+            "description": "clear user profiles to start fresh.",
             "description_localizations": null,
             "guild_id": "1324370750131404893",
             "nsfw": false

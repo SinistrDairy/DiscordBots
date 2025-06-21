@@ -52,7 +52,7 @@ client.on("messageCreate", async (msg) => {
     "1324823449197215908"
   ];
   const landNames = msg.member.roles.cache.filter((r) => LAND_ROLE_IDS.includes(r.id)).map((r) => r.name);
-  const land = landNames.length > 0 ? landNames.join(", ") : "Unassigned";
+  const land = landNames.length > 0 ? landNames.join(", ").toLowerCase() : "Unassigned";
   try {
     await userSchema.updateOne(
       { userID: msg.author.id },
