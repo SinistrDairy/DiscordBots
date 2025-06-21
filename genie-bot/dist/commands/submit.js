@@ -7,13 +7,15 @@ import {
 import { publishConfig } from "@sern/publisher";
 import { requirePermission } from "../plugins/requirePermission.js";
 import Land from "../models/Land.js";
+const ANNOUNCEMENT_CHANNEL_ID = "1220081937906008144";
 var submit_default = commandModule({
   name: "submit",
   description: "Distribute cow-post jewels \xD7 participants to each land",
   type: CommandType.Slash,
   plugins: [
     publishConfig({
-      guildIds: [process.env.GUILD_ID1, process.env.GUILD_ID2]
+      guildIds: [process.env.GUILD_ID1, process.env.GUILD_ID2],
+      defaultMemberPermissions: PermissionFlagsBits.ManageMessages
     }),
     requirePermission("user", [PermissionFlagsBits.ManageMessages])
   ],
@@ -39,11 +41,24 @@ var submit_default = commandModule({
   ],
   execute: async (ctx) => {
     const thread = ctx.channel;
+    const guild = ctx.guild;
+    if (!guild)
+      return ctx.reply({
+        content: "This command can only be used in a server.",
+        flags: MessageFlags.Ephemeral
+      });
     if (!thread?.isThread())
       return ctx.reply({
         content: "Please run this in the cow-post thread.",
         flags: MessageFlags.Ephemeral
       });
+    const member = await ctx.guild.members.cache.get(ctx.user.id);
+    if (!member) {
+      return ctx.reply({
+        content: "You must be a member of this server to use this command.",
+        flags: MessageFlags.Ephemeral
+      });
+    }
     let report = "";
     let embed;
     try {
@@ -109,14 +124,16 @@ var submit_default = commandModule({
     }
     report += `
 -# Check out <#830617045741731910> for our weekly scheduled events to earn your land more jewels. We hope to see you there!`;
+    const announcement = `<:v_genie:1376727510791880775> ${member.displayName} has submitted their jewels for ${embed.title}`;
+    const channel = guild.channels.cache.get(ANNOUNCEMENT_CHANNEL_ID);
+    if (channel && channel.isTextBased()) {
+      await channel.send({
+        content: announcement
+      });
+    }
     return ctx.reply({ content: report });
   }
 });
-const config = {
-  dmPermission: false,
-  defaultMemberPermissions: [PermissionFlagsBits.ManageMessages]
-};
 export {
-  config,
   submit_default as default
 };

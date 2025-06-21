@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.3](https://github.com/SinistrDairy/DiscordBots/compare/v1.0.1...v1.4.3) (2025-06-21)
+
+
+### Bug Fixes
+
+* rename command to active_threads and update description for clarity ([347b06a](https://github.com/SinistrDairy/DiscordBots/commit/347b06a9fe6382bc9598b03c12071e8c83453016))
+
 ## [1.4.2](https://github.com/SinistrDairy/DiscordBots/compare/v1.4.1...v1.4.2) (2025-06-21)
 
 
