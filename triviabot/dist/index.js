@@ -1,16 +1,16 @@
 import "dotenv/config";
-import { Client, GatewayIntentBits, Partials } from "discord.js";
+import { ActivityType, Client, GatewayIntentBits, Partials } from "discord.js";
 import { Sern, makeDependencies } from "@sern/handler";
-import userSchema from "./models/profiles/user-schema.js";
-import mongo from "mongoose";
 import { Publisher } from "@sern/publisher";
+import mongoose from "mongoose";
+import userSchema from "./models/profiles/user-schema.js";
+const { version } = await import("../package.json", { assert: { type: "json" } });
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent
-    //Make sure this is enabled for text commands!
   ],
   partials: [Partials.Channel]
 });
@@ -28,57 +28,53 @@ await makeDependencies(({ add }) => {
 Sern.init({
   commands: "dist/commands",
   events: "dist/events"
-  //(optional)
 });
-client.on("ready", async (c) => {
-  await mongo.connect(process.env.MONGOURI);
-  const connStatus = mongo.connection.readyState;
-  if (connStatus == 1) {
-    console.log(`${c.user.username} has connected.`);
-  } else {
-    console.log(`Status is ${connStatus}`);
-  }
+await mongoose.connect(process.env.MONGOURI);
+if (mongoose.connection.readyState !== 1) {
+  console.error("\u274C Mongo failed to connect:", mongoose.connection.readyState);
+  process.exit(1);
+}
+client.once("ready", (c) => {
+  console.log(`\u2705 ${c.user.tag} is online.`);
+  client.user?.setActivity(`Version ${version}`, {
+    type: ActivityType.Playing
+  });
 });
-client.on("messageCreate", async (message) => {
-  if (message.author.bot)
+client.on("messageCreate", async (msg) => {
+  if (msg.author.bot || !msg.guild || !msg.member)
     return;
-  const target = message.member;
-  const roleIds = /* @__PURE__ */ new Set([
+  const LAND_ROLE_IDS = [
     "830604135748337678",
     "830604878190870538",
     "830604824763695124",
     "1324823193789272146",
     "1324823285904707707",
     "1324823449197215908"
-  ]);
-  const roles = target.roles.cache.filter((r) => roleIds.has(r.id));
-  const landName = roles.map((r) => r.name).toString();
-  let profileData;
+  ];
+  const landNames = msg.member.roles.cache.filter((r) => LAND_ROLE_IDS.includes(r.id)).map((r) => r.name);
+  const land = landNames.length > 0 ? landNames.join(", ") : "Unassigned";
   try {
-    profileData = await userSchema.findOne({ userID: message.author.id });
-    if (!profileData) {
-      let profile = await userSchema.create({
-        userName: message.author.username,
-        userID: message.author.id,
-        nickName: message.member?.displayName,
-        land: landName,
-        totalPoints: 0,
-        events: [
-          { name: "trivia", firsts: 0, seconds: 0, thirds: 0 },
-          { name: "pop quiz", firsts: 0, seconds: 0, thirds: 0 },
-          { name: "misc", firsts: 0, seconds: 0, thirds: 0 }
-        ],
-        serverID: message.guildId
-      });
-      profile.save();
-    }
+    await userSchema.updateOne(
+      { userID: msg.author.id },
+      {
+        $setOnInsert: {
+          userName: msg.author.username,
+          nickName: msg.member.displayName,
+          land,
+          totalPoints: 0,
+          events: [
+            { name: "trivia", firsts: 0, seconds: 0, thirds: 0 },
+            { name: "pop quiz", firsts: 0, seconds: 0, thirds: 0 },
+            { name: "misc", firsts: 0, seconds: 0, thirds: 0 }
+          ],
+          serverID: msg.guildId
+        }
+      },
+      { upsert: true }
+    );
   } catch (err) {
-    console.log(err);
-    console.log("this error");
+    console.error("Profile upsert error:", err);
   }
-});
-client.on("error", (err) => {
-  console.error("Discord client error:", err);
 });
 process.on("unhandledRejection", (reason, promise) => {
   console.error("Unhandled Rejection at:", promise, "reason:", reason);
