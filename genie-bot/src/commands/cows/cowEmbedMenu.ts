@@ -112,7 +112,7 @@ export default commandModule({
           .addComponents(
             new ActionRowBuilder<TextInputBuilder>().addComponents(
               new TextInputBuilder()
-                .setCustomId("Title_input")
+                .setCustomId("title_input")
                 .setLabel("Title")
                 .setStyle(TextInputStyle.Paragraph)
                 .setMaxLength(256)

@@ -85,12 +85,12 @@ var cowEmbed_default = commandModule({
     const modal = new ModalBuilder().setCustomId(`cowEmbedModal`).setTitle("\u{1F58B}\uFE0F Build Embed (Step 1)");
     modal.addComponents(
       new ActionRowBuilder().addComponents(
-        new TextInputBuilder().setCustomId("title").setLabel("Title").setStyle(TextInputStyle.Short).setValue(defaultTitle).setMaxLength(256).setRequired(true)
+        new TextInputBuilder().setCustomId("title_input").setLabel("Title").setStyle(TextInputStyle.Short).setValue(defaultTitle).setMaxLength(256).setRequired(true)
       )
     );
     modal.addComponents(
       new ActionRowBuilder().addComponents(
-        new TextInputBuilder().setCustomId("description").setLabel("Description").setStyle(TextInputStyle.Paragraph).setValue(initDesc).setMaxLength(4e3).setRequired(true)
+        new TextInputBuilder().setCustomId("description_input").setLabel("Description").setStyle(TextInputStyle.Paragraph).setValue(initDesc).setMaxLength(4e3).setRequired(true)
       )
     );
     modal.addComponents(

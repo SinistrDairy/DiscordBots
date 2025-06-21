@@ -109,7 +109,7 @@ export default commandModule({
     modal.addComponents(
       new ActionRowBuilder<TextInputBuilder>().addComponents(
         new TextInputBuilder()
-          .setCustomId("title")
+          .setCustomId("title_input")
           .setLabel("Title")
           .setStyle(TextInputStyle.Short)
           .setValue(defaultTitle)
@@ -121,7 +121,7 @@ export default commandModule({
     modal.addComponents(
       new ActionRowBuilder<TextInputBuilder>().addComponents(
         new TextInputBuilder()
-          .setCustomId("description")
+          .setCustomId("description_input")
           .setLabel("Description")
           .setStyle(TextInputStyle.Paragraph)
           .setValue(initDesc)

@@ -1,8 +1,8 @@
 {
   "git": {
-    "commitMessage": "chore: release v${version}",
-    "tagName": "v${version}",
-    "tagAnnotation": "Release v${version}",
+    "commitMessage": "ChangeLog: genie v${version}",
+    "tagName": "Gv${version}",
+    "tagAnnotation": "Release Genie v${version}",
     "push": true,
     "requireCleanWorkingDir": false
   },

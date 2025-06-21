@@ -72,7 +72,7 @@ var cowEmbedMenu_default = commandModule({
         const current = draft.embed.data.title ?? "";
         const modal = new ModalBuilder().setCustomId("embedTitleModal").setTitle("Edit Title").addComponents(
           new ActionRowBuilder().addComponents(
-            new TextInputBuilder().setCustomId("Title_input").setLabel("Title").setStyle(TextInputStyle.Paragraph).setMaxLength(256).setRequired(false).setValue(current)
+            new TextInputBuilder().setCustomId("title_input").setLabel("Title").setStyle(TextInputStyle.Paragraph).setMaxLength(256).setRequired(false).setValue(current)
             // ← pre-fill with whatever they had
           )
         );
