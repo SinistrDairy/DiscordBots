@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "discord.js";
+import { EmbedBuilder, MessageFlags } from "discord.js";
 import { CommandType, commandModule } from "@sern/handler";
 import profileSchema from "../../models/profiles/user-schema.js";
 import landsSchema from "../../models/trivia/lands-schema.js";
@@ -64,7 +64,7 @@ var user_profile_default = commandModule({
         text: "Profile information brought to you by:\nRussell, Junior Wilderness Explorer",
         iconURL: "https://i.imgur.com/351T42x.png"
       }).setTimestamp();
-      await ctx.reply({ embeds: [viewP], ephemeral: true });
+      await ctx.reply({ embeds: [viewP], flags: MessageFlags.Ephemeral });
     }
   }
 });

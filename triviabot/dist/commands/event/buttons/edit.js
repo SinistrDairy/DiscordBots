@@ -1,6 +1,7 @@
 import {
   ActionRowBuilder,
-  StringSelectMenuBuilder
+  StringSelectMenuBuilder,
+  MessageFlags
 } from "discord.js";
 import { CommandType, commandModule } from "@sern/handler";
 import { eventDrafts } from "../../../utils/eventDraftCache.js";
@@ -13,7 +14,7 @@ var edit_default = commandModule({
     if (!draft) {
       return ctx.reply({
         content: "\u274C No draft found. Start with `/event-management` first.",
-        ephemeral: true
+        flags: MessageFlags.Ephemeral
       });
     }
     const preview = await buildEventPreview(ctx, draft);

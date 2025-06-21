@@ -1,4 +1,4 @@
-import { Client, Guild, EmbedBuilder, PermissionFlagsBits } from "discord.js";
+import { Client, Guild, EmbedBuilder, PermissionFlagsBits, MessageFlags } from "discord.js";
 import { CommandType, commandModule } from "@sern/handler";
 import profileSchema from "../../models/profiles/user-schema.js";
 import landsSchema from "../../models/trivia/lands-schema.js";
@@ -83,7 +83,7 @@ export default commandModule({
         })
         .setTimestamp();
 
-      await ctx.reply({ embeds: [viewP], ephemeral: true });
+      await ctx.reply({ embeds: [viewP], flags: MessageFlags.Ephemeral });
     }
   },
 });

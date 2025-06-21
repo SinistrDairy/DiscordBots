@@ -1,5 +1,6 @@
 import {
-  ApplicationCommandOptionType
+  ApplicationCommandOptionType,
+  MessageFlags
 } from "discord.js";
 import { CommandType, commandModule } from "@sern/handler";
 import { requirePermission } from "../../plugins/requirePermission.js";
@@ -11,10 +12,10 @@ var edit_schedule_default = commandModule({
   description: "Remove an entry from the schedule or set a new weekly event.",
   type: CommandType.Slash,
   plugins: [
-    requirePermission("user", [PermissionFlagsBits.ManageChannels]),
+    requirePermission("user", [PermissionFlagsBits.ManageMessages]),
     publishConfig({
       guildIds: [process.env.GUILD_ID1, process.env.GUILD_ID2],
-      defaultMemberPermissions: PermissionFlagsBits.ManageChannels
+      defaultMemberPermissions: PermissionFlagsBits.ManageMessages
     })
   ],
   options: [
@@ -93,7 +94,7 @@ var edit_schedule_default = commandModule({
     if (!schedule) {
       return ctx.reply({
         content: "<:x_russell:1375156566407381044> No active schedule found.",
-        ephemeral: true
+        flags: MessageFlags.Ephemeral
       });
     }
     if (newWeekly && !day && !eventToRemove) {
@@ -101,13 +102,13 @@ var edit_schedule_default = commandModule({
       await schedule.save();
       return ctx.reply({
         content: `\u2705 Weekly event updated to **${newWeekly}**.`,
-        ephemeral: true
+        flags: MessageFlags.Ephemeral
       });
     }
     if (!day || !eventToRemove) {
       return ctx.reply({
         content: "<:x_russell:1375156566407381044> You must specify both a day and an event to remove, or use 'weekly' alone to change the weekly event.",
-        ephemeral: true
+        flags: MessageFlags.Ephemeral
       });
     }
     const dayMap = {
@@ -123,7 +124,7 @@ var edit_schedule_default = commandModule({
     if (!field || !Array.isArray(schedule[field])) {
       return ctx.reply({
         content: `<:x_russell:1375156566407381044> Invalid day "${day}". Choose a day from Monday to Sunday.`,
-        ephemeral: true
+        flags: MessageFlags.Ephemeral
       });
     }
     const originalLength = schedule[field].length;
@@ -134,7 +135,7 @@ var edit_schedule_default = commandModule({
     if (originalLength === updatedLength) {
       return ctx.reply({
         content: `<:x_russell:1375156566407381044> No entries found for **${eventToRemove}** on **${day.charAt(0).toUpperCase() + day.slice(1)}**.`,
-        ephemeral: true
+        flags: MessageFlags.Ephemeral
       });
     }
     await schedule.save();

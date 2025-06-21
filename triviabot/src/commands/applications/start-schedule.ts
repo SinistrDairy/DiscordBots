@@ -97,7 +97,7 @@ export default commandModule({
       if (await scheduleSchema.exists({ title })) {
         return ctx.reply({
           content: `<:x_russell:1375156566407381044> A schedule titled **"${title}"** already exists.`,
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         });
       }
 
@@ -111,7 +111,7 @@ export default commandModule({
       console.error(err);
       return ctx.reply({
         content: `<:x_russell:1375156566407381044> Something went wrong creating that schedule.`,
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 

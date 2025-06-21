@@ -3,6 +3,7 @@ import {
   StringSelectMenuBuilder,
   ButtonBuilder,
   ButtonStyle,
+  MessageFlags,
 } from "discord.js";
 import { CommandType, commandModule } from "@sern/handler";
 import { eventDrafts } from "../../../utils/eventDraftCache.js";
@@ -16,7 +17,7 @@ export default commandModule({
     if (!draft) {
       return ctx.reply({
         content: "❌ No draft found. Start with `/event-management` first.",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 

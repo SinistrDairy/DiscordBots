@@ -67,7 +67,7 @@ var stretch_default = commandModule({
       "862329765801623582"
     );
     if (!gym)
-      return ctx.reply({ content: "Gym channel not found.", ephemeral: true });
+      return ctx.reply({ content: "Gym channel not found.", flags: MessageFlags.Ephemeral });
     await gym.send(
       `**${mentions}** completed their stretches making the word **${word}**!`
     );

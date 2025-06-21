@@ -1,6 +1,8 @@
 {
   "extends": "./.sern/tsconfig.json",
   "compilerOptions": {
+
+    "resolveJsonModule": true,
     // you can also re-declare any compilerOptions you want to tweak here
   },
   "include": ["src"],

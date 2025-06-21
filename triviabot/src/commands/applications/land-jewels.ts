@@ -1,4 +1,4 @@
-import {ApplicationCommandOptionType, PermissionFlagsBits, PermissionsBitField, TextChannel } from "discord.js";
+import {ApplicationCommandOptionType, MessageFlags, PermissionFlagsBits, PermissionsBitField, TextChannel } from "discord.js";
 import { commandModule, CommandType } from "@sern/handler";
 import { requirePermission } from "../../plugins/requirePermission.js";
 import landsSchema from "../../models/trivia/lands-schema.js";
@@ -71,7 +71,7 @@ export default commandModule({
     }
     if (ctx.options.getUser("user")?.bot === true) {
       let warning = "Do not tag bots";
-      ctx.reply({ ephemeral: true, content: warning });
+      ctx.reply({ flags: MessageFlags.Ephemeral, content: warning });
       return;
     }
     const land = ctx.options.getString("land", true);

@@ -942,8 +942,8 @@
         {
             "id": "1383930633683996827",
             "application_id": "1196458687955480677",
-            "version": "1383930633843380376",
-            "default_member_permissions": "16",
+            "version": "1385980860154773625",
+            "default_member_permissions": "8192",
             "type": 1,
             "name": "edit-schedule",
             "name_localizations": null,
@@ -2139,8 +2139,8 @@
         {
             "id": "1382728153272942757",
             "application_id": "1196458687955480677",
-            "version": "1383083762966986836",
-            "default_member_permissions": "16",
+            "version": "1385980861060616222",
+            "default_member_permissions": "8192",
             "type": 1,
             "name": "edit-schedule",
             "name_localizations": null,

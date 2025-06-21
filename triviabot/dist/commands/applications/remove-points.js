@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType, PermissionFlagsBits } from "discord.js";
+import { ApplicationCommandOptionType, MessageFlags, PermissionFlagsBits } from "discord.js";
 import { commandModule, CommandType } from "@sern/handler";
 import { requirePermission } from "../../plugins/requirePermission.js";
 import userSchema from "../../models/profiles/user-schema.js";
@@ -62,7 +62,7 @@ var remove_points_default = commandModule({
     }
     if (ctx.options.getUser("user")?.bot === true) {
       let warning = "Do not tag bots";
-      ctx.reply({ ephemeral: true, content: warning });
+      ctx.reply({ flags: MessageFlags.Ephemeral, content: warning });
       return;
     }
     const user = ctx.options.getUser("user", true);

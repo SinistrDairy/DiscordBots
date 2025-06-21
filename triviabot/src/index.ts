@@ -1,9 +1,17 @@
 import "dotenv/config";
-import { Client, EmbedBuilder, GatewayIntentBits, Partials, TextChannel } from "discord.js";
+import {
+  ActivityType,
+  Client,
+  EmbedBuilder,
+  GatewayIntentBits,
+  Partials,
+  TextChannel,
+} from "discord.js";
 import { Sern, makeDependencies } from "@sern/handler";
 import userSchema from "./models/profiles/user-schema.js";
 import mongo from "mongoose";
 import { Publisher } from "@sern/publisher";
+const pkg = await import("../package.json", { assert: { type: "json" } });
 
 const client = new Client({
   intents: [
@@ -36,7 +44,7 @@ await makeDependencies(({ add }) => {
 //View docs for all options
 Sern.init({
   commands: "dist/commands",
-  events: 'dist/events', //(optional)
+  events: "dist/events", //(optional)
 });
 
 client.on("ready", async (c) => {
@@ -90,6 +98,14 @@ client.on("messageCreate", async (message) => {
 
 client.on("error", (err) => {
   console.error("Discord client error:", err);
+});
+
+client.once("ready", () => {
+  if (client.user) {
+    client.user.setActivity(`Version ${pkg.version}`, {
+      type: ActivityType.Playing,
+    });
+  }
 });
 
 // And catch any unhandled promise rejections:
