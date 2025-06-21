@@ -1,14 +1,18 @@
 import "dotenv/config";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import * as path from "node:path";
 import { ActivityType, Client, GatewayIntentBits, Partials } from "discord.js";
 import { Sern, makeDependencies } from "@sern/handler";
 import { Publisher } from "@sern/publisher";
 import mongoose from "mongoose";
 import userSchema from "./models/profiles/user-schema.js";
 
-// load version from package.json
-const { version } = await import("../package.json", {
-  assert: { type: "json" },
-});
+// Derive __dirname in ESM
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// Read version from package.json without import assertions
+const pkgPath = path.join(__dirname, "../package.json");
+const { version } = JSON.parse(readFileSync(pkgPath, "utf-8"));
 
 // ———— build your Discord client ————
 const client = new Client({
@@ -59,7 +63,6 @@ client.once("ready", (c) => {
 client.on("messageCreate", async (msg) => {
   if (msg.author.bot || !msg.guild || !msg.member) return;
 
-  // collect “land” roles
   const LAND_ROLE_IDS = [
     "830604135748337678",
     "830604878190870538",
@@ -70,13 +73,11 @@ client.on("messageCreate", async (msg) => {
   ];
   const landNames = msg.member.roles.cache
     .filter((r) => LAND_ROLE_IDS.includes(r.id))
-    .map((r) => r.name);
+    .map((r) => r.name.toLowerCase());
 
-  // default if none
-  const land = landNames.length > 0 ? landNames.join(", ").toLowerCase() : "Unassigned";
+  const land = landNames.length > 0 ? landNames.join(", ") : "unassigned";
 
   try {
-    // upsert: only insert when missing
     await userSchema.updateOne(
       { userID: msg.author.id },
       {
@@ -106,4 +107,5 @@ process.on("unhandledRejection", (reason, promise) => {
 });
 
 // ———— finally, log in ————
-await client.login(process.env.DISCORD_TOKEN);
+await client.login(process.env.DISCORD_TOKEN!);
+console.log("🔑 Logged in to Discord.");

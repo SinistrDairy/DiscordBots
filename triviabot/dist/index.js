@@ -1,10 +1,15 @@
 import "dotenv/config";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import * as path from "node:path";
 import { ActivityType, Client, GatewayIntentBits, Partials } from "discord.js";
 import { Sern, makeDependencies } from "@sern/handler";
 import { Publisher } from "@sern/publisher";
 import mongoose from "mongoose";
 import userSchema from "./models/profiles/user-schema.js";
-const { version } = await import("../package.json", { assert: { type: "json" } });
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const pkgPath = path.join(__dirname, "../package.json");
+const { version } = JSON.parse(readFileSync(pkgPath, "utf-8"));
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -51,8 +56,8 @@ client.on("messageCreate", async (msg) => {
     "1324823285904707707",
     "1324823449197215908"
   ];
-  const landNames = msg.member.roles.cache.filter((r) => LAND_ROLE_IDS.includes(r.id)).map((r) => r.name);
-  const land = landNames.length > 0 ? landNames.join(", ").toLowerCase() : "Unassigned";
+  const landNames = msg.member.roles.cache.filter((r) => LAND_ROLE_IDS.includes(r.id)).map((r) => r.name.toLowerCase());
+  const land = landNames.length > 0 ? landNames.join(", ") : "unassigned";
   try {
     await userSchema.updateOne(
       { userID: msg.author.id },
@@ -80,3 +85,4 @@ process.on("unhandledRejection", (reason, promise) => {
   console.error("Unhandled Rejection at:", promise, "reason:", reason);
 });
 await client.login(process.env.DISCORD_TOKEN);
+console.log("\u{1F511} Logged in to Discord.");
