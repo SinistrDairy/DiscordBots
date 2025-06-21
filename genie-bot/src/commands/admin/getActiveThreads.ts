@@ -14,8 +14,9 @@ const cowChannel = "1336737046282113097";
 
 export default commandModule({
   type: CommandType.Slash,
-  name: "view-cows",
-  description: "View all open COW posts.",
+  name: "active_threads",
+  description:
+    "List active threads created by this bot, with their jewel amounts and closing times.",
   plugins: [
     publishConfig({
       guildIds: [process.env.GUILD_ID1!, process.env.GUILD_ID2!] as [
@@ -86,7 +87,7 @@ export default commandModule({
     // Build lines with jewel and close time
     const lines = threadInfos.map((info) => {
       const endTime = Math.floor(info.archiveAt.getTime() / 1000);
-      return `<:fk_arrow_b:1335053427956514968>・<#${info.id}>・closes <t:${endTime}:R>`;
+      return `<:fk_arrow_b:1335053427956514968> • <#${info.id}> • closes <t:${endTime}:R>`;
     });
     const openThreads = lines.join("\n");
 
@@ -104,9 +105,8 @@ export default commandModule({
       )
       .setColor("#52baff")
       .setDescription(
-        `-# <#${cowChannel}>・react below if you've completed each one!\n\n${openThreads}`
-      )
-      .setImage("https://emhuf.xyz/uploads/genie/1750427402361-967885640.png");
+        `-# <#${cowChannel}> - react below if you've completed each one!\n\n${openThreads}`
+      );
 
     return ctx.interaction.editReply({ embeds: [embed] });
   },
