@@ -15,8 +15,8 @@ importers:
         specifier: ^4.2.4
         version: 4.2.4
       '@sern/publisher':
-        specifier: ^1.1.2
-        version: 1.1.2
+        specifier: ^1.1.3
+        version: 1.1.3
       discord.js:
         specifier: latest
         version: 14.20.0
@@ -643,8 +643,8 @@ packages:
   '@sern/ioc@1.1.2':
     resolution: {integrity: sha512-n84w7n5hB1dl8N6dfSbeYIo0QYORMS1bpG/P7J7GoMNTu8c28EYVZ8uGs3Md9GB09UseOKn3mfv1QBDtRsbb1g==}
 
-  '@sern/publisher@1.1.2':
-    resolution: {integrity: sha512-1zh99JZykKUhqHhE75ZXfiLsBtf1WI+NnDCojv8UlpnGBEyzO8xyI1X7PNf6cPKRs4W9XqY3PqTJ+hrqzIsMkg==}
+  '@sern/publisher@1.1.3':
+    resolution: {integrity: sha512-o0SBdDDGh1z9FrKDjOQbEa2VvorYnz8PaQ+oc9pmWwYZdjgWHXjmLrQu3npzooWsqYIkD2vz8ywYTSS528KHzw==}
 
   '@tootallnate/quickjs-emscripten@0.23.0':
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
@@ -2620,7 +2620,7 @@ snapshots:
 
   '@sern/ioc@1.1.2': {}
 
-  '@sern/publisher@1.1.2': {}
+  '@sern/publisher@1.1.3': {}
 
   '@tootallnate/quickjs-emscripten@0.23.0': {}
 

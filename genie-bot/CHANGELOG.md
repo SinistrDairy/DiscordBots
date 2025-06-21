@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.2](https://github.com/SinistrDairy/DiscordBots/compare/v1.4.1...v1.4.2) (2025-06-21)
+
+
+### Bug Fixes
+
+* update image references in spray command for consistency ([dbe5fa8](https://github.com/SinistrDairy/DiscordBots/commit/dbe5fa8a0b0c25facf71ea5c8dc7d9305a35695c))
+
 ## [1.4.1](https://github.com/SinistrDairy/DiscordBots/compare/v1.4.0...v1.4.1) (2025-06-20)
 
 # [1.4.0](https://github.com/SinistrDairy/DiscordBots/compare/v1.3.3...v1.4.0) (2025-06-20)
