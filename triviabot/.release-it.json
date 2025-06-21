@@ -1,8 +1,8 @@
 {
   "git": {
     "commitMessage": "ChangeLog: russell v${version}",
-    "tagName": "v${version}",
-    "tagAnnotation": "Release v${version}",
+    "tagName": "Rv${version}",
+    "tagAnnotation": "Release Russell v${version}",
     "push": true,
     "requireCleanWorkingDir": false
   },
