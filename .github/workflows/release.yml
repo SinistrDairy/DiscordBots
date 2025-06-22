@@ -3,12 +3,11 @@ name: Release Discord Bots
 on:
   workflow_dispatch:
   push:
+    branches: [main]
     paths:
       - "genie-bot/**"
       - "triviabot/**"
       - "opie-bot/**"
-    branches:
-      - main
 
 jobs:
   release:
@@ -32,7 +31,7 @@ jobs:
         with:
           fetch-depth: 0 # Required to fetch tags
 
-      - name: Install Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
@@ -73,22 +72,21 @@ jobs:
         run: |
           cd ${{ matrix.bot }}
 
-          VERSION=${{ steps.release.outputs.RELEASE_VERSION }}
           CHANGELOG=$(head -n 30 CHANGELOG.md)
 
           CONTENT=$(cat <<EOF
-          # ${BOT_NAME}
-          ### Version: \`${RELEASE_VERSION}\`
-
+          # $BOT_NAME
+          ### Version: \`$RELEASE_VERSION\`
+          
           #### Features & Fixes
-
-          ${CHANGELOG}
+          
+          $CHANGELOG
           EOF
-          )
-
-              echo "Posting to Discord:"
-              echo "$CONTENT"
-
-              curl -X POST "$DISCORD_WEBHOOK_URL" \
-              -H "Content-Type: application/json" \
-              -d "$(jq -n --arg content "$CONTENT" '{content: $content}')"
+                    )
+          
+                    echo "Posting to Discord:"
+                    echo "$CONTENT"
+          
+                    curl -X POST "$DISCORD_WEBHOOK_URL" \
+                      -H "Content-Type: application/json" \
+                      -d "{\"content\": \"$(echo "$CONTENT" | sed ':a;N;$!ba;s/\n/\\n/g')\"}"

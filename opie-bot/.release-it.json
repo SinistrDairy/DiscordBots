@@ -1,0 +1,22 @@
+{
+  "git": {
+    "commitMessage": "ChangeLog: opie v${version}",
+    "tagName": "Ov${version}",
+    "tagAnnotation": "Release Opie v${version}",
+    "push": true,
+    "requireCleanWorkingDir": false
+  },
+  "github": {
+    "release": true,
+    "tokenRef": "GITHUB_TOKEN"
+  },
+  "npm": {
+    "publish": false
+  },
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "preset": "angular",
+      "infile": "CHANGELOG.md"
+    }
+  }
+}

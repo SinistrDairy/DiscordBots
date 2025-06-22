@@ -11,7 +11,7 @@ jobs:
     outputs:
       genie-changed: ${{ steps.filter.outputs['genie-bot'] }}
       trivia-changed: ${{ steps.filter.outputs['triviabot'] }}
-      opie-changed:   ${{ steps.filter.outputs['opie-bot'] }}
+      opie-changed: ${{ steps.filter.outputs['opie-bot'] }}
     steps:
       - uses: actions/checkout@v4
       - id: filter
@@ -47,12 +47,16 @@ jobs:
         if: ${{ matrix.changed == 'true' }}
         uses: actions/checkout@v4
 
-      - name: Setup Node.js and pnpm
+      - name: Setup Node.js
         if: ${{ matrix.changed == 'true' }}
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
+
+      - name: Install pnpm
+        if: ${{ matrix.changed == 'true' }}
+        run: npm install -g pnpm
 
       - name: Install jq
         if: ${{ matrix.changed == 'true' }}
@@ -62,7 +66,7 @@ jobs:
         if: ${{ matrix.changed == 'true' }}
         uses: actions/download-artifact@v4
         with:
-          name: ${{ matrix.bot }}-v*
+          name: ${{ matrix.bot }}-artifact
           path: ./artifact
 
       - name: Load SSH Key
@@ -82,6 +86,8 @@ jobs:
         run: |
           VERSION=$(jq -r .version ./artifact/package.json)
 
+          echo "Deploying ${{ matrix.bot }} version $VERSION to VPS..."
+
           scp -r \
             ./artifact/dist \
             ./artifact/package.json \
@@ -93,7 +99,6 @@ jobs:
               cd /var/www/discord-bots/DiscordBots/${{ matrix.bot }}
               pnpm install --prod --frozen-lockfile --ignore-scripts
 
-              # Reload with versioned PM2 process name
               pm2 delete ${{ matrix.bot }}-\$VERSION || true
               pm2 start ./dist/index.js --name ${{ matrix.bot }}-\$VERSION
             '"
@@ -106,5 +111,5 @@ jobs:
           VERSION=$(jq -r .version ./artifact/package.json)
           curl -H "Content-Type: application/json" \
                -X POST \
-                -d "{\"content\": \"-#  **Deployed** \\\`${{ matrix.bot }}\\\` v.**v$VERSION** to production.\"}" \
+               -d "{\"content\": \"-#  **Deployed** \\\`${{ matrix.bot }}\\\` v.**v$VERSION** to production.\"}" \
                $DISCORD_WEBHOOK_URL
