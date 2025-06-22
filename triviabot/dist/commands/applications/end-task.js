@@ -1,7 +1,6 @@
 import {
   ApplicationCommandOptionType,
-  PermissionFlagsBits,
-  MessageFlags
+  PermissionFlagsBits
 } from "discord.js";
 import { CommandType, commandModule } from "@sern/handler";
 import { requirePermission } from "../../plugins/requirePermission.js";
@@ -47,7 +46,7 @@ var end_task_default = commandModule({
   execute: async (ctx) => {
     if (ctx.interaction.isAutocomplete())
       return;
-    await ctx.interaction.deferReply({ flags: MessageFlags.Ephemeral });
+    await ctx.interaction.deferReply();
     try {
       const eventName = ctx.options.getString("task", true).toUpperCase();
       const inputs = [
@@ -108,9 +107,8 @@ Check <#830617045741731910> for upcoming events!`;
     } catch (err) {
       console.error("[end-task] error:", err);
       try {
-        await ctx.reply({
-          content: "\u26A0\uFE0F Something went wrong ending the task.",
-          flags: MessageFlags.Ephemeral
+        await ctx.interaction.editReply({
+          content: "\u26A0\uFE0F Something went wrong ending the task."
         });
       } catch {
       }

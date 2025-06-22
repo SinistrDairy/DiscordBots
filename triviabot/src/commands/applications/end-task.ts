@@ -52,7 +52,7 @@ export default commandModule({
     if (ctx.interaction.isAutocomplete()) return;
 
     // Defer reply to extend time and keep ephemeral
-    await ctx.interaction.deferReply({ flags: MessageFlags.Ephemeral });
+    await ctx.interaction.deferReply();
     try {
       // 1) Gather inputs
       const eventName = ctx.options.getString("task", true).toUpperCase();
@@ -124,9 +124,8 @@ export default commandModule({
     } catch (err) {
       console.error("[end-task] error:", err);
       try {
-        await ctx.reply({
+        await ctx.interaction.editReply({
           content: "⚠️ Something went wrong ending the task.",
-          flags: MessageFlags.Ephemeral,
         });
       } catch {}
     }
