@@ -47,6 +47,7 @@ var end_task_default = commandModule({
     if (ctx.interaction.isAutocomplete())
       return;
     await ctx.interaction.deferReply();
+    const runID = ctx.interaction.id;
     try {
       const eventName = ctx.options.getString("task", true).toUpperCase();
       const inputs = [
@@ -60,54 +61,59 @@ var end_task_default = commandModule({
           jewels: ctx.options.getNumber("monstropolis", true)
         }
       ];
-      await Promise.all(
-        inputs.map(
-          ({ name, jewels }) => landsSchema.findOneAndUpdate(
-            { name },
-            { $inc: { totalPoints: jewels } }
-          )
-        )
-      );
-      const detailed = await Promise.all(
-        inputs.map(async ({ name, jewels }) => {
-          const land = await landsSchema.findOne({ name });
-          return { name, jewels, emojiID: land?.emojiID ?? "" };
-        })
-      );
-      detailed.sort((a, b) => b.jewels - a.jewels);
-      let landOrder = "";
-      const member = await ctx.guild.members.fetch(ctx.user.id);
-      const actor = member.nickname ?? ctx.user.username;
-      const logChan = ctx.client.channels.cache.get("1374744395563270205");
-      for (const { name, jewels, emojiID } of detailed) {
-        landOrder += `${name}: **${jewels}** ${emojiID}
-`;
-        if (logChan?.isTextBased()) {
-          await logChan.send(
-            `<:v_russell:1375161867152130182> ${actor} added ${jewels} jewels to ${name}`
-          );
+      const landDocs = await landsSchema.find({ name: { $in: inputs.map((i) => i.name) } }, "name emojiID").lean();
+      const emojiMap = /* @__PURE__ */ new Map();
+      landDocs.forEach((d) => emojiMap.set(d.name, d.emojiID ?? ""));
+      const bulkOps = inputs.map(({ name, jewels }) => ({
+        updateOne: {
+          filter: { name },
+          update: { $inc: { totalPoints: jewels } }
         }
+      }));
+      await landsSchema.bulkWrite(bulkOps);
+      const sorted = [...inputs].sort((a, b) => b.jewels - a.jewels);
+      let landOrder = "";
+      sorted.forEach(({ name, jewels }) => {
+        const emoji = emojiMap.get(name) || "";
+        landOrder += `${name}: **${jewels}** ${emoji}
+`;
+      });
+      const actorMember = await ctx.guild.members.fetch(ctx.user.id);
+      const actor = actorMember.displayName;
+      const logChannel = ctx.client.channels.cache.get(
+        "1374744395563270205"
+      );
+      if (!logChannel || !logChannel.isTextBased()) {
+        return await ctx.interaction.editReply({
+          content: "\u26A0\uFE0F Log channel not found."
+        });
       }
-      const announce = `**${eventName} TOTALS**
+      await logChannel.send(
+        `<:v_russell:1375161867152130182> ${runID}: ${actor} has ended **${eventName}** and allocated jewels:
+${landOrder}`
+      );
+      const modChannel = ctx.client.channels.cache.get(
+        "1220081937906008144"
+      );
+      if (!modChannel || !modChannel.isTextBased()) {
+        return await ctx.interaction.editReply({
+          content: "\u26A0\uFE0F Mod channel not found or not text-based."
+        });
+      }
+      modChannel.send(
+        `<:v_russell:1375161867152130182> ${actor} has ended **${eventName}**`
+      );
+      const announceText = `**${eventName} TOTALS**
 ${landOrder}
 Check <#830617045741731910> for upcoming events!`;
-      const publicIds = ["1374744395563270205", "1220081937906008144"];
-      for (const id of publicIds) {
-        const ch = ctx.client.channels.cache.get(id);
-        if (ch?.isTextBased()) {
-          await ch.send(
-            `<:v_russell:1375161867152130182> ${actor} has ended ${eventName}`
-          );
-        }
-      }
       return await ctx.interaction.editReply({
-        content: announce,
+        content: announceText,
         allowedMentions: { parse: ["roles", "users"] }
       });
     } catch (err) {
       console.error("[end-task] error:", err);
       try {
-        await ctx.interaction.editReply({
+        return await ctx.interaction.editReply({
           content: "\u26A0\uFE0F Something went wrong ending the task."
         });
       } catch {
