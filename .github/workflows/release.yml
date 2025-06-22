@@ -1,92 +1,94 @@
-name: Release & Upload Artifacts
+name: Release Discord Bots
 
 on:
+  workflow_dispatch:
   push:
+    paths:
+      - "genie-bot/**"
+      - "triviabot/**"
+      - "opie-bot/**"
     branches:
       - main
-
-permissions:
-  contents: write
 
 jobs:
   release:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        bot:
-          - genie-bot
-          - triviabot
-          - opie-bot
+        include:
+          - bot: genie-bot
+            tagPrefix: Gv
+            botName: genie
+          - bot: triviabot
+            tagPrefix: Tv
+            botName: trivia
+          - bot: opie-bot
+            tagPrefix: Ov
+            botName: opie
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # Required to fetch tags
 
-      - name: Setup Node.js
+      - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 20.x
+          cache: pnpm
+
       - name: Install pnpm
         run: npm install -g pnpm
-      - name: Install Dependencies
+
+      - name: Install dependencies
         run: |
           cd ${{ matrix.bot }}
-          pnpm install --frozen-lockfile
+          pnpm install
 
-      - name: Configure Git
+      - name: Sync with remote
         run: |
+          cd ${{ matrix.bot }}
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
+          git reset --hard
+          git clean -fd
+          git fetch origin
+          git rebase origin/main
 
-      - name: Sync branch with remote
-        run: |
-          git stash --include-untracked
-          git pull --rebase origin main
-          git stash drop || true
-
-      - name: Run Release-It
+      - name: Run release-it
         id: release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd ${{ matrix.bot }}
-          pnpm exec release-it --ci --increment patch
+          pnpm exec release-it --ci --increment patch --tag-prefix=${{ matrix.tagPrefix }}
           echo "RELEASE_VERSION=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
 
-      - name: Build Bot
+      - name: Post release to Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_RELEASE_WEBHOOK }}
+          RELEASE_VERSION: ${{ steps.release.outputs.RELEASE_VERSION }}
+          BOT_NAME: ${{ matrix.botName }}
         run: |
           cd ${{ matrix.bot }}
-          pnpm exec sern build
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.bot }}-${{ steps.release.outputs.RELEASE_VERSION }}
-          path: |
-            ${{ matrix.bot }}/dist
-            ${{ matrix.bot }}/package.json
-            ${{ matrix.bot }}/pnpm-lock.yaml
-
-      - name: Extract Changelog
-        id: changelog
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
           VERSION=${{ steps.release.outputs.RELEASE_VERSION }}
-          NOTES=$(gh release view "$VERSION" --json body -q .body)
-          NOTES="${NOTES//'%'/'%25'}"
-          NOTES="${NOTES//$'\n'/'%0A'}"
-          NOTES="${NOTES//$'\r'/'%0D'}"
-          echo "notes=$NOTES" >> $GITHUB_OUTPUT
+          CHANGELOG=$(head -n 30 CHANGELOG.md)
 
-      - name: Notify Discord of Release
-        env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        run: |
-          VERSION=${{ steps.release.outputs.RELEASE_VERSION }}
-          curl -H "Content-Type: application/json" \
-               -X POST \
-               -d "{\"content\": \"# ${{ matrix.bot }} 🤖\n\n## Version $VERSION\n\n${{ steps.changelog.outputs.notes }}\"}" \
-               $DISCORD_WEBHOOK_URL
+          CONTENT=$(cat <<EOF
+          # ${BOT_NAME}
+          ### Version: \`${RELEASE_VERSION}\`
+
+          #### Features & Fixes
+
+          ${CHANGELOG}
+          EOF
+          )
+
+              echo "Posting to Discord:"
+              echo "$CONTENT"
+
+              curl -X POST "$DISCORD_WEBHOOK_URL" \
+              -H "Content-Type: application/json" \
+              -d "$(jq -n --arg content "$CONTENT" '{content: $content}')"
