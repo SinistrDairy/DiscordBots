@@ -68,6 +68,15 @@ jobs:
         with:
           name: ${{ matrix.bot }}-artifact
           path: ./artifact
+        continue-on-error: true
+
+      - name: Skip if no artifact present
+        if: ${{ matrix.changed == 'true' }}
+        run: |
+          if [ ! -f ./artifact/package.json ]; then
+            echo "No artifact found for ${{ matrix.bot }}, skipping deploy."
+            exit 0
+          fi
 
       - name: Load SSH Key
         if: ${{ matrix.changed == 'true' }}
@@ -82,7 +91,7 @@ jobs:
           ssh-keyscan -H ${{ secrets.VPS_Host }} >> ~/.ssh/known_hosts
 
       - name: Deploy Artifact to VPS
-        if: ${{ matrix.changed == 'true' }}
+        if: ${{ matrix.changed == 'true' && success() && hashFiles('./artifact/package.json') != '' }}
         run: |
           VERSION=$(jq -r .version ./artifact/package.json)
 
