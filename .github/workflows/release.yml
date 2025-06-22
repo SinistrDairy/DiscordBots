@@ -41,7 +41,7 @@ jobs:
           git config --global user.name "GitHub Actions"
 
       - name: Sync branch with remote
-        run: git pull --rebase origin main
+        run: git stash --include-untracked && git pull --rebase origin main
 
       - name: Run Release-It
         id: release
