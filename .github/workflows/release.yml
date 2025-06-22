@@ -51,7 +51,6 @@ jobs:
             changed: ${{ needs.filter.outputs.opie-changed }}
 
     steps:
-
       - name: Skip if unchanged
         if: ${{ matrix.changed != 'true' }}
         run: echo "No changes detected in ${{ matrix.bot }}, skipping."
@@ -68,7 +67,7 @@ jobs:
         with:
           node-version: 20.x
       - name: Install pnpm
-        if: ${{ matrix.changed == 'true' }} 
+        if: ${{ matrix.changed == 'true' }}
         run: npm install -g pnpm
       - name: Install dependencies
         if: ${{ matrix.changed == 'true' }}
@@ -108,15 +107,17 @@ jobs:
 
           CHANGELOG=$(head -n 30 CHANGELOG.md)
 
-          CONTENT=$(printf "# %s\n### Version: \`%s\`\n\n#### Features & Fixes\n\n%s" \
+          CONTENT=$(printf "# %s\n### Version: \`%s\`\n\n### Features & Fixes\n\n%s" \
             "$BOT_NAME" "$RELEASE_VERSION" "$CHANGELOG")
 
           echo "Posting to Discord:"
           echo "$CONTENT"
 
+          json_payload=$(jq -n --arg content "$CONTENT" '{content: $content}')
+
           curl -X POST "$DISCORD_WEBHOOK_URL" \
             -H "Content-Type: application/json" \
-            -d "{\"content\": \"$(echo "$CONTENT" | sed ':a;N;$!ba;s/\\n/\\\\n/g')\"}"
+            -d "$json_payload"
 
       - name: Upload release artifact
         if: ${{ matrix.changed == 'true' }}
