@@ -25,7 +25,7 @@ var cowEmbedModal_default = commandModule({
       const finalJewels = Number.isNaN(jewelsPer) ? defaultJewels : jewelsPer;
       draft.embed.setTitle(title).setDescription(description).setFields({
         name: `\u200B`,
-        value: `<:fk_star_bullet_y:1377710982302011532> This quest post is worth __**${finalJewels}**__ <:fk_jewel:1333402533439475743>`
+        value: `<:fk_star_bullet_y:1377710982302011532> This Quest Post is worth __**${finalJewels}**__ <:fk_jewel:1333402533439475743>`
       }).setColor("#52baff");
       draft.timestamp = true;
       draftCache.set(ctx.user.id, draft);

@@ -1,9 +1,15 @@
 import "dotenv/config";
-import { Client, GatewayIntentBits, Partials } from "discord.js";
+import { ActivityType, Client, GatewayIntentBits, Partials } from "discord.js";
 import { Sern, makeDependencies } from "@sern/handler";
+import * as path from "node:path";
 import { Publisher } from "@sern/publisher";
 import { startArchiveScheduler } from "./scheduler/archiveThreads.js";
 import { disconnectDB } from "./db.js";
+import { fileURLToPath } from "node:url";
+import { readFileSync } from "node:fs";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const pkgPath = path.join(__dirname, "../package.json");
+const { version } = JSON.parse(readFileSync(pkgPath, "utf-8"));
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -25,12 +31,15 @@ await makeDependencies(({ add }) => {
   );
 });
 Sern.init({
-  defaultPrefix: "$",
   commands: "dist/commands"
 });
 startArchiveScheduler(client);
-await client.login(process.env.DISCORD_TOKEN);
-console.log("\u2705 Bot logged in");
+client.once("ready", (c) => {
+  console.log(`\u2705 ${c.user.tag} is online.`);
+  client.user?.setActivity(`Version ${version}`, {
+    type: ActivityType.Playing
+  });
+});
 process.on("SIGINT", async () => {
   console.log("SIGINT\u2014disconnecting DB");
   await disconnectDB();
@@ -41,6 +50,7 @@ process.on("SIGTERM", async () => {
   await disconnectDB();
   process.exit(0);
 });
+await client.login(process.env.DISCORD_TOKEN);
 export {
   client
 };

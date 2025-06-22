@@ -1,9 +1,18 @@
 import "dotenv/config";
-import { Client, GatewayIntentBits, Partials } from "discord.js";
+import { ActivityType, Client, GatewayIntentBits, Partials } from "discord.js";
 import { Sern, makeDependencies } from "@sern/handler";
+import * as path from "node:path";
 import { Publisher } from "@sern/publisher";
 import { startArchiveScheduler } from "./scheduler/archiveThreads.js";
-import { connectDB, disconnectDB } from "./db.js";
+import { disconnectDB } from "./db.js";
+import { fileURLToPath } from "node:url";
+import { readFileSync } from "node:fs";
+
+// Derive __dirname in ESM
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// Read version from package.json without import assertions
+const pkgPath = path.join(__dirname, "../package.json");
+const { version } = JSON.parse(readFileSync(pkgPath, "utf-8"));
 
 export const client = new Client({
   intents: [
@@ -29,15 +38,18 @@ await makeDependencies(({ add }) => {
 });
 
 Sern.init({
-  defaultPrefix: "$",
   commands: "dist/commands",
 });
 // --- START the archive scheduler here ---
 startArchiveScheduler(client);
 
-// Finally, log in your bot
-await client.login(process.env.DISCORD_TOKEN);
-console.log("✅ Bot logged in");
+// ———— single ready handler ————
+client.once("ready", (c) => {
+  console.log(`✅ ${c.user.tag} is online.`);
+  client.user?.setActivity(`Version ${version}`, {
+    type: ActivityType.Playing,
+  });
+});
 
 process.on("SIGINT", async () => {
   console.log("SIGINT—disconnecting DB");
@@ -49,3 +61,5 @@ process.on("SIGTERM", async () => {
   await disconnectDB();
   process.exit(0);
 });
+
+await client.login(process.env.DISCORD_TOKEN);
