@@ -41,7 +41,10 @@ jobs:
           git config --global user.name "GitHub Actions"
 
       - name: Sync branch with remote
-        run: git stash --include-untracked && git pull --rebase origin main
+        run: |
+          git stash --include-untracked
+          git pull --rebase origin main
+          git stash drop || true
 
       - name: Run Release-It
         id: release
@@ -49,7 +52,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd ${{ matrix.bot }}
-          pnpm release --ci --increment patch
+          pnpm exec release-it --ci --increment patch
           echo "RELEASE_VERSION=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
 
       - name: Build Bot
