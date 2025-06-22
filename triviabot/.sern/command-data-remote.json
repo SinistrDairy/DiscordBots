@@ -378,7 +378,7 @@
         {
             "id": "1384993909553369243",
             "application_id": "1196458687955480677",
-            "version": "1386162848442613776",
+            "version": "1386395474948395148",
             "default_member_permissions": "8",
             "type": 1,
             "name": "event-management",
@@ -406,6 +406,13 @@
                     "name": "delete",
                     "name_localizations": null,
                     "description": "Delete an existing event",
+                    "description_localizations": null
+                },
+                {
+                    "type": 1,
+                    "name": "edit",
+                    "name_localizations": null,
+                    "description": "Edit an existing event",
                     "description_localizations": null
                 }
             ],
@@ -1509,7 +1516,7 @@
         {
             "id": "1384993910580838522",
             "application_id": "1196458687955480677",
-            "version": "1386162849621213347",
+            "version": "1386395475678072862",
             "default_member_permissions": "8",
             "type": 1,
             "name": "event-management",
@@ -1537,6 +1544,13 @@
                     "name": "delete",
                     "name_localizations": null,
                     "description": "Delete an existing event",
+                    "description_localizations": null
+                },
+                {
+                    "type": 1,
+                    "name": "edit",
+                    "name_localizations": null,
+                    "description": "Edit an existing event",
                     "description_localizations": null
                 }
             ],

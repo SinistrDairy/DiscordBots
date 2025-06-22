@@ -40,6 +40,8 @@ export async function suggestEvents(ctx: any) {
   // 1) Grab cached (or freshly‐fetched) names
   const allNames = await getCachedNames(serverID);
 
+  console.log("[suggestEvents] focused =", ctx.options.getFocused(false));
+
   let choices: { name: string; value: string }[];
 
   if (!focus) {
