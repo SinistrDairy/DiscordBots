@@ -96,6 +96,16 @@ jobs:
           pnpm exec release-it --ci --increment patch --tag-prefix=${{ matrix.tagPrefix }}
           echo "RELEASE_VERSION=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
 
+      - name: Upload release artifact
+        if: ${{ matrix.changed == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.bot }}-artifact
+          path: |
+            ${{ matrix.bot }}/dist
+            ${{ matrix.bot }}/package.json
+            ${{ matrix.bot }}/pnpm-lock.yaml
+
       - name: Post release to Discord
         if: ${{ matrix.changed == 'true' }}
         env:
@@ -118,13 +128,3 @@ jobs:
           curl -X POST "$DISCORD_WEBHOOK_URL" \
             -H "Content-Type: application/json" \
             -d "$json_payload"
-
-      - name: Upload release artifact
-        if: ${{ matrix.changed == 'true' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.bot }}-artifact
-          path: |
-            ${{ matrix.bot }}/dist
-            ${{ matrix.bot }}/package.json
-            ${{ matrix.bot }}/pnpm-lock.yaml

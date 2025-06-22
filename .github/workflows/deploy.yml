@@ -40,86 +40,63 @@ jobs:
             changed: ${{ needs.filter.outputs.opie-changed }}
 
     steps:
-      - name: Skip if unchanged
-        if: ${{ matrix.changed != 'true' }}
-        run: echo "No changes detected in ${{ matrix.bot }}, skipping."
-
       - name: Checkout
-        if: ${{ matrix.changed == 'true' }}
         uses: actions/checkout@v4
 
       - name: Setup Node.js
-        if: ${{ matrix.changed == 'true' }}
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
 
       - name: Install pnpm
-        if: ${{ matrix.changed == 'true' }}
         run: npm install -g pnpm
 
       - name: Install jq
-        if: ${{ matrix.changed == 'true' }}
         run: sudo apt-get install -y jq
 
-      - name: Download Artifact
-        if: ${{ matrix.changed == 'true' }}
+      - name: Attempt to download artifact (if it exists)
+        id: download
+        continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           name: ${{ matrix.bot }}-artifact
-          path: ./artifact
-        continue-on-error: true
-
-      - name: Skip if no artifact present
-        if: ${{ matrix.changed == 'true' }}
-        run: |
-          if [ ! -f ./artifact/package.json ]; then
-            echo "No artifact found for ${{ matrix.bot }}, skipping deploy."
-            exit 0
-          fi
+          path: ./artifact/${{ matrix.bot }}
 
       - name: Load SSH Key
-        if: ${{ matrix.changed == 'true' }}
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.VPS_PRIVATE_KEY }}
 
       - name: Add VPS to known_hosts
-        if: ${{ matrix.changed == 'true' }}
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan -H ${{ secrets.VPS_Host }} >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Deploy Artifact to VPS
-        if: ${{ matrix.changed == 'true' && success() && hashFiles('./artifact/package.json') != '' }}
-        run: |
-          VERSION=$(jq -r .version ./artifact/package.json)
+      - name: Connect to VPS and deploy
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_KEY }}
+          script: |
+            cd /root/DiscordBots/${{ matrix.bot }}
+            if [ -d "./artifact/${{ matrix.bot }}" ]; then
+              echo "Deploying updated files for ${{ matrix.bot }}..."
+              rm -rf dist
+              mv ./artifact/${{ matrix.bot }} ./dist
+            else
+              echo "No artifact found for ${{ matrix.bot }}, skipping deploy."
+            fi
+            echo "Restarting PM2 for ${{ matrix.bot }}..."
+            pm2 restart ${{ matrix.bot }} || pm2 start dist/index.js --name ${{ matrix.bot }}
 
-          echo "Deploying ${{ matrix.bot }} version $VERSION to VPS..."
-
-          scp -r \
-            ./artifact/dist \
-            ./artifact/package.json \
-            ./artifact/pnpm-lock.yaml \
-            "${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}:/var/www/discord-bots/DiscordBots/${{ matrix.bot }}"
-
-          ssh "${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}" \
-            "bash -lc '
-              cd /var/www/discord-bots/DiscordBots/${{ matrix.bot }}
-              pnpm install --prod --frozen-lockfile --ignore-scripts
-
-              pm2 delete ${{ matrix.bot }}-\$VERSION || true
-              pm2 start ./dist/index.js --name ${{ matrix.bot }}-\$VERSION
-            '"
-
-      - name: Notify Discord of Deploy
-        if: ${{ matrix.changed == 'true' && hashFiles('./artifact/package.json') != '' }}
+      - name: Notify Discord of Deployment
+        if: steps.download.outcome == 'success'
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          VERSION=$(jq -r .version ./artifact/package.json)
-
+          VERSION=$(jq -r .version ./artifact/${{ matrix.bot }}/package.json || echo "unknown")
           curl -H "Content-Type: application/json" \
                -X POST \
-               -d "{\"content\": \"-#  **Deployed** \\\`${{ matrix.bot }}\\\` v.**v$VERSION** to production.\"}" \
+               -d "{\"content\": \"✅ **Deployed** \\\\`${{ matrix.bot }}\\\` version **${VERSION}** to production.\"}" \
                $DISCORD_WEBHOOK_URL
