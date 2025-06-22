@@ -1,9 +1,10 @@
 name: Deploy Discord Bots
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Release Discord Bots"]
+    types:
+      - completed
 
 jobs:
   filter:
