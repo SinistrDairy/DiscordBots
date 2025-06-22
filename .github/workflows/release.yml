@@ -1,4 +1,5 @@
 name: Release Discord Bots
+
 permissions:
   contents: write
 
@@ -55,20 +56,19 @@ jobs:
         if: ${{ matrix.changed != 'true' }}
         run: echo "No changes detected in ${{ matrix.bot }}, skipping."
 
-      - name: Checkout repo
+      - name: Checkout
         if: ${{ matrix.changed == 'true' }}
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
+      - name: Setup Node.js & pnpm
         if: ${{ matrix.changed == 'true' }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20.x
-      - name: Install pnpm
-        if: ${{ matrix.changed == 'true' }}
-        run: npm install -g pnpm
+        run: |
+          curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+          sudo apt-get install -y nodejs
+          npm install -g pnpm
+
       - name: Install dependencies
         if: ${{ matrix.changed == 'true' }}
         run: |
@@ -81,9 +81,8 @@ jobs:
           cd ${{ matrix.bot }}
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
-          git stash
-          git fetch origin
-          git rebase origin/main || git pull --rebase origin main
+          git stash || true
+          git pull --rebase origin main || git rebase --abort || true
           git stash pop || true
 
       - name: Run release-it
@@ -115,16 +114,17 @@ jobs:
         run: |
           cd ${{ matrix.bot }}
 
-          CHANGELOG=$(head -n 30 CHANGELOG.md)
+          # extract the first full changelog block
+          CHANGELOG=$(awk 'BEGIN{p=0} /^## /{if(p++)exit} {if(p)print}' CHANGELOG.md)
 
           CONTENT=$(printf "# %s\n### Version: \`%s\`\n\n### Features & Fixes\n\n%s" \
             "$BOT_NAME" "$RELEASE_VERSION" "$CHANGELOG")
 
-          echo "Posting to Discord:"
+          echo "Posting to Discord..."
           echo "$CONTENT"
 
-          json_payload=$(jq -n --arg content "$CONTENT" '{content: $content}')
+          echo "$CONTENT" | jq -Rs '{content: .}' > payload.json
 
           curl -X POST "$DISCORD_WEBHOOK_URL" \
             -H "Content-Type: application/json" \
-            -d "$json_payload"
+            -d @payload.json
