@@ -10,6 +10,7 @@ import { requirePermission } from "../../plugins/requirePermission.js";
 import landsSchema from "../../models/trivia/lands-schema.js";
 import eventSchema from "../../models/profiles/event-schema.js";
 import { publishConfig } from "@sern/publisher";
+import { suggestEvents } from "../../utils/suggestEvents.js";
 
 // Constants & Types
 const ANNOUNCE_CHANNEL_ID     = "1374744395563270205";
@@ -24,19 +25,6 @@ interface LandResult {
   triviaPoints: number;
   emojiID:      string;
   roleID:       string;
-}
-
-// Autocomplete helper for events
-async function suggestEvents(ctx: any) {
-  const focus = ctx.options.getFocused(false).toLowerCase();
-  // TODO: add a cache here to avoid hitting Mongo on every keystroke
-  const events = await eventSchema.find().select("name").lean();
-  const choices = events
-    .map((e: any) => e.name)
-    .filter((n: string) => n.toLowerCase().startsWith(focus))
-    .slice(0, 25)
-    .map((n: string) => ({ name: n, value: n }));
-  await ctx.respond(choices);
 }
 
 // Builds the header string, special-cases Jafar

@@ -8,18 +8,13 @@ import { requirePermission } from "../../plugins/requirePermission.js";
 import landsSchema from "../../models/trivia/lands-schema.js";
 import eventSchema from "../../models/profiles/event-schema.js";
 import { publishConfig } from "@sern/publisher";
+import { suggestEvents } from "../../utils/suggestEvents.js";
 const ANNOUNCE_CHANNEL_ID = "1374744395563270205";
 const LOG_CHANNEL_ID = "1220081937906008144";
 const WEEKLY_EVENTS_CHANNEL = "830617045741731910";
 const DEFAULT_LANDS_COUNT = 3;
 const MIN_SPECIAL_LANDS_COUNT = 2;
 const MAX_SPECIAL_LANDS_COUNT = 4;
-async function suggestEvents(ctx) {
-  const focus = ctx.options.getFocused(false).toLowerCase();
-  const events = await eventSchema.find().select("name").lean();
-  const choices = events.map((e) => e.name).filter((n) => n.toLowerCase().startsWith(focus)).slice(0, 25).map((n) => ({ name: n, value: n }));
-  await ctx.respond(choices);
-}
 function buildHeader(eventName) {
   if (eventName === `JAFAR'S JUMBLES`) {
     return `## ***<:fk_jafar:831617308606726174> YOU LITTLE FOOL, HOW COULD IT BE? ...***
