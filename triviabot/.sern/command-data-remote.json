@@ -378,123 +378,34 @@
         {
             "id": "1384993909553369243",
             "application_id": "1196458687955480677",
-            "version": "1384993909553369245",
+            "version": "1386162848442613776",
             "default_member_permissions": "8",
             "type": 1,
             "name": "event-management",
             "name_localizations": null,
-            "description": "🛠 Multi-step event wizard",
+            "description": "🛠 Create, list, edit or delete your custom events",
             "description_localizations": null,
             "guild_id": "830604135748337673",
             "options": [
                 {
-                    "type": 3,
-                    "name": "title_emoji",
+                    "type": 1,
+                    "name": "create",
                     "name_localizations": null,
-                    "description": "Emoji to prefix your event title (e.g. ✨)",
-                    "description_localizations": null,
-                    "required": true
+                    "description": "Create a new event",
+                    "description_localizations": null
                 },
                 {
-                    "type": 3,
-                    "name": "rules_emoji",
+                    "type": 1,
+                    "name": "list",
                     "name_localizations": null,
-                    "description": "Bullet emoji for each rule (e.g. 🐾)",
-                    "description_localizations": null,
-                    "required": true
+                    "description": "List all events",
+                    "description_localizations": null
                 },
                 {
-                    "type": 3,
-                    "name": "jewel_emoji",
+                    "type": 1,
+                    "name": "delete",
                     "name_localizations": null,
-                    "description": "Jewel emoji for scoring (e.g. 💎)",
-                    "description_localizations": null,
-                    "required": true
-                },
-                {
-                    "type": 3,
-                    "name": "event_emoji",
-                    "name_localizations": null,
-                    "description": "Event emoji for scheduling (e.g. <:fk_trivia:1267638143079944347>)",
-                    "description_localizations": null,
-                    "required": true
-                },
-                {
-                    "type": 8,
-                    "name": "tags",
-                    "name_localizations": null,
-                    "description": "Tag the appropriate role (limit one)",
-                    "description_localizations": null,
-                    "required": true
-                }
-            ],
-            "nsfw": false
-        },
-        {
-            "id": "1383930633591591036",
-            "application_id": "1196458687955480677",
-            "version": "1384993909553369246",
-            "default_member_permissions": "8",
-            "type": 1,
-            "name": "add-event",
-            "name_localizations": null,
-            "description": "Use this command to add an event.",
-            "description_localizations": null,
-            "guild_id": "830604135748337673",
-            "options": [
-                {
-                    "type": 3,
-                    "name": "name",
-                    "name_localizations": null,
-                    "description": "Name of the event?",
-                    "description_localizations": null,
-                    "required": true
-                },
-                {
-                    "type": 3,
-                    "name": "points",
-                    "name_localizations": null,
-                    "description": "Enter in the points used in this event separated by a comma with no spaces.",
-                    "description_localizations": null,
-                    "required": true
-                },
-                {
-                    "type": 3,
-                    "name": "title",
-                    "name_localizations": null,
-                    "description": "Enter the title for the event",
-                    "description_localizations": null,
-                    "required": true
-                },
-                {
-                    "type": 3,
-                    "name": "bullet",
-                    "name_localizations": null,
-                    "description": "Enter the emoji you would like to use as bullet points",
-                    "description_localizations": null,
-                    "required": true
-                },
-                {
-                    "type": 3,
-                    "name": "rules",
-                    "name_localizations": null,
-                    "description": "Enter the rules for the event separated by a comma with no spaces.",
-                    "description_localizations": null,
-                    "required": true
-                },
-                {
-                    "type": 3,
-                    "name": "tags",
-                    "name_localizations": null,
-                    "description": "Enter who you would like to tag for the event.",
-                    "description_localizations": null,
-                    "required": true
-                },
-                {
-                    "type": 3,
-                    "name": "scoring",
-                    "name_localizations": null,
-                    "description": "Enter the rules for scoring the event separated by a comma with no spaces.",
+                    "description": "Delete an existing event",
                     "description_localizations": null
                 }
             ],
@@ -703,12 +614,12 @@
         {
             "id": "1383930633683996823",
             "application_id": "1196458687955480677",
-            "version": "1383930633801171071",
+            "version": "1386162848442613777",
             "default_member_permissions": "8192",
             "type": 1,
             "name": "land-adjust",
             "name_localizations": null,
-            "description": "Use this command to adjust jewel counts for lands directly.",
+            "description": "Adjust jewel counts for a specified land.",
             "description_localizations": null,
             "guild_id": "830604135748337673",
             "options": [
@@ -716,16 +627,16 @@
                     "type": 3,
                     "name": "land",
                     "name_localizations": null,
-                    "description": "What is the name of the land?",
+                    "description": "Name of the land to adjust",
                     "description_localizations": null,
                     "required": true,
                     "autocomplete": true
                 },
                 {
                     "type": 10,
-                    "name": "adjustment-type",
+                    "name": "adjustment_type",
                     "name_localizations": null,
-                    "description": "Please select whether you would like to add or subtract jewels.",
+                    "description": "1 to add, 2 to subtract",
                     "description_localizations": null,
                     "required": true,
                     "choices": [
@@ -745,7 +656,7 @@
                     "type": 10,
                     "name": "jewels",
                     "name_localizations": null,
-                    "description": "How many jewels?",
+                    "description": "Number of jewels to adjust",
                     "description_localizations": null,
                     "required": true
                 }
@@ -856,12 +767,12 @@
         {
             "id": "1383930633683996825",
             "application_id": "1196458687955480677",
-            "version": "1383930633801171073",
+            "version": "1386162848442613778",
             "default_member_permissions": "8192",
             "type": 1,
             "name": "end-task",
             "name_localizations": null,
-            "description": "End the task and allocate jewels to the three lands.",
+            "description": "End a task and allocate jewels to the three lands.",
             "description_localizations": null,
             "guild_id": "830604135748337673",
             "options": [
@@ -869,7 +780,7 @@
                     "type": 3,
                     "name": "task",
                     "name_localizations": null,
-                    "description": "What task are you ending?",
+                    "description": "Name of the task to end",
                     "description_localizations": null,
                     "required": true
                 },
@@ -1024,6 +935,29 @@
             "description": "Use this command to close an open schedule",
             "description_localizations": null,
             "guild_id": "830604135748337673",
+            "nsfw": false
+        },
+        {
+            "id": "1386162848442613775",
+            "application_id": "1196458687955480677",
+            "version": "1386162848442613779",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "delete-closed-threads",
+            "name_localizations": null,
+            "description": "Delete all archived threads in a specific channel",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 7,
+                    "name": "channel",
+                    "name_localizations": null,
+                    "description": "The channel whose closed threads you want to delete",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
             "nsfw": false
         },
         {
@@ -1575,123 +1509,34 @@
         {
             "id": "1384993910580838522",
             "application_id": "1196458687955480677",
-            "version": "1384993910580838524",
+            "version": "1386162849621213347",
             "default_member_permissions": "8",
             "type": 1,
             "name": "event-management",
             "name_localizations": null,
-            "description": "🛠 Multi-step event wizard",
+            "description": "🛠 Create, list, edit or delete your custom events",
             "description_localizations": null,
             "guild_id": "1324370750131404893",
             "options": [
                 {
-                    "type": 3,
-                    "name": "title_emoji",
+                    "type": 1,
+                    "name": "create",
                     "name_localizations": null,
-                    "description": "Emoji to prefix your event title (e.g. ✨)",
-                    "description_localizations": null,
-                    "required": true
+                    "description": "Create a new event",
+                    "description_localizations": null
                 },
                 {
-                    "type": 3,
-                    "name": "rules_emoji",
+                    "type": 1,
+                    "name": "list",
                     "name_localizations": null,
-                    "description": "Bullet emoji for each rule (e.g. 🐾)",
-                    "description_localizations": null,
-                    "required": true
+                    "description": "List all events",
+                    "description_localizations": null
                 },
                 {
-                    "type": 3,
-                    "name": "jewel_emoji",
+                    "type": 1,
+                    "name": "delete",
                     "name_localizations": null,
-                    "description": "Jewel emoji for scoring (e.g. 💎)",
-                    "description_localizations": null,
-                    "required": true
-                },
-                {
-                    "type": 3,
-                    "name": "event_emoji",
-                    "name_localizations": null,
-                    "description": "Event emoji for scheduling (e.g. <:fk_trivia:1267638143079944347>)",
-                    "description_localizations": null,
-                    "required": true
-                },
-                {
-                    "type": 8,
-                    "name": "tags",
-                    "name_localizations": null,
-                    "description": "Tag the appropriate role (limit one)",
-                    "description_localizations": null,
-                    "required": true
-                }
-            ],
-            "nsfw": false
-        },
-        {
-            "id": "1383083762358681797",
-            "application_id": "1196458687955480677",
-            "version": "1384993910580838525",
-            "default_member_permissions": "8",
-            "type": 1,
-            "name": "add-event",
-            "name_localizations": null,
-            "description": "Use this command to add an event.",
-            "description_localizations": null,
-            "guild_id": "1324370750131404893",
-            "options": [
-                {
-                    "type": 3,
-                    "name": "name",
-                    "name_localizations": null,
-                    "description": "Name of the event?",
-                    "description_localizations": null,
-                    "required": true
-                },
-                {
-                    "type": 3,
-                    "name": "points",
-                    "name_localizations": null,
-                    "description": "Enter in the points used in this event separated by a comma with no spaces.",
-                    "description_localizations": null,
-                    "required": true
-                },
-                {
-                    "type": 3,
-                    "name": "title",
-                    "name_localizations": null,
-                    "description": "Enter the title for the event",
-                    "description_localizations": null,
-                    "required": true
-                },
-                {
-                    "type": 3,
-                    "name": "bullet",
-                    "name_localizations": null,
-                    "description": "Enter the emoji you would like to use as bullet points",
-                    "description_localizations": null,
-                    "required": true
-                },
-                {
-                    "type": 3,
-                    "name": "rules",
-                    "name_localizations": null,
-                    "description": "Enter the rules for the event separated by a comma with no spaces.",
-                    "description_localizations": null,
-                    "required": true
-                },
-                {
-                    "type": 3,
-                    "name": "tags",
-                    "name_localizations": null,
-                    "description": "Enter who you would like to tag for the event.",
-                    "description_localizations": null,
-                    "required": true
-                },
-                {
-                    "type": 3,
-                    "name": "scoring",
-                    "name_localizations": null,
-                    "description": "Enter the rules for scoring the event separated by a comma with no spaces.",
+                    "description": "Delete an existing event",
                     "description_localizations": null
                 }
             ],
@@ -1900,12 +1745,12 @@
         {
             "id": "1383083762652287057",
             "application_id": "1196458687955480677",
-            "version": "1383083762882969700",
+            "version": "1386162849621213348",
             "default_member_permissions": "8192",
             "type": 1,
             "name": "land-adjust",
             "name_localizations": null,
-            "description": "Use this command to adjust jewel counts for lands directly.",
+            "description": "Adjust jewel counts for a specified land.",
             "description_localizations": null,
             "guild_id": "1324370750131404893",
             "options": [
@@ -1913,16 +1758,16 @@
                     "type": 3,
                     "name": "land",
                     "name_localizations": null,
-                    "description": "What is the name of the land?",
+                    "description": "Name of the land to adjust",
                     "description_localizations": null,
                     "required": true,
                     "autocomplete": true
                 },
                 {
                     "type": 10,
-                    "name": "adjustment-type",
+                    "name": "adjustment_type",
                     "name_localizations": null,
-                    "description": "Please select whether you would like to add or subtract jewels.",
+                    "description": "1 to add, 2 to subtract",
                     "description_localizations": null,
                     "required": true,
                     "choices": [
@@ -1942,7 +1787,7 @@
                     "type": 10,
                     "name": "jewels",
                     "name_localizations": null,
-                    "description": "How many jewels?",
+                    "description": "Number of jewels to adjust",
                     "description_localizations": null,
                     "required": true
                 }
@@ -2053,12 +1898,12 @@
         {
             "id": "1383083762652287060",
             "application_id": "1196458687955480677",
-            "version": "1383083762966986834",
+            "version": "1386162849621213349",
             "default_member_permissions": "8192",
             "type": 1,
             "name": "end-task",
             "name_localizations": null,
-            "description": "End the task and allocate jewels to the three lands.",
+            "description": "End a task and allocate jewels to the three lands.",
             "description_localizations": null,
             "guild_id": "1324370750131404893",
             "options": [
@@ -2066,7 +1911,7 @@
                     "type": 3,
                     "name": "task",
                     "name_localizations": null,
-                    "description": "What task are you ending?",
+                    "description": "Name of the task to end",
                     "description_localizations": null,
                     "required": true
                 },
@@ -2221,6 +2066,29 @@
             "description": "Use this command to close an open schedule",
             "description_localizations": null,
             "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1386162849621213346",
+            "application_id": "1196458687955480677",
+            "version": "1386162849621213350",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "delete-closed-threads",
+            "name_localizations": null,
+            "description": "Delete all archived threads in a specific channel",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 7,
+                    "name": "channel",
+                    "name_localizations": null,
+                    "description": "The channel whose closed threads you want to delete",
+                    "description_localizations": null,
+                    "required": true
+                }
+            ],
             "nsfw": false
         },
         {

@@ -11,7 +11,7 @@ import { publishConfig } from "@sern/publisher";
 
 export default commandModule({
   name: "end-task",
-  description: "End the task and allocate jewels to the three lands.",
+  description: "End a task and allocate jewels to the three lands.",
   type: CommandType.Slash,
   plugins: [
     requirePermission("user", [PermissionFlagsBits.ManageMessages]),
@@ -24,7 +24,7 @@ export default commandModule({
     {
       type: ApplicationCommandOptionType.String,
       name: "task",
-      description: "What task are you ending?",
+      description: "Name of the task to end",
       required: true,
     },
     {
@@ -48,6 +48,11 @@ export default commandModule({
   ],
 
   execute: async (ctx) => {
+    // No autocomplete here
+    if (ctx.interaction.isAutocomplete()) return;
+
+    // Defer reply to extend time and keep ephemeral
+    await ctx.interaction.deferReply({ flags: MessageFlags.Ephemeral });
     try {
       // 1) Gather inputs
       const eventName = ctx.options.getString("task", true).toUpperCase();
@@ -63,7 +68,7 @@ export default commandModule({
         },
       ];
 
-      // 2) Update each land's points in parallel
+      // 2) Update all lands in parallel
       await Promise.all(
         inputs.map(({ name, jewels }) =>
           landsSchema.findOneAndUpdate(
@@ -73,66 +78,57 @@ export default commandModule({
         )
       );
 
-      // 3) Fetch emoji IDs and sort by jewels descending
+      // 3) Fetch emojiIDs and sort descending
       const detailed = await Promise.all(
         inputs.map(async ({ name, jewels }) => {
           const land = await landsSchema.findOne({ name });
-          return {
-            name,
-            jewels,
-            emojiID: land?.emojiID ?? "",
-          };
+          return { name, jewels, emojiID: land?.emojiID ?? "" };
         })
       );
       detailed.sort((a, b) => b.jewels - a.jewels);
 
-      // 4) Build the land-order string and log each update
+      // 4) Build results string and log per-land updates
       let landOrder = "";
-      const actor =
-        (await ctx.guild!.members.fetch(ctx.user.id)).nickname ??
-        ctx.user.username;
-      const logChannel = ctx.client.channels.cache.get(
-        "1374744395563270205"
-      ) as TextChannel;
+      const member = await ctx.guild!.members.fetch(ctx.user.id);
+      const actor = member.nickname ?? ctx.user.username;
+      const logChan = ctx.client.channels.cache.get("1374744395563270205") as
+        | TextChannel
+        | undefined;
 
       for (const { name, jewels, emojiID } of detailed) {
         landOrder += `${name}: **${jewels}** ${emojiID}\n`;
-        await logChannel.send(
-          `<:v_russell:1375161867152130182> ${actor} has added ${jewels} jewels to ${name}`
-        );
+        if (logChan?.isTextBased()) {
+          await logChan.send(
+            `<:v_russell:1375161867152130182> ${actor} added ${jewels} jewels to ${name}`
+          );
+        }
       }
 
-      // 5) Compose the announcement string
-      const endAnnounce = `## <a:fk_sparkles:1073627951989534800> **${eventName} TOTALS** <a:fk_sparkles:1073627951989534800>
-${landOrder}
--# Check out <#830617045741731910> for our weekly scheduled events to earn your land more jewels. We hope to see you there!`;
+      // 5) Announce task end in public channels
+      const announce = `**${eventName} TOTALS**\n${landOrder}\nCheck <#830617045741731910> for upcoming events!`;
+      const publicIds = ["1374744395563270205", "1220081937906008144"];
+      for (const id of publicIds) {
+        const ch = ctx.client.channels.cache.get(id) as TextChannel | undefined;
+        if (ch?.isTextBased()) {
+          await ch.send(
+            `<:v_russell:1375161867152130182> ${actor} has ended ${eventName}`
+          );
+        }
+      }
 
-      // 6) Send “ended” notifications
-      const endChannel1 = ctx.client.channels.cache.get(
-        "1374744395563270205"
-      ) as TextChannel;
-      await endChannel1.send(
-        `<:v_russell:1375161867152130182> ${actor} has ended ${eventName}`
-      );
-
-      const endChannel2 = ctx.client.channels.cache.get(
-        "1220081937906008144"
-      ) as TextChannel;
-      await endChannel2.send(
-        `<:v_russell:1375161867152130182> ${actor} has ended ${eventName}`
-      );
-
-      // 7) Reply with the formatted totals
-      await ctx.reply({
-        content: endAnnounce,
+      // 6) Edit deferred reply with totals
+      return await ctx.interaction.editReply({
+        content: announce,
         allowedMentions: { parse: ["roles", "users"] },
       });
     } catch (err) {
       console.error("[end-task] error:", err);
-      return ctx.reply({
-        content: "⚠️ Something went wrong ending your task.",
-        flags: MessageFlags.Ephemeral,
-      });
+      try {
+        await ctx.reply({
+          content: "⚠️ Something went wrong ending the task.",
+          flags: MessageFlags.Ephemeral,
+        });
+      } catch {}
     }
   },
 });

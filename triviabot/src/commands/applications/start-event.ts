@@ -7,6 +7,7 @@ import { CommandType, commandModule } from "@sern/handler";
 import { requirePermission } from "../../plugins/requirePermission.js";
 import eventSchema from "../../models/profiles/event-schema.js";
 import { publishConfig } from "@sern/publisher";
+import { suggestEvents } from "../../utils/suggestEvents.js";
 
 export default commandModule({
   name: "start-event",
@@ -28,22 +29,7 @@ export default commandModule({
       autocomplete: true,
       command: {
         onEvent: [],
-        execute: async (ctx: {
-          options: { getFocused: () => any };
-          respond: (arg0: { name: string; value: string }[]) => any;
-        }) => {
-          const focus = ctx.options.getFocused();
-          const events = await eventSchema.find({});
-          const eventNames = [];
-          for (const results of events) {
-            eventNames.push(results.name);
-            // console.log(results.name)
-          }
-          const filter = eventNames.filter((t) => t.startsWith(focus));
-          await ctx.respond(
-            filter.map((title) => ({ name: title, value: title }))
-          );
-        },
+        execute: suggestEvents
       },
     },
   ],

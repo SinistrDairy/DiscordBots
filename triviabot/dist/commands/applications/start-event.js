@@ -6,6 +6,7 @@ import { CommandType, commandModule } from "@sern/handler";
 import { requirePermission } from "../../plugins/requirePermission.js";
 import eventSchema from "../../models/profiles/event-schema.js";
 import { publishConfig } from "@sern/publisher";
+import { suggestEvents } from "../../utils/suggestEvents.js";
 var start_event_default = commandModule({
   name: "start-event",
   description: "Use this command to start your event!",
@@ -26,18 +27,7 @@ var start_event_default = commandModule({
       autocomplete: true,
       command: {
         onEvent: [],
-        execute: async (ctx) => {
-          const focus = ctx.options.getFocused();
-          const events = await eventSchema.find({});
-          const eventNames = [];
-          for (const results of events) {
-            eventNames.push(results.name);
-          }
-          const filter = eventNames.filter((t) => t.startsWith(focus));
-          await ctx.respond(
-            filter.map((title) => ({ name: title, value: title }))
-          );
-        }
+        execute: suggestEvents
       }
     }
   ],

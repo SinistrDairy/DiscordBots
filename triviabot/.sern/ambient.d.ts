@@ -4,6 +4,8 @@ declare var __VERSION__: string
 declare namespace NodeJS {
     interface ProcessEnv {
         ACLOCAL_PATH:string
+        ADMIN_ROLE_ID1:string
+        ADMIN_ROLE_ID2:string
         ALLUSERSPROFILE:string
         APPDATA:string
         APPLICATION_ID:string

@@ -108,4 +108,3 @@ process.on("unhandledRejection", (reason, promise) => {
 
 // ———— finally, log in ————
 await client.login(process.env.DISCORD_TOKEN!);
-console.log("🔑 Logged in to Discord.");
