@@ -65,7 +65,7 @@ jobs:
 
       - name: Post release to Discord
         env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_RELEASE_WEBHOOK }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           RELEASE_VERSION: ${{ steps.release.outputs.RELEASE_VERSION }}
           BOT_NAME: ${{ matrix.botName }}
         run: |
