@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.7.20](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.7.19...Rv1.7.20) (2025-06-22)
+
+### Bug Fixes
+
+* update SSH key secret reference in deployment workflow ([317b043](https://github.com/SinistrDairy/DiscordBots/commit/317b043f63accf0c75b07917606391c505184280))
+
 ## [1.7.19](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.7.18...Rv1.7.19) (2025-06-22)
 
 ## [1.7.18](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.7.17...Rv1.7.18) (2025-06-22)
