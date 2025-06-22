@@ -12,7 +12,27 @@ on:
       - "opie-bot/**"
 
 jobs:
+  filter:
+    runs-on: ubuntu-latest
+    outputs:
+      genie-changed: ${{ steps.filter.outputs['genie-bot'] }}
+      trivia-changed: ${{ steps.filter.outputs['triviabot'] }}
+      opie-changed: ${{ steps.filter.outputs['opie-bot'] }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: filter
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            genie-bot:
+              - 'genie-bot/**'
+            triviabot:
+              - 'triviabot/**'
+            opie-bot:
+              - 'opie-bot/**'
+
   release:
+    needs: filter
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -20,12 +40,17 @@ jobs:
           - bot: genie-bot
             tagPrefix: Gv
             botName: genie
+            changed: ${{ needs.filter.outputs.genie-changed }}
           - bot: triviabot
             tagPrefix: Tv
             botName: trivia
+            changed: ${{ needs.filter.outputs.trivia-changed }}
           - bot: opie-bot
             tagPrefix: Ov
             botName: opie
+            changed: ${{ needs.filter.outputs.opie-changed }}
+
+    if: matrix.changed == 'true'
 
     steps:
       - name: Checkout repo
@@ -37,6 +62,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
+          cache: pnpm
 
       - name: Install pnpm
         run: npm install -g pnpm
@@ -46,23 +72,14 @@ jobs:
           cd ${{ matrix.bot }}
           pnpm install
 
-      - name: Safe sync with remote
+      - name: Sync and stash changes
         run: |
           cd ${{ matrix.bot }}
-
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
-
-          git stash || true
+          git stash
           git fetch origin
-          git rebase origin/main || true
-
-          # Delete tag if created before
-          if git describe --tags --abbrev=0 >/dev/null 2>&1; then
-            TAG=$(git describe --tags --abbrev=0)
-            git tag -d "$TAG" || true
-          fi
-
+          git rebase origin/main || git pull --rebase origin main
           git stash pop || true
 
       - name: Run release-it
@@ -92,4 +109,13 @@ jobs:
 
           curl -X POST "$DISCORD_WEBHOOK_URL" \
             -H "Content-Type: application/json" \
-            -d "{\"content\": \"$(echo "$CONTENT" | sed ':a;N;$!ba;s/\n/\\n/g')\"}"
+            -d "{\"content\": \"$(echo "$CONTENT" | sed ':a;N;$!ba;s/\\n/\\\\n/g')\"}"
+
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.bot }}-artifact
+          path: |
+            ${{ matrix.bot }}/dist
+            ${{ matrix.bot }}/package.json
+            ${{ matrix.bot }}/pnpm-lock.yaml
