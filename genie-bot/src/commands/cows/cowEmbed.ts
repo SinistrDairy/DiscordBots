@@ -85,7 +85,7 @@ export default commandModule({
       .setColor(`#52baff`)
       .setFields({
         name: "\u200b",
-        value: `<:fk_star_bullet_y:1377710982302011532> This **Quest Post** is worth __**${defaultJewels}**__ <:fk_jewel:1333402533439475743>`,
+        value: `<:fk_star_bullet_y:1377710982302011532> This Quest Post is worth __**${defaultJewels}**__ <:fk_jewel:1333402533439475743>`,
       }) // same for description
       .setTimestamp() // auto‐timestamp
       .setFooter({
