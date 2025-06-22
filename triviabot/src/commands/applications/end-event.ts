@@ -67,7 +67,7 @@ export default commandModule({
     {
       type:        ApplicationCommandOptionType.Number,
       name:        "land-count",
-      description: `How many lands are competing?`,
+      description: `How many lands are competeing?`,
       required:    false,
     },
   ],
