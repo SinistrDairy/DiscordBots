@@ -4,36 +4,40 @@ import {
   ButtonStyle
 } from "discord.js";
 async function buildEventPreview(ctx, draft) {
-  const e = draft;
   const lines = [];
-  lines.push(`# __**EXAMPLE**__
-`);
-  const title = `${draft.titleEmoji ?? ""} ${draft.title ?? "Untitled"} ${draft.titleEmoji ?? ""}`.trim();
-  if (title) {
-    lines.push(`## ${title}`, "");
+  lines.push("# __**EXAMPLE**__", "");
+  if (draft.name) {
+    lines.push(`-# name: **${draft.name}**`, "");
   }
-  lines.push("### __Rules__\n");
+  if (draft.eventEmoji) {
+    lines.push(`-# event emoji: ${draft.eventEmoji}`, "");
+  }
+  if (draft.title) {
+    lines.push(`## ${draft.title}`, "");
+  }
+  lines.push("### __Rules__", "");
   for (const rule of draft.daRulez ?? []) {
-    lines.push(`${draft.rulesEmoji ?? "-"} ${rule}`);
+    const bullet = draft.rulesEmoji ?? "-";
+    lines.push(`${bullet} ${rule}`);
   }
   lines.push("");
-  lines.push("__**Scoring**__\n");
+  lines.push("__**Scoring**__", "");
   for (const entry of draft.scoring ?? []) {
-    if (!entry.includes(","))
-      continue;
-    const parts = entry.split(",").map((s) => s.trim());
-    const pts = parts.pop();
-    const desc = parts.join(", ");
-    lines.push(`${desc}, ${pts} ${draft.jewelEmoji ?? ""}`);
+    lines.push(entry);
   }
   lines.push("");
+  if (draft.pointList?.length) {
+    lines.push("__**Points**__", "");
+    lines.push(draft.pointList.join(", "));
+    lines.push("");
+  }
   const member = await ctx.guild?.members.fetch(ctx.user.id);
-  lines.push("__**Hosting**__\n");
+  lines.push("__**Hosting**__", "");
   lines.push(
     `<a:magicjewels:859867893587509298> Your host for today's game is: ${member?.displayName ?? ctx.user.username}`
   );
   lines.push("");
-  lines.push("__**Tag**__\n");
+  lines.push("__**Tag**__", "");
   lines.push(draft.tags ?? "`No tag set.`");
   lines.push("");
   const row = new ActionRowBuilder().addComponents(

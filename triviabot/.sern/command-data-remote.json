@@ -378,7 +378,7 @@
         {
             "id": "1384993909553369243",
             "application_id": "1196458687955480677",
-            "version": "1386395474948395148",
+            "version": "1386461343934189610",
             "default_member_permissions": "8",
             "type": 1,
             "name": "event-management",
@@ -821,7 +821,7 @@
         {
             "id": "1383930633683996826",
             "application_id": "1196458687955480677",
-            "version": "1383930633843380375",
+            "version": "1386461343934189611",
             "default_member_permissions": "8192",
             "type": 1,
             "name": "end-event",
@@ -851,7 +851,7 @@
                     "type": 10,
                     "name": "land-count",
                     "name_localizations": null,
-                    "description": "How many lands are competing?",
+                    "description": "How many lands are competeing?",
                     "description_localizations": null
                 }
             ],
@@ -1516,7 +1516,7 @@
         {
             "id": "1384993910580838522",
             "application_id": "1196458687955480677",
-            "version": "1386395475678072862",
+            "version": "1386461345058263080",
             "default_member_permissions": "8",
             "type": 1,
             "name": "event-management",
@@ -1959,7 +1959,7 @@
         {
             "id": "1383083762652287062",
             "application_id": "1196458687955480677",
-            "version": "1383083762966986835",
+            "version": "1386461345058263081",
             "default_member_permissions": "8192",
             "type": 1,
             "name": "end-event",
@@ -1989,7 +1989,7 @@
                     "type": 10,
                     "name": "land-count",
                     "name_localizations": null,
-                    "description": "How many lands are competing?",
+                    "description": "How many lands are competeing?",
                     "description_localizations": null
                 }
             ],

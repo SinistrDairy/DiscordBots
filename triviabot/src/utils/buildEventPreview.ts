@@ -3,42 +3,59 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
-  GuildMember,
 } from "discord.js";
 import type { EventDraft } from "./eventDraftCache.js";
 
-export async function buildEventPreview(ctx: any, draft: Partial<EventDraft>) {
-  const e = draft;
+export async function buildEventPreview(
+  ctx: any,
+  draft: Partial<EventDraft>
+) {
   const lines: string[] = [];
 
-  lines.push(`# __**EXAMPLE**__\n`);
+  // ── HEADER ─────────────────────────────────────────────────────────────
+  lines.push("# __**EXAMPLE**__", "");
 
-  const title = `${draft.titleEmoji ?? ""} ${draft.title ?? "Untitled"} ${
-    draft.titleEmoji ?? ""
-  }`.trim();
-
-  if (title) {
-    lines.push(`## ${title}`, "");
+  // ── NAME (optional) ────────────────────────────────────────────────────
+  if (draft.name) {
+    lines.push(`-# name: **${draft.name}**`, "");
+  }
+  if(draft.eventEmoji){
+    lines.push(`-# event emoji: ${draft.eventEmoji}`, "");
   }
 
-  lines.push("### __Rules__\n");
+  // ── TITLE ──────────────────────────────────────────────────────────────
+  // draft.title includes your embedded emojis already
+  if (draft.title) {
+    lines.push(`## ${draft.title}`, "");
+  }
+
+  // ── RULES ──────────────────────────────────────────────────────────────
+  lines.push("### __Rules__", "");
   for (const rule of draft.daRulez ?? []) {
-    lines.push(`${draft.rulesEmoji ?? "-"} ${rule}`);
+    // if you have a rulesEmoji in draft, you can prefix it here:
+    const bullet = draft.rulesEmoji ?? "-";
+    lines.push(`${bullet} ${rule}`);
   }
   lines.push("");
 
-  lines.push("__**Scoring**__\n");
+  // ── SCORING ────────────────────────────────────────────────────────────
+  lines.push("__**Scoring**__", "");
   for (const entry of draft.scoring ?? []) {
-    if (!entry.includes(",")) continue;
-    const parts = entry.split(",").map((s) => s.trim());
-    const pts = parts.pop()!;
-    const desc = parts.join(", ");
-    lines.push(`${desc}, ${pts} ${draft.jewelEmoji ?? ""}`);
+    // now every DB entry shows up, unmodified
+    lines.push(entry);
   }
   lines.push("");
 
+  // ── POINTS LIST ────────────────────────────────────────────────────────
+  if (draft.pointList?.length) {
+    lines.push("__**Points**__", "");
+    lines.push(draft.pointList.join(", "));
+    lines.push("");
+  }
+
+  // ── HOSTING ────────────────────────────────────────────────────────────
   const member = await ctx.guild?.members.fetch(ctx.user.id);
-  lines.push("__**Hosting**__\n");
+  lines.push("__**Hosting**__", "");
   lines.push(
     `<a:magicjewels:859867893587509298> Your host for today's game is: ${
       member?.displayName ?? ctx.user.username
@@ -46,10 +63,12 @@ export async function buildEventPreview(ctx: any, draft: Partial<EventDraft>) {
   );
   lines.push("");
 
-  lines.push("__**Tag**__\n");
+  // ── TAG ────────────────────────────────────────────────────────────────
+  lines.push("__**Tag**__", "");
   lines.push(draft.tags ?? "`No tag set.`");
   lines.push("");
 
+  // ── ACTION BUTTONS ─────────────────────────────────────────────────────
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
       .setCustomId("preview_submit")
