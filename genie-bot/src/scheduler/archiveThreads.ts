@@ -35,7 +35,7 @@ export function startArchiveScheduler(client: Client) {
             if (!ch?.isThread()) throw new Error("Not a thread");
           } catch {
             console.warn(`Cleaning up stale job ${job.id}`);
-            await ThreadArchive.deleteOne({ id: job.id });
+            await ThreadArchive.deleteOne();
             continue;
           }
 
@@ -46,7 +46,7 @@ export function startArchiveScheduler(client: Client) {
               ],
             });
             await ThreadArchive.updateOne(
-              { id: job.id },
+              { threadId: job.id },
               { $set: { endNotified: true } }
             );
           } catch (err) {
@@ -73,14 +73,14 @@ export function startArchiveScheduler(client: Client) {
             console.warn(
               `[archiveThreads] Removing job ${job.id}: channel not found`
             );
-            await ThreadArchive.deleteOne({ id: job.id });
+            await ThreadArchive.deleteOne();
             continue;
           }
 
           try {
             await ch.setArchived(true);
             await ThreadArchive.updateOne(
-              { id: job.id },
+              { threadId: job.id },
               { $set: { archived: true } }
             );
           } catch (err) {
