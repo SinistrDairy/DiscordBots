@@ -81,3 +81,12 @@ jobs:
           curl -X POST "$DISCORD_WEBHOOK_URL" \
             -H "Content-Type: application/json" \
             -d "{\"content\": \"$(echo "$CONTENT" | sed ':a;N;$!ba;s/\n/\\n/g')\"}"
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.bot }}-artifact
+          path: |
+            ${{ matrix.bot }}/dist
+            ${{ matrix.bot }}/package.json
+            ${{ matrix.bot }}/pnpm-lock.yaml
