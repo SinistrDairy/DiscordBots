@@ -113,11 +113,12 @@ jobs:
             '"
 
       - name: Notify Discord of Deploy
-        if: ${{ matrix.changed == 'true' }}
+        if: ${{ matrix.changed == 'true' && hashFiles('./artifact/package.json') != '' }}
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
           VERSION=$(jq -r .version ./artifact/package.json)
+
           curl -H "Content-Type: application/json" \
                -X POST \
                -d "{\"content\": \"-#  **Deployed** \\\`${{ matrix.bot }}\\\` v.**v$VERSION** to production.\"}" \
