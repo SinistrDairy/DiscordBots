@@ -1,6 +1,6 @@
 {
   "name": "genie",
-  "version": "1.9.16",
+  "version": "1.9.17",
   "private": true,
   "description": "",
   "main": "dist/index.js",
