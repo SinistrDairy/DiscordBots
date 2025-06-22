@@ -17,8 +17,8 @@ var cowEmbedModal_default = commandModule({
           flags: MessageFlags.Ephemeral
         });
       }
-      const title = ctx.fields.getTextInputValue("title");
-      const description = ctx.fields.getTextInputValue("description");
+      const title = ctx.fields.getTextInputValue("title_input");
+      const description = ctx.fields.getTextInputValue("description_input");
       const defaultJewels = 50;
       const jewelsRaw = ctx.fields.getTextInputValue("jewels");
       const jewelsPer = Number.parseInt(jewelsRaw, 10);
