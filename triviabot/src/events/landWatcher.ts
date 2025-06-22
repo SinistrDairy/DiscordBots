@@ -12,3 +12,4 @@ export default eventModule({
     await initLandTotalsWatcher(client);
   },
 });
+//testing
