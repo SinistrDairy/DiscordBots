@@ -1,4 +1,4 @@
-name: CI/CD Discord Bots
+name: Deploy Discord Bots
 
 on:
   push:
@@ -11,7 +11,7 @@ jobs:
     outputs:
       genie-changed: ${{ steps.filter.outputs['genie-bot'] }}
       trivia-changed: ${{ steps.filter.outputs['triviabot'] }}
-      opie-changed: ${{ steps.filter.outputs['opie-bot'] }}
+      opie-changed:   ${{ steps.filter.outputs['opie-bot'] }}
     steps:
       - uses: actions/checkout@v4
       - id: filter
@@ -31,42 +31,41 @@ jobs:
     strategy:
       matrix:
         include:
-          - bot-dir: genie-bot
+          - bot: genie-bot
             changed: ${{ needs.filter.outputs.genie-changed }}
-          - bot-dir: triviabot
+          - bot: triviabot
             changed: ${{ needs.filter.outputs.trivia-changed }}
-          - bot-dir: opie-bot
+          - bot: opie-bot
             changed: ${{ needs.filter.outputs.opie-changed }}
 
     steps:
       - name: Skip if unchanged
         if: ${{ matrix.changed != 'true' }}
-        run: echo "No changes detected in ${{ matrix.bot-dir }}, skipping."
+        run: echo "No changes detected in ${{ matrix.bot }}, skipping."
 
-      - name: Checkout code
+      - name: Checkout
         if: ${{ matrix.changed == 'true' }}
         uses: actions/checkout@v4
 
-      - name: Install pnpm
-        if: ${{ matrix.changed == 'true' }}
-        run: npm install -g pnpm
-
-      - name: Setup Node.js 20
+      - name: Setup Node.js and pnpm
         if: ${{ matrix.changed == 'true' }}
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "pnpm"
+          cache: pnpm
 
-      - name: Install and Build ${{ matrix.bot-dir }}
+      - name: Install jq
         if: ${{ matrix.changed == 'true' }}
-        run: |
-          cd "${{ matrix.bot-dir }}"
-          pnpm install --frozen-lockfile
-          pnpm add -D @sern/cli@latest
-          pnpm build
+        run: sudo apt-get install -y jq
 
-      - name: Load SSH key
+      - name: Download Artifact
+        if: ${{ matrix.changed == 'true' }}
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ matrix.bot }}-v*
+          path: ./artifact
+
+      - name: Load SSH Key
         if: ${{ matrix.changed == 'true' }}
         uses: webfactory/ssh-agent@v0.5.4
         with:
@@ -78,26 +77,34 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.VPS_Host }} >> ~/.ssh/known_hosts
 
-      - name: Deploy ${{ matrix.bot-dir }} to VPS
+      - name: Deploy Artifact to VPS
         if: ${{ matrix.changed == 'true' }}
         run: |
+          VERSION=$(jq -r .version ./artifact/package.json)
+
           scp -r \
-            "${{ matrix.bot-dir }}/dist" \
-            "${{ matrix.bot-dir }}/package.json" \
-            "${{ matrix.bot-dir }}/pnpm-lock.yaml" \
-            "${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}:/var/www/discord-bots/DiscordBots/${{ matrix.bot-dir }}"
+            ./artifact/dist \
+            ./artifact/package.json \
+            ./artifact/pnpm-lock.yaml \
+            "${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}:/var/www/discord-bots/DiscordBots/${{ matrix.bot }}"
 
           ssh "${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}" \
             "bash -lc '
-              cd /var/www/discord-bots/DiscordBots/${{ matrix.bot-dir }}
+              cd /var/www/discord-bots/DiscordBots/${{ matrix.bot }}
               pnpm install --prod --frozen-lockfile --ignore-scripts
+
+              # Reload with versioned PM2 process name
+              pm2 delete ${{ matrix.bot }}-\$VERSION || true
+              pm2 start ./dist/index.js --name ${{ matrix.bot }}-\$VERSION
             '"
 
-      - name: Reload PM2 for ${{ matrix.bot-dir }}
+      - name: Notify Discord of Deploy
         if: ${{ matrix.changed == 'true' }}
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          ssh "${{ secrets.VPS_USER }}@${{ secrets.VPS_Host }}" \
-            "bash -lc '
-              cd /var/www/discord-bots/DiscordBots
-              pm2 startOrReload ecosystem.config.js
-            '"
+          VERSION=$(jq -r .version ./artifact/package.json)
+          curl -H "Content-Type: application/json" \
+               -X POST \
+                -d "{\"content\": \"-# 🚀 **Deployed** \\\`${{ matrix.bot }}\\\` v.**v$VERSION** to production.\"}" \
+               $DISCORD_WEBHOOK_URL
