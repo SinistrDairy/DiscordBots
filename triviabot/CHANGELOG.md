@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.7.15](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.7.14...Rv1.7.15) (2025-06-22)
+
+### Documentation
+
+* :rocket: ([b53260a](https://github.com/SinistrDairy/DiscordBots/commit/b53260a045a368680d658848c043581ae21755a0))
+
 ## [1.7.14](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.7.13...Rv1.7.14) (2025-06-22)
 
 ## [1.7.13](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.7.12...Rv1.7.13) (2025-06-22)
