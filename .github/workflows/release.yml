@@ -72,20 +72,15 @@ jobs:
           BOT_NAME: ${{ matrix.botName }}
         run: |
           cd ${{ matrix.bot }}
+
           CHANGELOG=$(head -n 30 CHANGELOG.md)
 
-          read -r -d '' CONTENT <<EOF
-          # $BOT_NAME
-          ### Version: \`$RELEASE_VERSION\`
+          CONTENT=$(printf "# %s\n### Version: \`%s\`\n\n#### Features & Fixes\n\n%s" \
+            "$BOT_NAME" "$RELEASE_VERSION" "$CHANGELOG")
 
-          #### Features & Fixes
+          echo "Posting to Discord:"
+          echo "$CONTENT"
 
-          $CHANGELOG
-          EOF
-
-            echo "Posting to Discord:"
-            echo "$CONTENT"
-
-            curl -X POST "$DISCORD_WEBHOOK_URL" \
-              -H "Content-Type: application/json" \
-              -d "{\"content\": \"$(echo \"$CONTENT\" | sed ':a;N;$!ba;s/\\n/\\\\n/g')\"}"
+          curl -X POST "$DISCORD_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d "{\"content\": \"$(echo "$CONTENT" | sed ':a;N;$!ba;s/\n/\\n/g')\"}"
