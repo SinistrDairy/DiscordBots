@@ -106,5 +106,5 @@ jobs:
           VERSION=$(jq -r .version ./artifact/package.json)
           curl -H "Content-Type: application/json" \
                -X POST \
-                -d "{\"content\": \"-# 🚀 **Deployed** \\\`${{ matrix.bot }}\\\` v.**v$VERSION** to production.\"}" \
+                -d "{\"content\": \"-#  **Deployed** \\\`${{ matrix.bot }}\\\` v.**v$VERSION** to production.\"}" \
                $DISCORD_WEBHOOK_URL

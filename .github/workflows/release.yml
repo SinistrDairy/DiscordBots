@@ -88,5 +88,5 @@ jobs:
           VERSION=${{ steps.release.outputs.RELEASE_VERSION }}
           curl -H "Content-Type: application/json" \
                -X POST \
-               -d "{\"content\": \"# ${{ matrix.bot }} 🚀\n\n## Version $VERSION\n\n${{ steps.changelog.outputs.notes }}\"}" \
+               -d "{\"content\": \"# ${{ matrix.bot }} 🤖\n\n## Version $VERSION\n\n${{ steps.changelog.outputs.notes }}\"}" \
                $DISCORD_WEBHOOK_URL
