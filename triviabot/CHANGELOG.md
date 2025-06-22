@@ -1,5 +1,7 @@
 # Changelog
 
+## [1.7.8](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.7.7...Rv1.7.8) (2025-06-22)
+
 ## [1.7.7](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.7.6...Rv1.7.7) (2025-06-22)
 
 ## [1.7.6](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.7.5...Rv1.7.6) (2025-06-22)
