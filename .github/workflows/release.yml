@@ -1,4 +1,6 @@
 name: Release Discord Bots
+permissions:
+  contents: write
 
 on:
   workflow_dispatch:
@@ -29,7 +31,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Required to fetch tags
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -70,22 +72,20 @@ jobs:
           BOT_NAME: ${{ matrix.botName }}
         run: |
           cd ${{ matrix.bot }}
-
           CHANGELOG=$(head -n 30 CHANGELOG.md)
 
-          CONTENT=$(cat <<EOF
+          read -r -d '' CONTENT <<EOF
           # $BOT_NAME
           ### Version: \`$RELEASE_VERSION\`
-          
+
           #### Features & Fixes
-          
+
           $CHANGELOG
           EOF
-                    )
-          
-                    echo "Posting to Discord:"
-                    echo "$CONTENT"
-          
-                    curl -X POST "$DISCORD_WEBHOOK_URL" \
-                      -H "Content-Type: application/json" \
-                      -d "{\"content\": \"$(echo "$CONTENT" | sed ':a;N;$!ba;s/\n/\\n/g')\"}"
+
+            echo "Posting to Discord:"
+            echo "$CONTENT"
+
+            curl -X POST "$DISCORD_WEBHOOK_URL" \
+              -H "Content-Type: application/json" \
+              -d "{\"content\": \"$(echo \"$CONTENT\" | sed ':a;N;$!ba;s/\\n/\\\\n/g')\"}"
