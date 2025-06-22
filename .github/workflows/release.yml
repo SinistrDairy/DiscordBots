@@ -50,29 +50,35 @@ jobs:
             botName: opie
             changed: ${{ needs.filter.outputs.opie-changed }}
 
-    if: matrix.changed == 'true'
-
     steps:
+
+      - name: Skip if unchanged
+        if: ${{ matrix.changed != 'true' }}
+        run: echo "No changes detected in ${{ matrix.bot }}, skipping."
+
       - name: Checkout repo
+        if: ${{ matrix.changed == 'true' }}
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup Node.js
+        if: ${{ matrix.changed == 'true' }}
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
           cache: pnpm
-
       - name: Install pnpm
+        if: ${{ matrix.changed == 'true' }} 
         run: npm install -g pnpm
-
       - name: Install dependencies
+        if: ${{ matrix.changed == 'true' }}
         run: |
           cd ${{ matrix.bot }}
           pnpm install
 
       - name: Sync and stash changes
+        if: ${{ matrix.changed == 'true' }}
         run: |
           cd ${{ matrix.bot }}
           git config --global user.email "actions@github.com"
@@ -83,6 +89,7 @@ jobs:
           git stash pop || true
 
       - name: Run release-it
+        if: ${{ matrix.changed == 'true' }}
         id: release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -92,6 +99,7 @@ jobs:
           echo "RELEASE_VERSION=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
 
       - name: Post release to Discord
+        if: ${{ matrix.changed == 'true' }}
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           RELEASE_VERSION: ${{ steps.release.outputs.RELEASE_VERSION }}
@@ -112,6 +120,7 @@ jobs:
             -d "{\"content\": \"$(echo "$CONTENT" | sed ':a;N;$!ba;s/\\n/\\\\n/g')\"}"
 
       - name: Upload release artifact
+        if: ${{ matrix.changed == 'true' }}
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.bot }}-artifact
