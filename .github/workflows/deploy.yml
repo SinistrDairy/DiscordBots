@@ -2,7 +2,8 @@ name: Deploy Discord Bots
 
 on:
   workflow_run:
-    workflows: ["Release Discord Bots"]
+    workflows:
+      - Release Discord Bots
     types:
       - completed
 
@@ -12,9 +13,13 @@ jobs:
     outputs:
       genie-changed: ${{ steps.filter.outputs['genie-bot'] }}
       trivia-changed: ${{ steps.filter.outputs['triviabot'] }}
-      opie-changed: ${{ steps.filter.outputs['opie-bot'] }}
+      opie-changed:  ${{ steps.filter.outputs['opie-bot'] }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code for filtering
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - id: filter
         uses: dorny/paths-filter@v2
         with:
@@ -34,81 +39,62 @@ jobs:
         include:
           - bot: genie-bot
             name: Genie
-            changed: ${{ needs.filter.outputs.genie-changed }}
+            changed: ${{ needs.filter.outputs.genie-bot }}
           - bot: triviabot
             name: Russell
-            changed: ${{ needs.filter.outputs.trivia-changed }}
+            changed: ${{ needs.filter.outputs.triviabot }}
           - bot: opie-bot
             name: Opie
-            changed: ${{ needs.filter.outputs.opie-changed }}
+            changed: ${{ needs.filter.outputs.opie-bot }}
 
     steps:
-      - name: Checkout
+      - name: Checkout at release SHA
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.workflow_run.head_sha }}
 
-      - name: Setup Node.js & pnpm
+      - name: Setup Node.js, pnpm & jq
         run: |
           curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-          sudo apt-get install -y nodejs
+          sudo apt-get update
+          sudo apt-get install -y nodejs jq
           npm install -g pnpm
 
-      - name: Install jq
-        run: sudo apt-get install -y jq
-
-      - name: Download artifact from Release run
-        id: download
+      - name: Install & build bot
         if: ${{ matrix.changed == 'true' }}
-        continue-on-error: true
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{ matrix.bot }}-artifact
-          path: ./artifact/${{ matrix.bot }}
-          run-id: ${{ github.event.workflow_run.id }}
+        run: |
+          cd ${{ matrix.bot }}
+          pnpm install
+          pnpm build
 
-      - name: Debug artifact structure
-        run: ls -R ./artifact || true
-
-      - name: Debug workflow_run.id
-        run: echo "This deploy was triggered by workflow_run.id = ${{ github.event.workflow_run.id }}"
-      - name: Load SSH Key
+      - name: Setup SSH agent
+        if: ${{ matrix.changed == 'true' }}
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.VPS_PRIVATE_KEY }}
 
       - name: Add VPS to known_hosts
+        if: ${{ matrix.changed == 'true' }}
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Connect to VPS and deploy
-        id: deploy
+      - name: Copy dist and restart PM2
         if: ${{ matrix.changed == 'true' }}
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_PRIVATE_KEY }}
-          script: |
-            cd /root/DiscordBots/${{ matrix.bot }}
-            if [ -d "./artifact/${{ matrix.bot }}/dist" ]; then
-              echo "Deploying updated files for ${{ matrix.bot }}..."
-              rm -rf dist
-              mv ./artifact/${{ matrix.bot }}/dist ./dist
-              mv ./artifact/${{ matrix.bot }}/package.json ./
-              mv ./artifact/${{ matrix.bot }}/pnpm-lock.yaml ./
-            else
-              echo "No artifact dist found for ${{ matrix.bot }}, skipping deploy."
-            fi
-            echo "Restarting PM2 for ${{ matrix.bot }}..."
-            pm2 restart ${{ matrix.bot }} || pm2 start dist/index.js --name ${{ matrix.bot }}
+        run: |
+          rsync -avz --delete ${{ matrix.bot }}/dist/ \
+            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/root/DiscordBots/${{ matrix.bot }}/dist
+          ssh -o StrictHostKeyChecking=no \
+            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} \
+            "pm2 restart ${{ matrix.bot }} || pm2 start /root/DiscordBots/${{ matrix.bot }}/dist/index.js --name ${{ matrix.bot }}"
 
       - name: Notify Discord of Deployment
-        if: ${{matrix.changed == 'true' && steps.deploy.outcome == 'success' }}
+        if: ${{ matrix.changed == 'true' }}
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          VERSION=$(jq -r .version ./artifact/${{ matrix.bot }}/package.json || echo "unknown")
-          curl -H "Content-Type: application/json" \
-               -X POST \
-               -d "{\"content\": \"-# ✅ **Deployed** \\\`${{ matrix.name }}\\\`  v.**${VERSION}** to production.\"}" \
-               $DISCORD_WEBHOOK_URL
+          VERSION=$(jq -r .version ./${{ matrix.bot }}/package.json)
+          curl -X POST "$DISCORD_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d "{\"content\":\"✅ Deployed \\\`${{ matrix.name }}\\\` v**${VERSION}** to production.\"}"

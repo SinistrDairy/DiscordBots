@@ -18,9 +18,13 @@ jobs:
     outputs:
       genie-changed: ${{ steps.filter.outputs['genie-bot'] }}
       trivia-changed: ${{ steps.filter.outputs['triviabot'] }}
-      opie-changed: ${{ steps.filter.outputs['opie-bot'] }}
+      opie-changed:  ${{ steps.filter.outputs['opie-bot'] }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout for filtering
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - id: filter
         uses: dorny/paths-filter@v2
         with:
@@ -52,36 +56,37 @@ jobs:
             changed: ${{ needs.filter.outputs.opie-changed }}
 
     steps:
-      - name: Skip if unchanged
-        if: ${{ matrix.changed != 'true' }}
-        run: echo "No changes detected in ${{ matrix.bot }}, skipping."
+      - name: Skip if unchanged on push
+        if: ${{ github.event_name != 'workflow_dispatch' && matrix.changed != 'true' }}
+        run: echo "No changes in ${{ matrix.bot }}, skipping release."
 
-      - name: Checkout
+      - name: Checkout code
         if: ${{ github.event_name == 'workflow_dispatch' || matrix.changed == 'true' }}
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup Node.js & pnpm
-        if: ${{ matrix.changed == 'true' }}
+        if: ${{ github.event_name == 'workflow_dispatch' || matrix.changed == 'true' }}
         run: |
           curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+          sudo apt-get update
           sudo apt-get install -y nodejs
           npm install -g pnpm
 
       - name: Install dependencies
-        if: ${{ matrix.changed == 'true' }}
+        if: ${{ github.event_name == 'workflow_dispatch' || matrix.changed == 'true' }}
         run: |
           cd ${{ matrix.bot }}
           pnpm install
 
-      - name: Sync and stash changes
-        if: ${{ matrix.changed == 'true' }}
+      - name: Sync and stash upstream changes
+        if: ${{ github.event_name == 'workflow_dispatch' || matrix.changed == 'true' }}
         run: |
           cd ${{ matrix.bot }}
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
-          git stash || true
+          git stash --include-untracked || true
           git pull --rebase origin main || git rebase --abort || true
           git stash pop || true
 
@@ -95,16 +100,6 @@ jobs:
           pnpm exec release-it --ci --increment patch --tag-prefix=${{ matrix.tagPrefix }}
           echo "RELEASE_VERSION=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
 
-      - name: Upload release artifact
-        if: ${{ github.event_name == 'workflow_dispatch' || matrix.changed == 'true' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.bot }}-artifact
-          path: |
-            ${{ matrix.bot }}/dist
-            ${{ matrix.bot }}/package.json
-            ${{ matrix.bot }}/pnpm-lock.yaml
-
       - name: Post release to Discord
         if: ${{ github.event_name == 'workflow_dispatch' || matrix.changed == 'true' }}
         env:
@@ -114,6 +109,10 @@ jobs:
         run: |
           cd ${{ matrix.bot }}
           CHANGELOG=$(awk 'BEGIN{p=0} /^## /{if(p++)exit} {if(p)print}' CHANGELOG.md)
-          CONTENT=$(printf "# %s\n### Version: \`%s\`\n\n### Features & Fixes\n\n%s" "$BOT_NAME" "$RELEASE_VERSION" "$CHANGELOG")
-          echo "$CONTENT" | jq -Rs '{content: .}' > payload.json
-          curl -X POST "$DISCORD_WEBHOOK_URL" -H "Content-Type: application/json" -d @payload.json
+          PAYLOAD=$(jq -Rn --arg name "$BOT_NAME" \
+                          --arg ver "$RELEASE_VERSION" \
+                          --arg changelog "$CHANGELOG" \
+                          '{content: ("# " + $name + "\n### Version: `" + $ver + "`\n\n### Features & Fixes\n\n" + $changelog)}')
+          curl -X POST "$DISCORD_WEBHOOK_URL" \
+               -H "Content-Type: application/json" \
+               -d "$PAYLOAD"
