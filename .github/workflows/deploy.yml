@@ -86,13 +86,22 @@ jobs:
       - name: Copy dist and restart PM2
         if: ${{ matrix.changed == 'true' }}
         run: |
-          rsync -avz --delete ${{ matrix.bot }}/dist/ \
-            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/root/DiscordBots/${{ matrix.bot }}/dist
+          REMOTE_BASE='var/www/discord-bots/DiscordBots/${{ matrix.bot }}'
+          # 5.a) Ensure remote dist directory exists
           ssh -o StrictHostKeyChecking=no \
-            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} \
-            "pm2 restart ${{ matrix.bot }} || pm2 start /root/DiscordBots/${{ matrix.bot }}/dist/index.js --name ${{ matrix.bot }}"
+            root@${{ secrets.VPS_HOST }} \
+            "mkdir -p \$REMOTE_BASE/dist"
 
-      # 6) Let Discord know it’s live
+          # 5.b) Sync local dist/ to remote
+          rsync -avz --delete \
+            ${{ matrix.bot }}/dist/ \
+            root@${{ secrets.VPS_HOST }}:\$REMOTE_BASE/dist
+
+          # 5.c) Restart or start via PM2
+          ssh -o StrictHostKeyChecking=no \
+            root@${{ secrets.VPS_HOST }} \
+            "pm2 restart ${{ matrix.bot }} || pm2 start \$REMOTE_BASE/dist/index.js --name ${{ matrix.bot }}"# 6) Let Discord know it’s live
+
       - name: Notify Discord of Deployment
         if: ${{ matrix.changed == 'true' }}
         env:
