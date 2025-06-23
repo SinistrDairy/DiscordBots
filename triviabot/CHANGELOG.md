@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.9.4](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.9.3...Rv1.9.4) (2025-06-23)
+
+### Bug Fixes
+
+* correct output variable names for bot change detection in deploy workflow ([c41b812](https://github.com/SinistrDairy/DiscordBots/commit/c41b812c710e49a6a0de085bd8ae24e9f61d77de))
+
 ## [1.9.3](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.9.2...Rv1.9.3) (2025-06-23)
 
 ## [1.9.2](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.9.1...Rv1.9.2) (2025-06-23)
