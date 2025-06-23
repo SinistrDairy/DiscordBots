@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.8.3](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.8.2...Rv1.8.3) (2025-06-23)
+
+### Features
+
+* add debug step to log workflow_run.id during deployment ([022dc37](https://github.com/SinistrDairy/DiscordBots/commit/022dc3762c4e1db51d2005d2b60f9cc18cc627e4))
+
 ## [1.8.2](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.8.1...Rv1.8.2) (2025-06-23)
 
 ### Bug Fixes
