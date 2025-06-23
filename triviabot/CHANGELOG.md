@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.8.2](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.8.1...Rv1.8.2) (2025-06-23)
+
+### Bug Fixes
+
+* improve artifact download step in deployment workflow ([2f5125b](https://github.com/SinistrDairy/DiscordBots/commit/2f5125b2ec07bdefdef205da8e5934e3ce10ad2f))
+
 ## [1.8.1](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.8.0...Rv1.8.1) (2025-06-23)
 
 ## [1.8.0](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.7.21...Rv1.8.0) (2025-06-23)
