@@ -54,6 +54,7 @@ jobs:
 
       - name: Download artifact from Release run
         id: download
+        if: ${{ matrix.changed == 'true' }}
         continue-on-error: true
         uses: actions/download-artifact@v4
         with:
@@ -77,6 +78,7 @@ jobs:
           ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
 
       - name: Connect to VPS and deploy
+        id: deploy
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.VPS_HOST }}
@@ -97,7 +99,7 @@ jobs:
             pm2 restart ${{ matrix.bot }} || pm2 start dist/index.js --name ${{ matrix.bot }}
 
       - name: Notify Discord of Deployment
-        if: steps.download.outcome == 'success'
+        if: steps.deploy.outcome == 'success'
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
