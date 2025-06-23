@@ -2,10 +2,8 @@ name: Deploy Discord Bots
 
 on:
   workflow_run:
-    workflows:
-      - Release Discord Bots
-    types:
-      - completed
+    workflows: ["Release Discord Bots"]
+    types: [completed]
 
 jobs:
   filter:
@@ -13,9 +11,9 @@ jobs:
     outputs:
       genie-changed: ${{ steps.filter.outputs['genie-bot'] }}
       trivia-changed: ${{ steps.filter.outputs['triviabot'] }}
-      opie-changed:  ${{ steps.filter.outputs['opie-bot'] }}
+      opie-changed: ${{ steps.filter.outputs['opie-bot'] }}
     steps:
-      - name: Checkout code for filtering
+      - name: Checkout for filtering
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -40,7 +38,7 @@ jobs:
           - bot: genie-bot
             name: Genie
             changed: ${{ needs.filter.outputs.genie-bot }}
-          - bot: triviabot
+          - bot: triviabot 
             name: Russell
             changed: ${{ needs.filter.outputs.triviabot }}
           - bot: opie-bot
@@ -48,12 +46,14 @@ jobs:
             changed: ${{ needs.filter.outputs.opie-bot }}
 
     steps:
+      # 1) **Always** checkout the exact SHA the Release run used
       - name: Checkout at release SHA
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ github.event.workflow_run.head_sha }}
 
+      # 2) Install Node.js, pnpm & jq
       - name: Setup Node.js, pnpm & jq
         run: |
           curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
@@ -61,6 +61,7 @@ jobs:
           sudo apt-get install -y nodejs jq
           npm install -g pnpm
 
+      # 3) Build only if this bot actually changed
       - name: Install & build bot
         if: ${{ matrix.changed == 'true' }}
         run: |
@@ -68,6 +69,7 @@ jobs:
           pnpm install
           pnpm build
 
+      # 4) SSH into your VPS
       - name: Setup SSH agent
         if: ${{ matrix.changed == 'true' }}
         uses: webfactory/ssh-agent@v0.5.4
@@ -80,6 +82,7 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
 
+      # 5) Sync dist/ and restart PM2
       - name: Copy dist and restart PM2
         if: ${{ matrix.changed == 'true' }}
         run: |
@@ -89,6 +92,7 @@ jobs:
             ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} \
             "pm2 restart ${{ matrix.bot }} || pm2 start /root/DiscordBots/${{ matrix.bot }}/dist/index.js --name ${{ matrix.bot }}"
 
+      # 6) Let Discord know it’s live
       - name: Notify Discord of Deployment
         if: ${{ matrix.changed == 'true' }}
         env:
