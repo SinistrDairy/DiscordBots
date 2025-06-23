@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.0](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.8.4...Rv1.9.0) (2025-06-23)
+
+### Bug Fixes
+
+* update bot names in deployment and release workflows ([f3e7ef1](https://github.com/SinistrDairy/DiscordBots/commit/f3e7ef188f629a884626f8f644b3a18fb1cbae68))
+* update conditions for checkout, release, and artifact upload steps ([0e4a891](https://github.com/SinistrDairy/DiscordBots/commit/0e4a891c14c6b6b35585cf22849921e87be9c1b0))
+
 ## [1.8.4](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.8.3...Rv1.8.4) (2025-06-23)
 
 ### Bug Fixes
