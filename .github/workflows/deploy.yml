@@ -108,7 +108,30 @@ jobs:
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
+          set -x
+          # Read version from package.json
           VERSION=$(jq -r .version ./${{ matrix.bot }}/package.json)
-          curl -X POST "$DISCORD_WEBHOOK_URL" \
-            -H "Content-Type: application/json" \
-            -d "{\"content\":\"✅ Deployed \\\`${{ matrix.name }}\\\` v**${VERSION}** to production.\"}"
+          
+          # Build a clean JSON payload
+          PAYLOAD=$(
+            jq -nc --arg bot "${{ matrix.name }}" \
+                   --arg ver "$VERSION" \
+                   '{content: ("✅ Deployed \($bot) v\($ver) to production.")}'
+          )
+          
+          echo "Payload:"
+          echo "$PAYLOAD"
+          
+          # POST and capture HTTP status
+          HTTP_STATUS=$(
+            curl -s -o /dev/null -w "%{http_code}" \
+              -X POST "$DISCORD_WEBHOOK_URL" \
+              -H 'Content-Type: application/json' \
+              -d "$PAYLOAD"
+          )
+          
+          echo "Discord API responded with HTTP $HTTP_STATUS"
+          if [ "$HTTP_STATUS" -ge 400 ]; then
+            echo "❌ Failed to notify Discord"
+            exit 1
+          fi
