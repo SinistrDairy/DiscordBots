@@ -43,24 +43,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20.x
-
-      - name: Install pnpm
-        run: npm install -g pnpm
+      - name: Setup Node.js & pnpm
+        run: |
+          curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+          sudo apt-get install -y nodejs
+          npm install -g pnpm
 
       - name: Install jq
         run: sudo apt-get install -y jq
 
-      - name: Attempt to download artifact (if it exists)
+      - name: Download artifact (if it exists)
         id: download
         continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           name: ${{ matrix.bot }}-artifact
           path: ./artifact/${{ matrix.bot }}
+
+      - name: Debug artifact structure
+        run: ls -R ./artifact || true
 
       - name: Load SSH Key
         uses: webfactory/ssh-agent@v0.5.4
@@ -80,12 +81,14 @@ jobs:
           key: ${{ secrets.VPS_PRIVATE_KEY }}
           script: |
             cd /root/DiscordBots/${{ matrix.bot }}
-            if [ -d "./artifact/${{ matrix.bot }}" ]; then
+            if [ -d "./artifact/${{ matrix.bot }}/dist" ]; then
               echo "Deploying updated files for ${{ matrix.bot }}..."
               rm -rf dist
-              mv ./artifact/${{ matrix.bot }} ./dist
+              mv ./artifact/${{ matrix.bot }}/dist ./dist
+              mv ./artifact/${{ matrix.bot }}/package.json ./
+              mv ./artifact/${{ matrix.bot }}/pnpm-lock.yaml ./
             else
-              echo "No artifact found for ${{ matrix.bot }}, skipping deploy."
+              echo "No artifact dist found for ${{ matrix.bot }}, skipping deploy."
             fi
             echo "Restarting PM2 for ${{ matrix.bot }}..."
             pm2 restart ${{ matrix.bot }} || pm2 start dist/index.js --name ${{ matrix.bot }}
@@ -98,5 +101,5 @@ jobs:
           VERSION=$(jq -r .version ./artifact/${{ matrix.bot }}/package.json || echo "unknown")
           curl -H "Content-Type: application/json" \
                -X POST \
-               -d "{\"content\": \"✅ **Deployed** \\\\`${{ matrix.bot }}\\\` version **${VERSION}** to production.\"}" \
+               -d "{\"content\": \"-# ✅ **Deployed** \\\`${{ matrix.bot }}\\\`  v.**${VERSION}** to production.\"}" \
                $DISCORD_WEBHOOK_URL

@@ -113,18 +113,7 @@ jobs:
           BOT_NAME: ${{ matrix.botName }}
         run: |
           cd ${{ matrix.bot }}
-
-          # extract the first full changelog block
           CHANGELOG=$(awk 'BEGIN{p=0} /^## /{if(p++)exit} {if(p)print}' CHANGELOG.md)
-
-          CONTENT=$(printf "# %s\n### Version: \`%s\`\n\n### Features & Fixes\n\n%s" \
-            "$BOT_NAME" "$RELEASE_VERSION" "$CHANGELOG")
-
-          echo "Posting to Discord..."
-          echo "$CONTENT"
-
+          CONTENT=$(printf "# %s\n### Version: \`%s\`\n\n### Features & Fixes\n\n%s" "$BOT_NAME" "$RELEASE_VERSION" "$CHANGELOG")
           echo "$CONTENT" | jq -Rs '{content: .}' > payload.json
-
-          curl -X POST "$DISCORD_WEBHOOK_URL" \
-            -H "Content-Type: application/json" \
-            -d @payload.json
+          curl -X POST "$DISCORD_WEBHOOK_URL" -H "Content-Type: application/json" -d @payload.json
