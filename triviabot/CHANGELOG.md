@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.9.6](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.9.5...Rv1.9.6) (2025-06-23)
+
+### Bug Fixes
+
+* ensure remote directory exists before syncing and restarting PM2 ([e70ad94](https://github.com/SinistrDairy/DiscordBots/commit/e70ad9439ac2305257dcb9935e3a392f843922ed))
+
 ## [1.9.5](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.9.4...Rv1.9.5) (2025-06-23)
 
 ### Bug Fixes
