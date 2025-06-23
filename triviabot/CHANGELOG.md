@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.4](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.8.3...Rv1.8.4) (2025-06-23)
+
+### Bug Fixes
+
+* add condition to deploy step and update notification trigger ([ae6af21](https://github.com/SinistrDairy/DiscordBots/commit/ae6af21248a08cc9e042afd8aca1031f6c575dcc))
+* correct conditions for artifact download and deployment notification ([246ae29](https://github.com/SinistrDairy/DiscordBots/commit/246ae293f14b8be6aabbd92b882f77241e145db1))
+
 ## [1.8.3](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.8.2...Rv1.8.3) (2025-06-23)
 
 ### Features
