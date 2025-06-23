@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.8.0](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.7.21...Rv1.8.0) (2025-06-23)
+
+### Features
+
+* :sparkles: alphabetical listing of events ([2013ca9](https://github.com/SinistrDairy/DiscordBots/commit/2013ca9d1b38b2b1affafaa9d0de1087d9f39373))
+
+### Bug Fixes
+
+* streamline Node.js and pnpm setup in deployment workflow ([325b65e](https://github.com/SinistrDairy/DiscordBots/commit/325b65e07dc2af8c8b0724581713edec9eee3c04))
+
 ## [1.7.21](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.7.20...Rv1.7.21) (2025-06-22)
 
 ## [1.7.20](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.7.19...Rv1.7.20) (2025-06-22)
