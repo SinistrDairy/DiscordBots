@@ -33,10 +33,13 @@ jobs:
       matrix:
         include:
           - bot: genie-bot
+            name: Genie
             changed: ${{ needs.filter.outputs.genie-changed }}
           - bot: triviabot
+            name: Russell
             changed: ${{ needs.filter.outputs.trivia-changed }}
           - bot: opie-bot
+            name: Opie
             changed: ${{ needs.filter.outputs.opie-changed }}
 
     steps:
@@ -107,5 +110,5 @@ jobs:
           VERSION=$(jq -r .version ./artifact/${{ matrix.bot }}/package.json || echo "unknown")
           curl -H "Content-Type: application/json" \
                -X POST \
-               -d "{\"content\": \"-# ✅ **Deployed** \\\`${{ matrix.bot }}\\\`  v.**${VERSION}** to production.\"}" \
+               -d "{\"content\": \"-# ✅ **Deployed** \\\`${{ matrix.name }}\\\`  v.**${VERSION}** to production.\"}" \
                $DISCORD_WEBHOOK_URL

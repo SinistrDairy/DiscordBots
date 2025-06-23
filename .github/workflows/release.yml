@@ -40,15 +40,15 @@ jobs:
         include:
           - bot: genie-bot
             tagPrefix: Gv
-            botName: genie
+            botName: Genie
             changed: ${{ needs.filter.outputs.genie-changed }}
           - bot: triviabot
             tagPrefix: Tv
-            botName: trivia
+            botName: Russell
             changed: ${{ needs.filter.outputs.trivia-changed }}
           - bot: opie-bot
             tagPrefix: Ov
-            botName: opie
+            botName: Opie
             changed: ${{ needs.filter.outputs.opie-changed }}
 
     steps:
