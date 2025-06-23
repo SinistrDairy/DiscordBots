@@ -64,6 +64,8 @@ jobs:
       - name: Debug artifact structure
         run: ls -R ./artifact || true
 
+      - name: Debug workflow_run.id
+        run: echo "This deploy was triggered by workflow_run.id = ${{ github.event.workflow_run.id }}"
       - name: Load SSH Key
         uses: webfactory/ssh-agent@v0.5.4
         with:
