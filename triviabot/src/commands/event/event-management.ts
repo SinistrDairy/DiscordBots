@@ -52,8 +52,10 @@ export default commandModule({
       case "edit":
         {
           // Step 2: fetch all events for this guild
-          const events = await eventSchema.find({serverID: "830604135748337673"})
+          const events = await eventSchema
+          .find({serverID: "830604135748337673"})
           .select("name")
+          .sort({name: 1})
           .lean();
 
           if (!events.length) {
@@ -77,10 +79,10 @@ export default commandModule({
           const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
             menu
           );
-          return ctx.reply({
+          await ctx.interaction.deferReply({flags: MessageFlags.Ephemeral});
+          return ctx.interaction.editReply({
             content: "Pick an event to edit:",
             components: [row],
-            flags: MessageFlags.Ephemeral,
           });
         }
     }

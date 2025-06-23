@@ -378,7 +378,7 @@
         {
             "id": "1384993909553369243",
             "application_id": "1196458687955480677",
-            "version": "1386482063208747169",
+            "version": "1386690859180888085",
             "default_member_permissions": "8",
             "type": 1,
             "name": "event-management",
@@ -821,7 +821,7 @@
         {
             "id": "1383930633683996826",
             "application_id": "1196458687955480677",
-            "version": "1386482063208747170",
+            "version": "1386690859180888086",
             "default_member_permissions": "8192",
             "type": 1,
             "name": "end-event",
@@ -1516,7 +1516,7 @@
         {
             "id": "1384993910580838522",
             "application_id": "1196458687955480677",
-            "version": "1386482064290746458",
+            "version": "1386690860263149669",
             "default_member_permissions": "8",
             "type": 1,
             "name": "event-management",
@@ -1959,7 +1959,7 @@
         {
             "id": "1383083762652287062",
             "application_id": "1196458687955480677",
-            "version": "1386482064290746459",
+            "version": "1386690860263149670",
             "default_member_permissions": "8192",
             "type": 1,
             "name": "end-event",
