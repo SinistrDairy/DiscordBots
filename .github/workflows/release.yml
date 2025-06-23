@@ -57,7 +57,7 @@ jobs:
         run: echo "No changes detected in ${{ matrix.bot }}, skipping."
 
       - name: Checkout
-        if: ${{ matrix.changed == 'true' }}
+        if: ${{ github.event_name == 'workflow_dispatch' || matrix.changed == 'true' }}
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -86,7 +86,7 @@ jobs:
           git stash pop || true
 
       - name: Run release-it
-        if: ${{ matrix.changed == 'true' }}
+        if: ${{ github.event_name == 'workflow_dispatch' || matrix.changed == 'true' }}
         id: release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -96,7 +96,7 @@ jobs:
           echo "RELEASE_VERSION=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
 
       - name: Upload release artifact
-        if: ${{ matrix.changed == 'true' }}
+        if: ${{ github.event_name == 'workflow_dispatch' || matrix.changed == 'true' }}
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.bot }}-artifact
@@ -106,7 +106,7 @@ jobs:
             ${{ matrix.bot }}/pnpm-lock.yaml
 
       - name: Post release to Discord
-        if: ${{ matrix.changed == 'true' }}
+        if: ${{ github.event_name == 'workflow_dispatch' || matrix.changed == 'true' }}
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           RELEASE_VERSION: ${{ steps.release.outputs.RELEASE_VERSION }}
