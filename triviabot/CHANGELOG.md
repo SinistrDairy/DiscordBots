@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.9.5](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.9.4...Rv1.9.5) (2025-06-23)
+
+### Bug Fixes
+
+* enhance deployment process by ensuring remote directory exists before syncing and restarting PM2 ([779b840](https://github.com/SinistrDairy/DiscordBots/commit/779b8408dc4f26d42bfb47481e72a666965d7a55))
+
 ## [1.9.4](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.9.3...Rv1.9.4) (2025-06-23)
 
 ### Bug Fixes
