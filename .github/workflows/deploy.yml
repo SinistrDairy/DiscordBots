@@ -52,13 +52,14 @@ jobs:
       - name: Install jq
         run: sudo apt-get install -y jq
 
-      - name: Download artifact (if it exists)
+      - name: Download artifact from Release run
         id: download
         continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           name: ${{ matrix.bot }}-artifact
           path: ./artifact/${{ matrix.bot }}
+          run-id: ${{ github.event.workflow_run.id }}
 
       - name: Debug artifact structure
         run: ls -R ./artifact || true
