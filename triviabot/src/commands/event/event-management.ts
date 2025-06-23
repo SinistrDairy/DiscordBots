@@ -81,7 +81,7 @@ export default commandModule({
           );
           await ctx.interaction.deferReply({flags: MessageFlags.Ephemeral});
           return ctx.interaction.editReply({
-            content: "Pick an event to edit:",
+            content: "Choose an event to edit...",
             components: [row],
           });
         }
