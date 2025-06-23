@@ -37,13 +37,13 @@ jobs:
         include:
           - bot: genie-bot
             name: Genie
-            changed: ${{ needs.filter.outputs.genie-bot }}
+            changed: ${{ needs.filter.outputs.genie-changed }}
           - bot: triviabot 
             name: Russell
-            changed: ${{ needs.filter.outputs.triviabot }}
+            changed: ${{ needs.filter.outputs.trivia-changed }}
           - bot: opie-bot
             name: Opie
-            changed: ${{ needs.filter.outputs.opie-bot }}
+            changed: ${{ needs.filter.outputs.opie-changed }}
 
     steps:
       # 1) **Always** checkout the exact SHA the Release run used
