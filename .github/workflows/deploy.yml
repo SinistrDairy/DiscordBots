@@ -95,6 +95,8 @@ jobs:
             --exclude 'node_modules' \
             --exclude '.git' \
             --exclude '.sern' \
+            --exclude '.github' \
+            --exclude '.env' \
             ${{ matrix.bot }}/ \
             root@${{ secrets.VPS_HOST }}:$REMOTE_BASE
 
