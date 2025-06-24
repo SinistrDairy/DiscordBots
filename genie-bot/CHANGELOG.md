@@ -1,5 +1,7 @@
 # Changelog
 
+## [1.11.1](https://github.com/SinistrDairy/DiscordBots/compare/Gv1.11.0...Gv1.11.1) (2025-06-24)
+
 ## [1.11.0](https://github.com/SinistrDairy/DiscordBots/compare/Gv1.10.1...Gv1.11.0) (2025-06-24)
 
 ### Bug Fixes
