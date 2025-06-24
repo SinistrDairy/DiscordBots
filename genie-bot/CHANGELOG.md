@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.11.2](https://github.com/SinistrDairy/DiscordBots/compare/Gv1.11.1...Gv1.11.2) (2025-06-24)
+
+### Bug Fixes
+
+* update deployment script to sync full bot folder and exclude unnecessary files ([e166040](https://github.com/SinistrDairy/DiscordBots/commit/e16604037c99ef03e7a9d7a0ee92bf38a5328a2b))
+
 ## [1.11.1](https://github.com/SinistrDairy/DiscordBots/compare/Gv1.11.0...Gv1.11.1) (2025-06-24)
 
 ## [1.11.0](https://github.com/SinistrDairy/DiscordBots/compare/Gv1.10.1...Gv1.11.0) (2025-06-24)
