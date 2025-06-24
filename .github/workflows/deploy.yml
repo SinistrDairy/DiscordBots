@@ -81,26 +81,26 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
-
-      # 5) Sync dist/ and restart PM2
-      - name: Copy dist and restart PM2
+      - name: Copy full bot folder and restart PM2
         if: ${{ matrix.changed == 'true' }}
         run: |
-          # Define the absolute remote base path (with leading slash!)
           REMOTE_BASE="/var/www/discord-bots/DiscordBots/${{ matrix.bot }}"
 
-          # Ensure remote dist directory exists
-          ssh -o StrictHostKeyChecking=no root@${{ secrets.VPS_HOST }} \
-            "mkdir -p ${REMOTE_BASE}/dist"
+          # Create remote dir
+          ssh root@${{ secrets.VPS_HOST }} \
+            "mkdir -p $REMOTE_BASE"
 
-          # Sync local dist/ to remote
+          # Rsync everything except node_modules and Git history
           rsync -avz --delete \
-            ${{ matrix.bot }}/dist/ \
-            root@${{ secrets.VPS_HOST }}:${REMOTE_BASE}/dist
+            --exclude 'node_modules' \
+            --exclude '.git' \
+            --exclude '.sern' \
+            ${{ matrix.bot }}/ \
+            root@${{ secrets.VPS_HOST }}:$REMOTE_BASE
 
-          # Restart (or start) via PM2
-          ssh -o StrictHostKeyChecking=no root@${{ secrets.VPS_HOST }} \
-            "pm2 restart ${{ matrix.bot }} || pm2 start ${REMOTE_BASE}/dist/index.js --name ${{ matrix.bot }}"
+          # Now restart
+          ssh root@${{ secrets.VPS_HOST }} \
+            "pm2 restart ${{ matrix.bot }} || pm2 start $REMOTE_BASE/dist/index.js --name ${{ matrix.bot }}"
 
 
       - name: Notify Discord of Deployment
