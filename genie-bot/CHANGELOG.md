@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.11.3](https://github.com/SinistrDairy/DiscordBots/compare/Gv1.11.2...Gv1.11.3) (2025-06-24)
+
+### Bug Fixes
+
+* exclude additional directories from deployment script ([0dacc7a](https://github.com/SinistrDairy/DiscordBots/commit/0dacc7a5a5714dfbeea14b2a4ae48b8df7c18801))
+
 ## [1.11.2](https://github.com/SinistrDairy/DiscordBots/compare/Gv1.11.1...Gv1.11.2) (2025-06-24)
 
 ### Bug Fixes
