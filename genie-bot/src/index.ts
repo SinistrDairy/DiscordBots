@@ -46,8 +46,8 @@ startArchiveScheduler(client);
 // ———— single ready handler ————
 client.once("ready", (c) => {
   console.log(`✅ ${c.user.tag} is online.`);
-  client.user?.setActivity(`Version ${version}`, {
-    type: ActivityType.Playing,
+  client.user?.setActivity(`v.${version}`, {
+    type: ActivityType.Streaming,
   });
 });
 

@@ -36,8 +36,8 @@ Sern.init({
 startArchiveScheduler(client);
 client.once("ready", (c) => {
   console.log(`\u2705 ${c.user.tag} is online.`);
-  client.user?.setActivity(`Version ${version}`, {
-    type: ActivityType.Playing
+  client.user?.setActivity(`v.${version}`, {
+    type: ActivityType.Streaming
   });
 });
 process.on("SIGINT", async () => {

@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.11.0](https://github.com/SinistrDairy/DiscordBots/compare/Gv1.10.1...Gv1.11.0) (2025-06-24)
+
+### Bug Fixes
+
+* update checkout reference to use main branch instead of workflow run SHA ([76e6d2a](https://github.com/SinistrDairy/DiscordBots/commit/76e6d2affb053c5a7fee8385c67307637131b9bc))
+
 ## [1.10.1](https://github.com/SinistrDairy/DiscordBots/compare/Gv1.10.0...Gv1.10.1) (2025-06-24)
 
 ## [1.10.0](https://github.com/SinistrDairy/DiscordBots/compare/Gv1.9.17...Gv1.10.0) (2025-06-24)
