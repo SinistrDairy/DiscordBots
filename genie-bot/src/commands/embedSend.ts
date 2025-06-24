@@ -8,12 +8,12 @@ export default commandModule({
   type: CommandType.Button,
   name: "embed_post",
   async execute(ctx: ButtonInteraction) {
+    
     const userId = ctx.user.id;
     const draft = draftCache.get(userId);
     if (!draft) {
-      return ctx.reply({
+      return ctx.update({
         content: "<:x_genie:1376727488822247444> No draft found.",
-        flags: MessageFlags.Ephemeral,
       });
     }
     // remove it immediately so it can’t be reused
@@ -22,9 +22,8 @@ export default commandModule({
     const { embed, channelId, mention, flow } = draft;
     const rawChannel = ctx.guild?.channels.cache.get(channelId);
     if (!rawChannel || !rawChannel.isTextBased()) {
-      return ctx.reply({
+      return ctx.update({
         content: "<:x_genie:1376727488822247444> Invalid channel.",
-        flags: MessageFlags.Ephemeral,
       });
     }
     const channel = rawChannel as TextChannel;
@@ -79,9 +78,6 @@ export default commandModule({
         );
       }
     }
-
-    // 4) Remove the old ephemeral preview (if any)
-    await ctx.deleteReply().catch(() => {});
 
     // 5) Update the interaction to confirm success
     await ctx.update({

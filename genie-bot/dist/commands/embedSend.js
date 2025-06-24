@@ -1,6 +1,5 @@
 import { commandModule, CommandType } from "@sern/handler";
 import { draftCache } from "../utils/embedDraftCache.js";
-import { MessageFlags } from "discord.js";
 import { ThreadArchive } from "../models/ThreadArchive.js";
 var embedSend_default = commandModule({
   type: CommandType.Button,
@@ -9,18 +8,16 @@ var embedSend_default = commandModule({
     const userId = ctx.user.id;
     const draft = draftCache.get(userId);
     if (!draft) {
-      return ctx.reply({
-        content: "<:x_genie:1376727488822247444> No draft found.",
-        flags: MessageFlags.Ephemeral
+      return ctx.update({
+        content: "<:x_genie:1376727488822247444> No draft found."
       });
     }
     draftCache.delete(userId);
     const { embed, channelId, mention, flow } = draft;
     const rawChannel = ctx.guild?.channels.cache.get(channelId);
     if (!rawChannel || !rawChannel.isTextBased()) {
-      return ctx.reply({
-        content: "<:x_genie:1376727488822247444> Invalid channel.",
-        flags: MessageFlags.Ephemeral
+      return ctx.update({
+        content: "<:x_genie:1376727488822247444> Invalid channel."
       });
     }
     const channel = rawChannel;
@@ -66,8 +63,6 @@ This quest post ends <t:${endTime}:R>
         );
       }
     }
-    await ctx.deleteReply().catch(() => {
-    });
     await ctx.update({
       content: "<:v_genie:1376727510791880775> Embed posted!",
       embeds: [],
