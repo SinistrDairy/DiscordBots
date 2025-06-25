@@ -118,7 +118,7 @@ jobs:
           PAYLOAD=$(
             jq -nc --arg bot "${{ matrix.name }}" \
                    --arg ver "$VERSION" \
-                   '{content: ("✅ Deployed \($bot) v\($ver) to production.")}'
+                   '{content: ("# Production Notice\n **\($bot) v\($ver)** has been deployed to production")}'
           )
           
           echo "Payload:"

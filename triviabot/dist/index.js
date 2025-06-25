@@ -2,7 +2,12 @@ import "dotenv/config";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import * as path from "node:path";
-import { ActivityType, Client, GatewayIntentBits, Partials } from "discord.js";
+import {
+  ActivityType,
+  Client,
+  GatewayIntentBits,
+  Partials
+} from "discord.js";
 import { Sern, makeDependencies } from "@sern/handler";
 import { Publisher } from "@sern/publisher";
 import mongoose from "mongoose";
@@ -39,7 +44,7 @@ if (mongoose.connection.readyState !== 1) {
   console.error("\u274C Mongo failed to connect:", mongoose.connection.readyState);
   process.exit(1);
 }
-client.once("ready", (c) => {
+client.once("ready", async (c) => {
   console.log(`\u2705 ${c.user.tag} is online.`);
   client.user?.setActivity(`Version ${version}`, {
     type: ActivityType.Playing
