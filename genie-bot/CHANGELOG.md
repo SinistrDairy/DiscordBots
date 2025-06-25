@@ -1,5 +1,7 @@
 # Changelog
 
+## [1.11.3](https://github.com/SinistrDairy/DiscordBots/compare/Gv1.11.3...Gv1.11.3) (2025-06-25)
+
 <<<<<<< HEAD
 ## [1.12.0](https://github.com/SinistrDairy/DiscordBots/compare/Gv1.11.2...Gv1.12.0) (2025-06-25)
 =======
