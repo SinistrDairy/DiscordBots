@@ -8,11 +8,12 @@ export default commandModule({
   type: CommandType.Button,
   name: "embed_post",
   async execute(ctx: ButtonInteraction) {
-    
+
+
     const userId = ctx.user.id;
     const draft = draftCache.get(userId);
     if (!draft) {
-      return ctx.update({
+      return ctx.editReply({
         content: "<:x_genie:1376727488822247444> No draft found.",
       });
     }
@@ -22,7 +23,7 @@ export default commandModule({
     const { embed, channelId, mention, flow } = draft;
     const rawChannel = ctx.guild?.channels.cache.get(channelId);
     if (!rawChannel || !rawChannel.isTextBased()) {
-      return ctx.update({
+      return ctx.editReply({
         content: "<:x_genie:1376727488822247444> Invalid channel.",
       });
     }
@@ -80,7 +81,7 @@ export default commandModule({
     }
 
     // 5) Update the interaction to confirm success
-    await ctx.update({
+    await ctx.editReply({
       content: "<:v_genie:1376727510791880775> Embed posted!",
       embeds: [],
       components: [],

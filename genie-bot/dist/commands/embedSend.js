@@ -8,7 +8,7 @@ var embedSend_default = commandModule({
     const userId = ctx.user.id;
     const draft = draftCache.get(userId);
     if (!draft) {
-      return ctx.update({
+      return ctx.editReply({
         content: "<:x_genie:1376727488822247444> No draft found."
       });
     }
@@ -16,7 +16,7 @@ var embedSend_default = commandModule({
     const { embed, channelId, mention, flow } = draft;
     const rawChannel = ctx.guild?.channels.cache.get(channelId);
     if (!rawChannel || !rawChannel.isTextBased()) {
-      return ctx.update({
+      return ctx.editReply({
         content: "<:x_genie:1376727488822247444> Invalid channel."
       });
     }
@@ -63,7 +63,7 @@ This quest post ends <t:${endTime}:R>
         );
       }
     }
-    await ctx.update({
+    await ctx.editReply({
       content: "<:v_genie:1376727510791880775> Embed posted!",
       embeds: [],
       components: []
