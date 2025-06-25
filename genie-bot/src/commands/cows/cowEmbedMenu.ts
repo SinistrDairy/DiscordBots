@@ -29,12 +29,6 @@ export default commandModule({
         flags: MessageFlags.Ephemeral,
       });
 
-    const updatePreview = async (
-      components: ActionRowData<ButtonComponentData>[]
-    ) => {
-      await ctx.update({ embeds: [draft.embed], components });
-    };
-
     switch (choice) {
 
       case "add_image": {

@@ -59,6 +59,19 @@
             "nsfw": false
         },
         {
+            "id": "1387456088655532184",
+            "application_id": "1058382075620769823",
+            "version": "1387456088655532185",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "view-cows",
+            "name_localizations": null,
+            "description": "List active cow threads.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
             "id": "1385074733732593786",
             "application_id": "1058382075620769823",
             "version": "1385074733732593791",
@@ -93,28 +106,6 @@
                     "name": "delay",
                     "name_localizations": null,
                     "description": "How long until the thread auto‐closes (e.g. '15min', '3h', '1d')",
-                    "description_localizations": null
-                }
-            ],
-            "nsfw": false
-        },
-        {
-            "id": "1385986785888174285",
-            "application_id": "1058382075620769823",
-            "version": "1385986786404077588",
-            "default_member_permissions": null,
-            "type": 1,
-            "name": "active_threads",
-            "name_localizations": null,
-            "description": "List active threads created by this bot, with their jewel amounts and closing times.",
-            "description_localizations": null,
-            "guild_id": "1324370750131404893",
-            "options": [
-                {
-                    "type": 5,
-                    "name": "include_tests",
-                    "name_localizations": null,
-                    "description": "Include threads whose names contain 'test'?",
                     "description_localizations": null
                 }
             ],
@@ -162,6 +153,19 @@
             "nsfw": false
         },
         {
+            "id": "1387456089897046198",
+            "application_id": "1058382075620769823",
+            "version": "1387456089897046199",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "view-cows",
+            "name_localizations": null,
+            "description": "List active cow threads.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "nsfw": false
+        },
+        {
             "id": "1385278569432743959",
             "application_id": "1058382075620769823",
             "version": "1385278569432743964",
@@ -196,28 +200,6 @@
                     "name": "delay",
                     "name_localizations": null,
                     "description": "How long until the thread auto‐closes (e.g. '15min', '3h', '1d')",
-                    "description_localizations": null
-                }
-            ],
-            "nsfw": false
-        },
-        {
-            "id": "1385986787003859055",
-            "application_id": "1058382075620769823",
-            "version": "1385986787003859056",
-            "default_member_permissions": null,
-            "type": 1,
-            "name": "active_threads",
-            "name_localizations": null,
-            "description": "List active threads created by this bot, with their jewel amounts and closing times.",
-            "description_localizations": null,
-            "guild_id": "830604135748337673",
-            "options": [
-                {
-                    "type": 5,
-                    "name": "include_tests",
-                    "name_localizations": null,
-                    "description": "Include threads whose names contain 'test'?",
                     "description_localizations": null
                 }
             ],

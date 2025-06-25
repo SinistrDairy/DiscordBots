@@ -25,9 +25,6 @@ var cowEmbedMenu_default = commandModule({
         content: "<:x_genie:1376727488822247444> No draft found.",
         flags: MessageFlags.Ephemeral
       });
-    const updatePreview = async (components) => {
-      await ctx.update({ embeds: [draft.embed], components });
-    };
     switch (choice) {
       case "add_image": {
         const modal = new ModalBuilder().setCustomId("embedImageModal").setTitle("Add Main Image URL");
