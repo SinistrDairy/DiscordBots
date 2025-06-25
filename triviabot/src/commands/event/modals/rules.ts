@@ -49,7 +49,7 @@ export default commandModule({
     } catch (error) {
       console.error("addEventModal_rules error:", error);
       return ctx.reply({
-        content: "❌ Oops, could not save your rules—please try again.",
+        content: "<:r_x:1376727384056922132> Oops, could not save your rules—please try again.",
         flags: MessageFlags.Ephemeral,
       });
     }

@@ -5,12 +5,15 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "rm -rf ./dist && sern build",
-    "start": "node .",
-    "commands:publish": "npm run build && sern commands publish",
-    "postinstall": "rimraf node_modules/@sern/handler/tsconfig.json",
     "release": "release-it",
     "release:patch": "release-it --release-as patch",
+    "prerelease": "pnpm run build",
+    "clean": "rimraf dist",
+    "build": "rimraf dist && sern build",
+    "build:watch": "sern build --watch",
+    "dev": "pnpm run build && concurrently -k \"pnpm run build:watch\" \"nodemon --watch dist --ext js,json --delay 1 --exec node dist/index.js\"",
+    "install": "sern build",
+    "commands:publish": "sern commands publish",
     "run:scripts": "cross-env TS_NODE_TRANSPILE_ONLY=true node --loader ts-node/esm run-scripts.mjs"
   },
   "keywords": [
@@ -21,10 +24,8 @@
   "dependencies": {
     "@sern/handler": "^4.2.4",
     "@sern/publisher": "^1.1.4",
-    "all": "^0.0.0",
     "discord.js": "^14.19.3",
     "dotenv": "^16.5.0",
-    "g": "^2.0.1",
     "mongodb": "^6.16.0",
     "mongoose": "^8.15.0",
     "node-cron": "^4.0.7"

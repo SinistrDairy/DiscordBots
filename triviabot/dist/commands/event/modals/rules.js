@@ -38,7 +38,7 @@ var rules_default = commandModule({
     } catch (error) {
       console.error("addEventModal_rules error:", error);
       return ctx.reply({
-        content: "\u274C Oops, could not save your rules\u2014please try again.",
+        content: "<:r_x:1376727384056922132> Oops, could not save your rules\u2014please try again.",
         flags: MessageFlags.Ephemeral
       });
     }

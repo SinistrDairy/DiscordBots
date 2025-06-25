@@ -60,7 +60,7 @@ export default commandModule({
 
           if (!events.length) {
             return ctx.reply({
-              content: "❌ No events to edit.",
+              content: "<:r_x:1376727384056922132> No events to edit.",
               flags: MessageFlags.Ephemeral,
             });
           }

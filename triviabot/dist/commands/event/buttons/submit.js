@@ -3,7 +3,7 @@ import eventSchema from "../../../models/profiles/event-schema.js";
 import { eventDrafts } from "../../../utils/eventDraftCache.js";
 import { MessageFlags } from "discord.js";
 var submit_default = commandModule({
-  name: "preview_submit",
+  name: "save_event",
   // must match your Button’s customId
   type: CommandType.Button,
   async execute(ctx) {
@@ -11,7 +11,7 @@ var submit_default = commandModule({
     const draft = eventDrafts.get(userId);
     if (!draft) {
       return ctx.reply({
-        content: "\u274C Nothing to submit\u2014your draft has expired or was never created.",
+        content: "<:r_x:1376727384056922132> Nothing to submit\u2014your draft has expired or was never created.",
         flags: MessageFlags.Ephemeral
       });
     }
@@ -30,7 +30,7 @@ var submit_default = commandModule({
     );
     eventDrafts.delete(userId);
     return ctx.update({
-      content: `\u2705 Event **${draft.titleEmoji} ${draft.title}** has been saved!`,
+      content: `\u2705 Event **${draft.title}** has been saved!`,
       embeds: [],
       components: []
     });

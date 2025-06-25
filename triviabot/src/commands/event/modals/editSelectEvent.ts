@@ -2,6 +2,8 @@
 import { commandModule, CommandType } from "@sern/handler";
 import {
   ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
   MessageFlags,
   StringSelectMenuBuilder,
   StringSelectMenuInteraction,
@@ -9,6 +11,7 @@ import {
 import { eventDrafts } from "../../../utils/eventDraftCache.js";
 import { buildEventPreview } from "../../../utils/buildEventPreview.js";
 import eventSchema from "../../../models/profiles/event-schema.js";
+import { DraftKey } from '../../../utils/eventDraftCache';
 
 export default commandModule({
   type: CommandType.StringSelect,
@@ -24,7 +27,7 @@ export default commandModule({
       .lean();
     if (!evt) {
       return ctx.update({
-        content: "❌ Event not found.",
+        content: "<:r_x:1376727384056922132> Event not found.",
         components: [],
         embeds: [],
       });
@@ -32,6 +35,7 @@ export default commandModule({
 
     // 2️⃣ Build an EventDraft from every DB field
     const draft = {
+      key: "event" as DraftKey,
       name: selectedName,
       title: evt.title,
       eventEmoji: evt.emojiID,
@@ -47,29 +51,21 @@ export default commandModule({
     // 3️⃣ Generate the preview payload
     const preview = await buildEventPreview(ctx, draft);
 
-    // 4️⃣ Build a second dropdown of "which field to edit"
-    const fields = [
-      { label: "Display Title", value: "title" },
-      { label: "Title Emoji", value: "titleEmoji" },
-      { label: "Rules Emoji", value: "rulesEmoji" },
-      { label: "Jewel Emoji", value: "jewelEmoji" },
-      { label: "Event Emoji", value: "eventEmoji" },
-      { label: "Tags Role", value: "tags" },
-      { label: "Rules List", value: "daRulez" },
-      { label: "Scoring List", value: "scoring" },
-      { label: "Point List", value: "pointList" },
-    ];
-    const fieldMenu = new StringSelectMenuBuilder()
-      .setCustomId(`editSelectField-${selectedName}`)
-      .setPlaceholder("Select field to edit…")
-      .addOptions(fields);
-
-    const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-      fieldMenu
+    const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+      new ButtonBuilder()
+        .setCustomId("save_event")
+        .setLabel("Save")
+        .setStyle(ButtonStyle.Success),
+      new ButtonBuilder()
+        .setCustomId("edit_event") // go back into editing flow
+        .setLabel("Edit")
+        .setStyle(ButtonStyle.Secondary),
+      new ButtonBuilder()
+        .setCustomId("cancel")
+        .setLabel("Cancel")
+        .setStyle(ButtonStyle.Danger)
     );
 
-    // 5️⃣ Update the original ephemeral message:
-    //    show your preview + the field-picker menu
     await ctx.deferReply({ flags: MessageFlags.Ephemeral });
     return ctx.editReply({
       ...preview,

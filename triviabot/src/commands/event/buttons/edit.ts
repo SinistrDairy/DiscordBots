@@ -8,40 +8,29 @@ import {
 import { CommandType, commandModule } from "@sern/handler";
 import { eventDrafts } from "../../../utils/eventDraftCache.js";
 import { buildEventPreview } from "../../../utils/buildEventPreview.js";
+import { buildKeyMenu } from "../../../utils/draftMenuOpt.js";
 
 export default commandModule({
-  name: "preview_edit",
+  name: "edit_event",
   type: CommandType.Button,
   async execute(ctx) {
     const draft = eventDrafts.get(ctx.user.id);
     if (!draft) {
       return ctx.reply({
-        content: "❌ No draft found. Start with `/event-management` first.",
+        content: "<:r_x:1376727384056922132> No draft found.",
         flags: MessageFlags.Ephemeral,
       });
     }
 
     const preview = await buildEventPreview(ctx, draft);
 
-    const menu = new StringSelectMenuBuilder()
-      .setCustomId("add-event-page")
-      .setPlaceholder("Choose a section to fill")
-      .addOptions([
-        { label: "Basic Info", value: "basic" },
-        { label: "Rules", value: "rules" },
-        { label: "Scoring & Points", value: "scoring" },
-      ]);
+    const menu = buildKeyMenu(draft.key!)
 
-    // Add the select menu row below the buttons
-    const extendedComponents = [
-      ...preview.components,
-      new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(menu),
-    ];
+
 
     return ctx.update({
       content: preview.content,
-      embeds: preview.embeds,
-      components: extendedComponents,
+      components: [menu],
     });
   },
 });

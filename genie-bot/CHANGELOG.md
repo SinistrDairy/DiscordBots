@@ -1,6 +1,10 @@
 # Changelog
 
+<<<<<<< HEAD
 ## [1.12.0](https://github.com/SinistrDairy/DiscordBots/compare/Gv1.11.2...Gv1.12.0) (2025-06-25)
+=======
+## [1.11.3](https://github.com/SinistrDairy/DiscordBots/compare/Gv1.11.2...Gv1.11.3) (2025-06-24)
+>>>>>>> 298fc554a4357ff26404758485f04d20a4b6bb48
 
 ### Bug Fixes
 
