@@ -1,6 +1,6 @@
 {
   "name": "russell",
-  "version": "1.9.6",
+  "version": "1.9.7",
   "private": true,
   "description": "",
   "main": "dist/index.js",

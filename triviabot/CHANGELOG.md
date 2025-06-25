@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.9.7](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.9.6...Rv1.9.7) (2025-06-25)
+
+### Bug Fixes
+
+* enhance Discord deployment notification with versioning and error handling ([1d857aa](https://github.com/SinistrDairy/DiscordBots/commit/1d857aaf0ede891f20d8512ab02d031aeab552b0))
+* exclude additional directories from deployment script ([0dacc7a](https://github.com/SinistrDairy/DiscordBots/commit/0dacc7a5a5714dfbeea14b2a4ae48b8df7c18801))
+* update checkout reference to use main branch instead of workflow run SHA ([76e6d2a](https://github.com/SinistrDairy/DiscordBots/commit/76e6d2affb053c5a7fee8385c67307637131b9bc))
+* update deployment script to sync full bot folder and exclude unnecessary files ([e166040](https://github.com/SinistrDairy/DiscordBots/commit/e16604037c99ef03e7a9d7a0ee92bf38a5328a2b))
+* update embedSend command to use ctx.update for responses and clean up code ([32e5a53](https://github.com/SinistrDairy/DiscordBots/commit/32e5a53aeb5b51e13310cebfe887a789056dbffb))
+
 ## [1.9.6](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.9.5...Rv1.9.6) (2025-06-23)
 
 ### Bug Fixes
