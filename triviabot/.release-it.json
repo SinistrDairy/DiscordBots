@@ -24,6 +24,10 @@
           { "type": "perf", "section": "Performance Improvements" },
           { "type": "docs", "section": "Documentation" }
         ]
+      },
+      "writerOpts":{
+        "linkCompare": false,
+        "linkReferences": false
       }
     }
   }
