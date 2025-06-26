@@ -1,10 +1,12 @@
 import { commandModule, CommandType } from "@sern/handler";
 import { draftCache } from "../utils/embedDraftCache.js";
+import { MessageFlags } from "discord.js";
 import { ThreadArchive } from "../models/ThreadArchive.js";
 var embedSend_default = commandModule({
   type: CommandType.Button,
   name: "embed_post",
   async execute(ctx) {
+    await ctx.deferReply({ flags: MessageFlags.Ephemeral });
     const userId = ctx.user.id;
     const draft = draftCache.get(userId);
     if (!draft) {

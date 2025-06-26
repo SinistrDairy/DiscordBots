@@ -8,7 +8,7 @@ export default commandModule({
   type: CommandType.Button,
   name: "embed_post",
   async execute(ctx: ButtonInteraction) {
-
+    await ctx.deferReply({flags: MessageFlags.Ephemeral})
 
     const userId = ctx.user.id;
     const draft = draftCache.get(userId);
