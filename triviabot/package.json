@@ -1,6 +1,10 @@
 {
   "name": "russell",
+<<<<<<< HEAD
   "version": "1.10.0",
+=======
+  "version": "1.9.8",
+>>>>>>> origin/main
   "private": true,
   "description": "",
   "main": "dist/index.js",
