@@ -13,7 +13,7 @@ async function buildEventPreview(ctx, draft) {
     lines.push(`-# event emoji: ${draft.eventEmoji}`, "");
   }
   if (draft.title) {
-    lines.push(`## ${draft.title}`, "");
+    lines.push(`## ${draft.eventEmoji} ${draft.title} ${draft.eventEmoji}`, "");
   }
   lines.push("### __Rules__", "");
   for (const rule of draft.daRulez ?? []) {
@@ -22,8 +22,20 @@ async function buildEventPreview(ctx, draft) {
   }
   lines.push("");
   lines.push("__**Scoring**__", "");
-  for (const entry of draft.scoring ?? []) {
-    lines.push(entry);
+  const scoringArr = draft.scoring ?? [];
+  const pointsArr = draft.pointList ?? [];
+  const skipPhrase = "as follows:";
+  const len = Math.min(scoringArr.length, pointsArr.length);
+  const jewelEmoji = `<:fk_jewel:1333402533439475743>`;
+  let ptI = 0;
+  for (let i = 0; i < len; i++) {
+    const description = scoringArr[i].trim();
+    if (description.endsWith(skipPhrase)) {
+      lines.push(`${description}`);
+      continue;
+    }
+    const points = pointsArr[ptI++];
+    lines.push(`<:fk_dot:1334970932657131560> ${description}, __**${points}**__ ${jewelEmoji}`);
   }
   lines.push("");
   if (draft.pointList?.length) {
@@ -34,7 +46,7 @@ async function buildEventPreview(ctx, draft) {
   const member = await ctx.guild?.members.fetch(ctx.user.id);
   lines.push("__**Hosting**__", "");
   lines.push(
-    `<a:magicjewels:859867893587509298> Your host for today's game is: ${member?.displayName ?? ctx.user.username}`
+    `<a:magicjewels:859867893587509298> Your host for today's game is: ${member?.displayName}`
   );
   lines.push("");
   lines.push("__**Tag**__", "");
@@ -47,7 +59,6 @@ async function buildEventPreview(ctx, draft) {
   );
   return {
     content: lines.join("\n"),
-    embeds: [],
     components: [row]
   };
 }

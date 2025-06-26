@@ -79,9 +79,8 @@ export default commandModule({
           const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
             menu
           );
-          await ctx.interaction.deferReply({flags: MessageFlags.Ephemeral});
-          return ctx.interaction.editReply({
-            content: "Choose an event to edit...",
+          return ctx.reply({
+            content: "",
             components: [row],
           });
         }

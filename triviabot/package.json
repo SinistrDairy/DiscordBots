@@ -1,6 +1,6 @@
 {
   "name": "russell",
-  "version": "1.9.7",
+  "version": "1.10.0",
   "private": true,
   "description": "",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
     "build": "rimraf dist && sern build",
     "build:watch": "sern build --watch",
     "notify:dev": "node --no-warnings --loader ts-node/esm ./scripts/dev-notify.ts",
-    "dev": "cross-env NODE_ENV=development pnpm run notify:dev && concurrently -k \"pnpm run build:watch\" \"nodemon --watch dist --ext js,json --delay 1 --exec node dist/index.js\"",
+    "dev": "cross-env NODE_ENV=development pnpm run build && concurrently -k \"pnpm run build:watch\" \"nodemon --watch dist --ext js,json --delay 1 --exec node dist/index.js\"",
     "install": "sern build",
     "commands:publish": "sern commands publish",
     "run:scripts": "cross-env TS_NODE_TRANSPILE_ONLY=true node --loader ts-node/esm run-scripts.mjs"

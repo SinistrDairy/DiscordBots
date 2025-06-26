@@ -8,11 +8,12 @@ const reqArray = { type: String, required: true };
 
 const eventSchema = new Schema({
   name: uniqString,
-  pointList: [reqArray],
   title: reqString,
   daRulez: [reqArray],
   scoring: [reqArray],
-  emojiID: reqString,
+  pointList: [reqArray],
+  eEmojiID: reqString,
+  rEmojiID: reqString,
   tags: reqString,
   serverID: reqString,
 });

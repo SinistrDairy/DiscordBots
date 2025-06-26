@@ -1,13 +1,15 @@
 // src/commands/addEventModal_rules.ts
 import { CommandType, commandModule } from "@sern/handler";
 import { eventDrafts, EventDraft } from "../../../utils/eventDraftCache.js";
-import { MessageFlags } from "discord.js";
+import { MessageFlags, TextChannel } from "discord.js";
 import { buildEventPreview } from "../../../utils/buildEventPreview.js";
+import { buildKeyMenu } from "../../../utils/draftMenuOpt.js";
 
 export default commandModule({
-  name: "addEventModal_rules", // ← matches the customId above
+  name: "event_rules", 
   type: CommandType.Modal,
   async execute(ctx) {
+    await ctx.deferReply();
     try {
       const userId = ctx.user.id;
       // If there’s no draft yet, create a fresh one (so you don’t get undefined)
@@ -27,29 +29,23 @@ export default commandModule({
 
       const preview = await buildEventPreview(ctx, draft);
 
-      if (draft.previewMessageId) {
-        try {
-          const message = await ctx.channel?.messages.fetch(
-            draft.previewMessageId
-          );
-          if (message) {
-            await message.edit(preview);
-          }
-        } catch (err) {
-          console.warn("Failed to edit preview message:", err);
-        }
-      }
-      // Acknowledge modal interaction with confirmation
-      await ctx.deferReply({ flags: MessageFlags.Ephemeral });
-      await ctx.editReply({ content: "✅ Event rules updated." });
-      setTimeout(() => {
-        ctx.deleteReply().catch(() => {});
-      }, 5_000);
-      return;
+      const menuRow = buildKeyMenu(draft.key!);
+      const channel = (await ctx.client.channels.fetch(
+        draft.previewChannelId!
+      )) as TextChannel;
+      const msg = await channel.messages.fetch(draft.previewMessageId!);
+      await msg.edit({
+        ...preview,
+        components: [menuRow],
+      });
+
+      // 5) Clean up the ephemeral stub so *no* second message ever appears
+      return ctx.deleteReply();
     } catch (error) {
-      console.error("addEventModal_rules error:", error);
+      console.error("error:", error);
       return ctx.reply({
-        content: "<:r_x:1376727384056922132> Oops, could not save your rules—please try again.",
+        content:
+          "<:r_x:1376727384056922132> Oops, could not save your rules—please try again.",
         flags: MessageFlags.Ephemeral,
       });
     }

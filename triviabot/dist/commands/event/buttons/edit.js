@@ -9,6 +9,7 @@ var edit_default = commandModule({
   name: "edit_event",
   type: CommandType.Button,
   async execute(ctx) {
+    await ctx.deferReply();
     const draft = eventDrafts.get(ctx.user.id);
     if (!draft) {
       return ctx.reply({
@@ -17,11 +18,16 @@ var edit_default = commandModule({
       });
     }
     const preview = await buildEventPreview(ctx, draft);
-    const menu = buildKeyMenu(draft.key);
-    return ctx.update({
-      content: preview.content,
-      components: [menu]
+    const menuRow = buildKeyMenu(draft.key);
+    const channel = await ctx.client.channels.fetch(
+      draft.previewChannelId
+    );
+    const msg = await channel.messages.fetch(draft.previewMessageId);
+    await msg.edit({
+      ...preview,
+      components: [menuRow]
     });
+    return ctx.deleteReply();
   }
 });
 export {

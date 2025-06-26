@@ -9,10 +9,15 @@ import {
   MessageFlags,
   ActionRowData,
   ButtonComponentData,
+  ActionRow,
+  StringSelectMenuBuilder,
+  TextChannel,
+  StringSelectMenuOptionBuilder,
 } from "discord.js";
 import { CommandType, commandModule } from "@sern/handler";
 import { eventDrafts, EventDraft } from "../../utils/eventDraftCache.js";
 import { buildEventPreview } from "../../utils/buildEventPreview.js";
+import searchEventEmojiModal from "./modals/searchEventEmojiModal.js";
 
 export default commandModule({
   name: "event_page_select",
@@ -36,12 +41,12 @@ export default commandModule({
     switch (choice) {
       case "basic": {
         const modal = new ModalBuilder()
-          .setCustomId("eventModal")
+          .setCustomId("basic_info")
           .setTitle("Basic Info");
         modal.addComponents(
           new ActionRowBuilder<TextInputBuilder>().addComponents(
             new TextInputBuilder()
-              .setCustomId("name")
+              .setCustomId("name_input")
               .setLabel("Name")
               .setStyle(TextInputStyle.Short)
               .setValue(`${draft.name ?? ""}`)
@@ -49,7 +54,7 @@ export default commandModule({
           ),
           new ActionRowBuilder<TextInputBuilder>().addComponents(
             new TextInputBuilder()
-              .setCustomId("title")
+              .setCustomId("title_input")
               .setLabel("Title")
               .setStyle(TextInputStyle.Short)
               .setValue(`${draft.title ?? ""}`)
@@ -61,7 +66,7 @@ export default commandModule({
 
       case "rules": {
         const modal = new ModalBuilder()
-          .setCustomId("addEventModal_rules") // ← this must match your handler’s name
+          .setCustomId("event_rules") // ← this must match your handler’s name
           .setTitle("daRulez List");
         modal.addComponents(
           new ActionRowBuilder<TextInputBuilder>().addComponents(
@@ -79,7 +84,7 @@ export default commandModule({
 
       case "scoring": {
         const modal = new ModalBuilder()
-          .setCustomId("addEventModal_scoring")
+          .setCustomId("event_scoring")
           .setTitle("Scoring");
         modal.addComponents(
           new ActionRowBuilder<TextInputBuilder>().addComponents(
@@ -99,7 +104,7 @@ export default commandModule({
       }
       case "points": {
         const modal = new ModalBuilder()
-          .setCustomId("addEventModal_points")
+          .setCustomId("event_points")
           .setTitle("Points List");
         modal.addComponents(
           new ActionRowBuilder<TextInputBuilder>().addComponents(
@@ -114,20 +119,98 @@ export default commandModule({
         );
         return ctx.showModal(modal);
       }
+      case "evEmSel": {
+        // 2) Build & show a one‐field modal
+        const modal = new ModalBuilder()
+          .setCustomId("search_event_emoji")
+          .setTitle("Search Event Emoji");
+        modal.addComponents(
+          new ActionRowBuilder<TextInputBuilder>().addComponents(
+            new TextInputBuilder()
+              .setCustomId("emoji_search")
+              .setLabel("Type part of the emoji name")
+              .setStyle(TextInputStyle.Short)
+              .setPlaceholder("e.g. soccer")
+              .setRequired(true)
+          )
+        );
+
+        return ctx.showModal(modal);
+      }
+
+      case "rulezEmSel": {
+        // 2) Build & show a one‐field modal
+        const modal = new ModalBuilder()
+          .setCustomId("search_rules_emoji")
+          .setTitle("Search Rules Emoji");
+        modal.addComponents(
+          new ActionRowBuilder<TextInputBuilder>().addComponents(
+            new TextInputBuilder()
+              .setCustomId("rEmoji_search")
+              .setLabel("Type part of the emoji name")
+              .setStyle(TextInputStyle.Short)
+              .setPlaceholder("e.g. arrow")
+              .setRequired(true)
+          )
+        );
+
+        return ctx.showModal(modal);
+      }
+      case "tags": {
+        // pop open a one‐field modal for role search
+        const modal = new ModalBuilder()
+          .setCustomId("search_tags")
+          .setTitle("Search Tags");
+        modal.addComponents(
+          new ActionRowBuilder<TextInputBuilder>().addComponents(
+            new TextInputBuilder()
+              .setCustomId("tags_search")
+              .setLabel("Type part of the role name")
+              .setStyle(TextInputStyle.Short)
+              .setPlaceholder("e.g. Moderator")
+              .setRequired(true)
+          )
+        );
+        return ctx.showModal(modal);
+      }
 
       case "finalize": {
-        new ButtonBuilder()
+        await ctx.deferReply();
+
+        const saveBtn = new ButtonBuilder()
           .setCustomId("save_event")
           .setLabel("Save")
-          .setStyle(ButtonStyle.Success),
-          new ButtonBuilder()
-            .setCustomId("edit_event") // go back into editing flow
-            .setLabel("Edit")
-            .setStyle(ButtonStyle.Secondary),
-          new ButtonBuilder()
-            .setCustomId("cancel")
-            .setLabel("Cancel")
-            .setStyle(ButtonStyle.Danger);
+          .setStyle(ButtonStyle.Success);
+        const editBtn = new ButtonBuilder()
+          .setCustomId("edit_event")
+          .setLabel("Edit")
+          .setStyle(ButtonStyle.Secondary);
+        const cancelBtn = new ButtonBuilder()
+          .setCustomId("cancel")
+          .setLabel("Cancel")
+          .setStyle(ButtonStyle.Danger);
+
+        // 4. Put them in a row
+        const buttonRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
+          saveBtn,
+          editBtn,
+          cancelBtn
+        );
+        const rowData =
+          buttonRow.toJSON() as unknown as ActionRowData<ButtonComponentData>;
+        const preview = buildEventPreview(ctx, draft);
+
+        const channel = (await ctx.client.channels.fetch(
+          draft.previewChannelId!
+        )) as TextChannel;
+        const msg = await channel.messages.fetch(draft.previewMessageId!);
+        await msg.edit({
+          ...preview,
+          components: [rowData],
+        });
+
+        // 5) Clean up the ephemeral stub so *no* second message ever appears
+        return ctx.deleteReply();
       }
 
       default:

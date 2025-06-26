@@ -5,9 +5,8 @@ export interface EventDraft {
   key: DraftKey;
   name: string;
   title: string;
-  titleEmoji: string;
+  titleEmoji: string | "";
   rulesEmoji: string;
-  jewelEmoji: string;
   eventEmoji: string;
   daRulez: string[];
   scoring: string[];
@@ -15,6 +14,9 @@ export interface EventDraft {
   tags: string;
   serverID: string;
 
-  previewMessageId: string,
+  previewMessageId: string;
+  previewChannelId: string;
+  eventEmojiPage?: number;
+  rulesEmojiPage?: number;
 }
 export const eventDrafts = new Map<string, Partial<EventDraft>>();

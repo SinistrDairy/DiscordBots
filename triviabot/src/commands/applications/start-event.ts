@@ -29,7 +29,7 @@ export default commandModule({
       autocomplete: true,
       command: {
         onEvent: [],
-        execute: suggestEvents
+        execute: suggestEvents,
       },
     },
   ],
@@ -43,23 +43,37 @@ export default commandModule({
     const hostID = ctx.user.id;
     const event = await eventSchema.findOne({ name });
     if (event) {
-      let { daRulez, tags, title, scoring } = event;
+      let { daRulez, tags, title, scoring, eEmojiID, rEmojiID, pointList } =
+        event;
       let eventRules = ``;
       let rulesOrder = ``;
-      let scoreOrder = ``;
+      let scoreList = ``;
+      let scoreOrder = scoring ?? [];
+      let pointOrder = pointList ?? [];
+      const skipPhrase = "as follows:";
       tags = tags.replace(/,/g, " ");
       // tags = `<@&1277672317576548413>   <@&1277672375248224357>`
       for (let counter = 0; counter < daRulez.length; ++counter) {
         const rulesList = daRulez[counter];
-        rulesOrder += `${rulesList}\n`;
+        rulesOrder += `${rEmojiID} ${rulesList}\n`;
       }
-      for (let counter = 0; counter < scoring.length; ++counter) {
-        const scoreList = scoring[counter];
-        scoreOrder += `<:fk_dot:1334970932657131560> ${scoreList}\n`;
+      const len = Math.min(scoreOrder.length, pointOrder.length);
+      const jewelEmoji = `<:fk_jewel:1333402533439475743>`;
+      const dotEmoji   = "<:fk_dot:1334970932657131560>";
+      for (let i = 0, ptI = 0; i < len; ++i) {
+        const desc = scoreOrder[i].trim();
+
+        if (desc.endsWith(skipPhrase)) {
+          scoreList += `${desc}\n`;
+          continue;
+        }
+
+        const points = pointOrder[ptI++]?.trim() ?? "0";
+        scoreList += `${dotEmoji} ${desc}, __**${points}**__ ${jewelEmoji}\n`;
       }
 
-      eventRules += `  \#\#\# ${title}\n
-            \n\#\#\# **__Rules__**\n\n${rulesOrder}\n\#\#\# **__Scoring__**\n\n${scoreOrder}\n<a:magicjewels:859867893587509298> Your host for today's game is: <@${hostID}>!\n\n${tags}`;
+      eventRules += `  \#\#\# ${eEmojiID} ${title} ${eEmojiID}\n
+            \n\#\#\# **__Rules__**\n\n${rulesOrder}\n\#\#\# **__Scoring__**\n\n${scoreList}\n<a:magicjewels:859867893587509298> Your host for today's game is: <@${hostID}>!\n\n${tags}`;
 
       ctx.reply({
         content: eventRules,

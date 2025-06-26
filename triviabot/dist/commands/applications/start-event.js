@@ -39,22 +39,34 @@ var start_event_default = commandModule({
     const hostID = ctx.user.id;
     const event = await eventSchema.findOne({ name });
     if (event) {
-      let { daRulez, tags, title, scoring } = event;
+      let { daRulez, tags, title, scoring, eEmojiID, rEmojiID, pointList } = event;
       let eventRules = ``;
       let rulesOrder = ``;
-      let scoreOrder = ``;
+      let scoreList = ``;
+      let scoreOrder = scoring ?? [];
+      let pointOrder = pointList ?? [];
+      const skipPhrase = "as follows:";
       tags = tags.replace(/,/g, " ");
       for (let counter = 0; counter < daRulez.length; ++counter) {
         const rulesList = daRulez[counter];
-        rulesOrder += `${rulesList}
+        rulesOrder += `${rEmojiID} ${rulesList}
 `;
       }
-      for (let counter = 0; counter < scoring.length; ++counter) {
-        const scoreList = scoring[counter];
-        scoreOrder += `<:fk_dot:1334970932657131560> ${scoreList}
+      const len = Math.min(scoreOrder.length, pointOrder.length);
+      const jewelEmoji = `<:fk_jewel:1333402533439475743>`;
+      const dotEmoji = "<:fk_dot:1334970932657131560>";
+      for (let i = 0, ptI = 0; i < len; ++i) {
+        const desc = scoreOrder[i].trim();
+        if (desc.endsWith(skipPhrase)) {
+          scoreList += `${desc}
+`;
+          continue;
+        }
+        const points = pointOrder[ptI++]?.trim() ?? "0";
+        scoreList += `${dotEmoji} ${desc}, __**${points}**__ ${jewelEmoji}
 `;
       }
-      eventRules += `  ### ${title}
+      eventRules += `  ### ${eEmojiID} ${title} ${eEmojiID}
 
             
 ### **__Rules__**
@@ -62,7 +74,7 @@ var start_event_default = commandModule({
 ${rulesOrder}
 ### **__Scoring__**
 
-${scoreOrder}
+${scoreList}
 <a:magicjewels:859867893587509298> Your host for today's game is: <@${hostID}>!
 
 ${tags}`;

@@ -7,10 +7,13 @@ import type { DraftKey } from "./eventDraftCache.js"; // adjust the path as need
  */
 export const menuOptions: Record<DraftKey, APISelectMenuOption[]> = {
   event: [
-    { label: "Edit Title", value: "edit_title" },
-    { label: "Edit Description", value: "edit_description" },
-    { label: "Add Main Image", value: "add_image" },
-    { label: "Add Emoji", value: "add_emoji" },
+    { label: "Edit Basic Info", value: "basic" },
+    { label: "Select Event Emoji", value: "evEmSel" },
+    { label: "Edit daRulez", value: "rules" },
+    { label: "Select Rules Emoji", value: "rulezEmSel" },
+    { label: "Edit Scoring", value: "scoring" },
+    { label: "Edit Points", value: "points" },
+    { label: "Edit Tags", value: "tags" },
     { label: "Done Editing", value: "finalize" },
   ],
   special: [],

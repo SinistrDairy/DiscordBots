@@ -1,5 +1,7 @@
 # Changelog
 
+## [1.10.0](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.9.7...Rv1.10.0) (2025-06-26)
+
 ## [1.9.7](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.9.6...Rv1.9.7) (2025-06-25)
 
 ### Bug Fixes

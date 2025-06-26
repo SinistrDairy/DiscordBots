@@ -1,39 +1,49 @@
-import { CommandType, commandModule } from "@sern/handler";
-import eventSchema from "../../../models/profiles/event-schema.js";
+import { commandModule, CommandType } from "@sern/handler";
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  MessageFlags
+} from "discord.js";
 import { eventDrafts } from "../../../utils/eventDraftCache.js";
-import { MessageFlags } from "discord.js";
+import {
+  saveDraftToDB,
+  DuplicateEventError
+} from "../../../utils/draftToEvent.js";
 var submit_default = commandModule({
   name: "save_event",
-  // must match your Button’s customId
   type: CommandType.Button,
   async execute(ctx) {
-    const userId = ctx.user.id;
-    const draft = eventDrafts.get(userId);
+    await ctx.deferReply({ flags: MessageFlags.Ephemeral });
+    const draft = eventDrafts.get(ctx.user.id);
     if (!draft) {
-      return ctx.reply({
-        content: "<:r_x:1376727384056922132> Nothing to submit\u2014your draft has expired or was never created.",
-        flags: MessageFlags.Ephemeral
-      });
+      return ctx.editReply({ content: "\u274C Nothing to save." });
     }
-    await eventSchema.findOneAndUpdate(
-      { name: draft.name },
-      {
-        name: draft.name,
-        title: draft.title,
-        daRulez: draft.daRulez,
-        scoring: draft.scoring,
-        pointList: draft.pointList,
-        tags: draft.tags,
-        serverID: draft.serverID
-      },
-      { upsert: true, new: true }
-    );
-    eventDrafts.delete(userId);
-    return ctx.update({
-      content: `\u2705 Event **${draft.title}** has been saved!`,
-      embeds: [],
-      components: []
-    });
+    try {
+      await saveDraftToDB(draft);
+      eventDrafts.delete(ctx.user.id);
+      const chan = await ctx.client.channels.fetch(
+        draft.previewChannelId
+      );
+      await (await chan.messages.fetch(draft.previewMessageId)).edit({
+        content: `\u2705 **${draft.name}** saved.`,
+        components: []
+      });
+      return ctx.deleteReply();
+    } catch (err) {
+      if (err instanceof DuplicateEventError) {
+        const row = new ActionRowBuilder().addComponents(
+          new ButtonBuilder().setCustomId("confirm_overwrite").setLabel("Overwrite").setStyle(ButtonStyle.Danger),
+          new ButtonBuilder().setCustomId("cancel").setLabel("Cancel").setStyle(ButtonStyle.Secondary)
+        );
+        return ctx.editReply({
+          content: `\u26A0\uFE0F An event called **${draft.name}** already exists. Overwrite it?`,
+          components: [row]
+        });
+      }
+      console.error(err);
+      return ctx.editReply({ content: `\u274C Save failed: ${err.message}` });
+    }
   }
 });
 export {
