@@ -34,7 +34,6 @@ declare namespace NodeJS {
         GITHUB_GRAPHQL_URL:string
         NVM_DIR:string
         DOTNET_SKIP_FIRST_TIME_EXPERIENCE:string
-        GOROOT_1_21_X64:string
         JAVA_HOME_17_X64:string
         ImageVersion:string
         LOGNAME:string
@@ -49,6 +48,7 @@ declare namespace NodeJS {
         GITHUB_WORKFLOW:string
         _:string
         MEMORY_PRESSURE_WATCH:string
+        GOROOT_1_24_X64:string
         npm_config_registry:string
         ACTIONS_RUNNER_ACTION_ARCHIVE_CACHE:string
         GITHUB_RUN_ID:string
