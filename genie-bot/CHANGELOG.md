@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.19.0](https://github.com/SinistrDairy/DiscordBots/compare/Gv1.15.0...Gv1.19.0) (2025-06-27)
+
+### Bug Fixes
+
+* update writer options to disable link comparison and references ([eec020d](https://github.com/SinistrDairy/DiscordBots/commit/eec020de1c28eb4b4ac604fe79652e8f4fa8c323))
+
+## [1.18.0](https://github.com/SinistrDairy/DiscordBots/compare/Gv1.15.0...Gv1.18.0) (2025-06-27)
+
+### Bug Fixes
+
+* update writer options to disable link comparison and references ([eec020d](https://github.com/SinistrDairy/DiscordBots/commit/eec020de1c28eb4b4ac604fe79652e8f4fa8c323))
+
 ## [1.17.0](https://github.com/SinistrDairy/DiscordBots/compare/Gv1.15.0...Gv1.17.0) (2025-06-26)
 
 ## [1.16.0](https://github.com/SinistrDairy/DiscordBots/compare/Gv1.15.0...Gv1.16.0) (2025-06-26)

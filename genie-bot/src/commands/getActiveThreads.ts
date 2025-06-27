@@ -15,14 +15,13 @@ const cowChannel = "1336737046282113097";
 export default commandModule({
   type: CommandType.Slash,
   name: "view-cows",
-  description:
-    "List active cow threads.",
+  description: "List active cow threads.",
   plugins: [
     publishConfig({
       guildIds: [process.env.GUILD_ID1!, process.env.GUILD_ID2!] as [
         `${number}`,
         `${number}`
-      ], 
+      ],
     }),
     requirePermission("user", [PermissionFlagsBits.ManageMessages]),
   ],
@@ -56,20 +55,25 @@ export default commandModule({
 
     // Prepare data: enrich with jewel count using the starter message
     const threadInfos = await Promise.all(
-      archives
-        .map(async (a) => {
-          const ch = (await ctx.guild!.channels.fetch(
-            a.threadId
-          )) as ThreadChannel;
-          // fetch the starter message that triggered this thread
-          const starter = await ch.fetchStarterMessage();
+      archives.map(async (a) => {
+        const ch = (await ctx.guild!.channels.fetch(
+          a.threadId
+        )) as ThreadChannel;
+        const name = ch.name;
+        return {
+          id: a.threadId,
+          name,
+          archiveAt: a.archiveAt,
+        };
+      })
+    );
 
-          return { id: a.threadId, archiveAt: a.archiveAt };
-        })
+    const realThreads = threadInfos.filter(
+      (info) => !/test(ing)?/i.test(info.name)
     );
 
     // Build lines with jewel and close time
-    const lines = threadInfos.map((info) => {
+    const lines = realThreads.map((info) => {
       const endTime = Math.floor(info.archiveAt.getTime() / 1000);
       return `<:fk_arrow_b:1335053427956514968> • <#${info.id}> • closes <t:${endTime}:R>`;
     });

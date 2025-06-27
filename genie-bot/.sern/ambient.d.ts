@@ -21,10 +21,12 @@ declare namespace NodeJS {
         DISCORD_TOKEN:string
         DISPLAY:string
         DriverData:string
-        EFC_7332_1592913036:string
+        EFC_3368_1262719628:string
+        EFC_3368_1592913036:string
+        EFC_3368_2283032206:string
+        EFC_3368_2775293581:string
+        EFC_3368_3789132940:string
         EXEPATH:string
-        FPS_BROWSER_APP_PROFILE_STRING:string
-        FPS_BROWSER_USER_PROFILE_STRING:string
         GIT_ASKPASS:string
         GUILD_ID1:string
         GUILD_ID2:string
@@ -115,5 +117,6 @@ declare namespace NodeJS {
         VSCODE_GIT_IPC_HANDLE:string
         WINDIR:string
         ZES_ENABLE_SYSMAN:string
+        __COMPAT_LAYER:string
     }
 }
