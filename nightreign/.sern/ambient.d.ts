@@ -6,6 +6,7 @@ declare namespace NodeJS {
         ACLOCAL_PATH:string
         ALLUSERSPROFILE:string
         APPDATA:string
+        APPLICATION_ID:string
         ChocolateyInstall:string
         ChocolateyLastPathUpdate:string
         CHROME_CRASHPAD_PIPE_NAME:string
@@ -19,7 +20,11 @@ declare namespace NodeJS {
         DISCORD_TOKEN:string
         DISPLAY:string
         DriverData:string
-        EFC_7332_1592913036:string
+        EFC_3368_1262719628:string
+        EFC_3368_1592913036:string
+        EFC_3368_2283032206:string
+        EFC_3368_2775293581:string
+        EFC_3368_3789132940:string
         EXEPATH:string
         GIT_ASKPASS:string
         GUILD_ID1:string
