@@ -63,7 +63,7 @@ export default commandModule({
         // Immediately open Basic Info modal
         const modal = new ModalBuilder()
           .setCustomId("basic_info")
-          .setTitle("Basic Info")
+          .setTitle("Create Event: Part 1")
           .addComponents(
             new ActionRowBuilder<TextInputBuilder>().addComponents(
               new TextInputBuilder()
