@@ -478,6 +478,30 @@
             "nsfw": false
         },
         {
+            "id": "1390362649514213467",
+            "application_id": "1196458687955480677",
+            "version": "1390362649514213468",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "start-specialevent",
+            "name_localizations": null,
+            "description": "Post a formatted embed to start a special event!",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "event",
+                    "name_localizations": null,
+                    "description": "Select the special event",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
+                }
+            ],
+            "nsfw": false
+        },
+        {
             "id": "1383930633591591040",
             "application_id": "1196458687955480677",
             "version": "1383930633801171068",
@@ -1611,6 +1635,30 @@
                     "name_localizations": null,
                     "description": "Second member (optional)",
                     "description_localizations": null
+                }
+            ],
+            "nsfw": false
+        },
+        {
+            "id": "1390362650722173110",
+            "application_id": "1196458687955480677",
+            "version": "1390362650722173111",
+            "default_member_permissions": "8192",
+            "type": 1,
+            "name": "start-specialevent",
+            "name_localizations": null,
+            "description": "Post a formatted embed to start a special event!",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 3,
+                    "name": "event",
+                    "name_localizations": null,
+                    "description": "Select the special event",
+                    "description_localizations": null,
+                    "required": true,
+                    "autocomplete": true
                 }
             ],
             "nsfw": false

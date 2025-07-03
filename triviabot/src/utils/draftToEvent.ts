@@ -2,9 +2,9 @@
 import { EventDraft } from "./eventDraftCache";
 import EventModel from "../models/profiles/event-schema.js";
 import SpecialEventModel from "../models/profiles/special-event-schema.js";
-import { title } from "process";
 
-export interface EventModelInput {
+// ---- Interface for Regular Event ----
+export interface RegularEventModelInput {
   name: string;
   title: string;
   pointList: string[];
@@ -16,10 +16,16 @@ export interface EventModelInput {
   serverID: string;
 }
 
-/**
- * Custom error thrown when trying to save an event
- * that already exists in the database.
- */
+// ---- Interface for Special Event ----
+export interface SpecialEventModelInput extends RegularEventModelInput {
+  howToPlay: string[];
+  hEmojiID: string;
+  color: string;
+  mImage: string;
+  fImage?: string;
+}
+
+// ---- Error Class ----
 export class DuplicateEventError extends Error {
   public existing: any;
   constructor(existing: any) {
@@ -29,14 +35,10 @@ export class DuplicateEventError extends Error {
   }
 }
 
-/**
- * Convert a fully-populated draft into the shape
- * your Mongoose model expects, combining emojis
- * as specified, and removing titleEmoji/jewelEmoji fields.
- */
-export function toEventInput(
+// ---- Convert to Regular Event Input ----
+function toRegularEventInput(
   draft: Partial<EventDraft>
-): EventModelInput {
+): RegularEventModelInput {
   const {
     name,
     title,
@@ -49,7 +51,6 @@ export function toEventInput(
     serverID,
   } = draft;
 
-  // Validate required fields
   if (
     !name ||
     !title ||
@@ -61,9 +62,7 @@ export function toEventInput(
     !tags ||
     !serverID
   ) {
-    throw new Error(
-      "Cannot save: draft is missing one or more required fields"
-    );
+    throw new Error("Missing required regular event fields.");
   }
 
   return {
@@ -79,38 +78,101 @@ export function toEventInput(
   };
 }
 
-/**
- * Persist a draft to MongoDB, with optional overwrite.
- * Throws DuplicateEventError if an event with the same name
- * and serverID exists and overwrite is false.
- * If overwrite is true, updates the existing document.
- */
+// ---- Convert to Special Event Input ----
+function toSpecialEventInput(
+  draft: Partial<EventDraft>
+): SpecialEventModelInput {
+  const {
+    name,
+    title,
+    pointList,
+    daRulez,
+    scoring,
+    eventEmoji,
+    rulesEmoji,
+    hEmojiID,
+    howToPlay,
+    tags,
+    serverID,
+    color,
+    mImage,
+    fImage,
+  } = draft;
+
+  if (
+    !name ||
+    !title ||
+    !Array.isArray(pointList) ||
+    !Array.isArray(daRulez) ||
+    !Array.isArray(scoring) ||
+    !Array.isArray(howToPlay) ||
+    !eventEmoji ||
+    !rulesEmoji ||
+    !hEmojiID ||
+    !color ||
+    !mImage ||
+    !tags ||
+    !serverID
+  ) {
+    throw new Error("Missing required special event fields.");
+  }
+
+  return {
+    name,
+    title,
+    pointList,
+    daRulez,
+    scoring,
+    howToPlay,
+    eEmojiID: eventEmoji,
+    rEmojiID: rulesEmoji,
+    hEmojiID,
+    color,
+    mImage,
+    fImage,
+    tags,
+    serverID,
+  };
+}
+
+// ---- Save to DB ----
 export async function saveDraftToDB(
   draft: Partial<EventDraft>,
-  overwrite: boolean = false
+  overwrite = false
 ) {
-  const input = toEventInput(draft);
-  const Model = draft.key === "special" ? SpecialEventModel : EventModel;
+  if (draft.key === "special") {
+    const input = toSpecialEventInput(draft);
 
-  // Check for existing document
-  const existing = await Model.findOne({
-    name: input.name,
-    serverID: input.serverID,
-  });
+    const existing = await SpecialEventModel.findOne({
+      name: input.name,
+      serverID: input.serverID,
+    });
 
-  if (existing) {
-    if (!overwrite) {
-      // Let caller decide to overwrite
+    if (existing && !overwrite) {
       throw new DuplicateEventError(existing);
     }
-    // Overwrite existing document
-    return Model.findOneAndUpdate(
+
+    return SpecialEventModel.findOneAndUpdate(
+      { name: input.name, serverID: input.serverID },
+      input,
+      { new: true, upsert: true }
+    );
+  } else {
+    const input = toRegularEventInput(draft);
+
+    const existing = await EventModel.findOne({
+      name: input.name,
+      serverID: input.serverID,
+    });
+
+    if (existing && !overwrite) {
+      throw new DuplicateEventError(existing);
+    }
+
+    return EventModel.findOneAndUpdate(
       { name: input.name, serverID: input.serverID },
       input,
       { new: true, upsert: true }
     );
   }
-
-  // Create new document
-  return Model.create(input);
 }

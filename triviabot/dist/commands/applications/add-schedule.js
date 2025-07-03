@@ -114,7 +114,7 @@ var add_schedule_default = commandModule({
     if (!event) {
       return await ctx.reply("<:x_russell:1375156566407381044> That event doesn't exist.");
     }
-    const emojiID = event.emojiID;
+    const emojiID = event.eEmojiID;
     const field = dayMap[day];
     const entries = schedule[field];
     const userEntry = {

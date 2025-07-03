@@ -19,7 +19,7 @@ export default commandModule({
     requirePermission("user", [PermissionFlagsBits.ManageMessages]),
     publishConfig({
       guildIds: [process.env.GUILD_ID1!, process.env.GUILD_ID2!],
-      defaultMemberPermissions: PermissionFlagsBits.ManageMessages
+      defaultMemberPermissions: PermissionFlagsBits.ManageMessages,
     }),
   ],
   options: [
@@ -65,11 +65,19 @@ export default commandModule({
       });
     }
 
+    // ❌ Bot check
+    if (user1.bot || (user2 && user2.bot)) {
+      return ctx.reply({
+        content:
+          "<:r_x:1376727384056922132> You cannot tag bots for stretching.",
+        flags: MessageFlags.Ephemeral,
+      });
+    }
+
     const players = user2 ? [user1, user2] : [user1];
     const mentions = players.map((u) => `<@${u.id}>`).join(" & ");
     const fullNames = players
       .map((u) => {
-        // display nickname if they have one
         const member = ctx.guild?.members.cache.get(u.id);
         return member?.nickname || u.username;
       })
@@ -80,12 +88,15 @@ export default commandModule({
       "862329765801623582"
     ) as TextChannel;
     if (!gym)
-      return ctx.reply({ content: "Gym channel not found.", flags: MessageFlags.Ephemeral });
+      return ctx.reply({
+        content: "Gym channel not found.",
+        flags: MessageFlags.Ephemeral,
+      });
     await gym.send(
       `**${mentions}** completed their stretches making the word **${word}**!`
     );
 
-    // 2) for each player, find their land and add jewels
+    // 2) add jewels
     for (const u of players) {
       const profile = await userSchema.findOne({ userID: u.id });
       if (!profile) {

@@ -57,6 +57,12 @@ var stretch_default = commandModule({
         flags: MessageFlags.Ephemeral
       });
     }
+    if (user1.bot || user2 && user2.bot) {
+      return ctx.reply({
+        content: "<:r_x:1376727384056922132> You cannot tag bots for stretching.",
+        flags: MessageFlags.Ephemeral
+      });
+    }
     const players = user2 ? [user1, user2] : [user1];
     const mentions = players.map((u) => `<@${u.id}>`).join(" & ");
     const fullNames = players.map((u) => {
@@ -67,7 +73,10 @@ var stretch_default = commandModule({
       "862329765801623582"
     );
     if (!gym)
-      return ctx.reply({ content: "Gym channel not found.", flags: MessageFlags.Ephemeral });
+      return ctx.reply({
+        content: "Gym channel not found.",
+        flags: MessageFlags.Ephemeral
+      });
     await gym.send(
       `**${mentions}** completed their stretches making the word **${word}**!`
     );

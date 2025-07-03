@@ -5,16 +5,13 @@ const reqString = { type: String, required: true };
 const uniqString = { type: String, required: true, unique: true };
 
 const messageSchema = new Schema({
-
-    title: reqString,
-    body: uniqString,
-    emojiID: reqString,
-    tags: reqString,
-    serverID: reqString,
-
+  title: reqString,
+  body: uniqString,
+  emojiID: reqString,
+  tags: reqString,
+  serverID: reqString,
 });
 
 const name = "messages";
 
-export default mongo.model(name, messageSchema
-);
+export default mongo.model(name, messageSchema);

@@ -113,7 +113,7 @@ export default commandModule({
               .setLabel("Points (one per line)")
               .setStyle(TextInputStyle.Paragraph)
               .setValue(`${draft.pointList?.join("\n") ?? ""}`)
-              .setPlaceholder("50\n100\n150")
+              .setPlaceholder("150\n100\n50")
               .setRequired(true)
           )
         );
@@ -175,8 +175,10 @@ export default commandModule({
       }
 
       case "finalize": {
-        await ctx.deferReply();
+        // ephemeral stub
+        await ctx.deferReply({ flags: MessageFlags.Ephemeral });
 
+        // build your Save/Edit/Cancel buttons
         const saveBtn = new ButtonBuilder()
           .setCustomId("save_event")
           .setLabel("Save")
@@ -189,28 +191,42 @@ export default commandModule({
           .setCustomId("cancel")
           .setLabel("Cancel")
           .setStyle(ButtonStyle.Danger);
-
-        // 4. Put them in a row
         const buttonRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
           saveBtn,
           editBtn,
           cancelBtn
         );
         const rowData =
-          buttonRow.toJSON() as unknown as ActionRowData<ButtonComponentData>;
-        const preview = buildEventPreview(ctx, draft);
+          buttonRow.toJSON() as ActionRowData<ButtonComponentData>;
 
-        const channel = (await ctx.client.channels.fetch(
-          draft.previewChannelId!
-        )) as TextChannel;
-        const msg = await channel.messages.fetch(draft.previewMessageId!);
-        await msg.edit({
-          ...preview,
-          components: [rowData],
-        });
+        // build the preview embed/buttons payload
+        const previewPayload = await buildEventPreview(ctx, draft);
 
-        // 5) Clean up the ephemeral stub so *no* second message ever appears
-        return ctx.deleteReply();
+        if (!draft.previewMessageId) {
+          // ──────────── CREATE FLOW ────────────
+          const sent = await ctx.followUp({
+            ...previewPayload,
+            components: [rowData],
+            ephemeral: true,
+          });
+          // store for future edits
+          draft.previewMessageId = sent.id;
+          draft.previewChannelId = ctx.channelId!;
+          eventDrafts.set(ctx.user.id, draft);
+          return;
+        } else {
+          // ──────────── EDIT FLOW ────────────
+          const channel = (await ctx.client.channels.fetch(
+            draft.previewChannelId!
+          )) as TextChannel;
+          const msg = await channel.messages.fetch(draft.previewMessageId!);
+          await msg.edit({
+            ...previewPayload,
+            components: [rowData],
+          });
+          // clean up the ephemeral stub
+          return ctx.deleteReply();
+        }
       }
 
       default:

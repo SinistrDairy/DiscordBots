@@ -10,10 +10,7 @@ const messageSchema = new Schema({
   serverID: reqString
 });
 const name = "messages";
-var message_schema_default = mongo.model(
-  name,
-  messageSchema
-);
+var message_schema_default = mongo.model(name, messageSchema);
 export {
   message_schema_default as default
 };
