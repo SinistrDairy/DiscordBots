@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.13.0](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.12.3...Rv1.13.0) (2025-07-07)
+
+### Bug Fixes
+
+* Rename emojiID to eEmojiID as emojiID doesn't work anymore and it was causing failures in add-schedule command ([9fd4249](https://github.com/SinistrDairy/DiscordBots/commit/9fd4249c87695b7660e35a95b93519022420583c))
+
 ## [1.12.3](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.12.2...Rv1.12.3) (2025-07-03)
 
 ## [1.12.2](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.12.1...Rv1.12.2) (2025-07-03)
