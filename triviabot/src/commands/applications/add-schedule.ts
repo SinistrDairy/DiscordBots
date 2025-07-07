@@ -121,7 +121,7 @@ export default commandModule({
       id: string;
       event: string;
       time: string;
-      eEmojiID: string;
+      emojiID: string;
     };
 
     type ScheduleDoc = {
@@ -157,7 +157,7 @@ export default commandModule({
       return await ctx.reply("<:x_russell:1375156566407381044> That event doesn't exist.");
     }
 
-    const eEmojiID = event.eEmojiID;
+    const emojiID = event.eEmojiID;
     const field = dayMap[day];
     const entries = schedule[field];
 
@@ -166,7 +166,7 @@ export default commandModule({
       id: user.id,
       event: eventName,
       time,
-      eEmojiID,
+      emojiID,
     };
 
     // Check if already scheduled
@@ -194,7 +194,7 @@ export default commandModule({
       }
 
       const valid = entries.filter(
-        (e) => e && e.name && e.event && e.time && e.eEmojiID
+        (e) => e && e.name && e.event && e.time && e.emojiID
       );
 
       if (valid.length === 0) return `__**${label}:**__\n *(none)*\n`;
@@ -213,7 +213,7 @@ export default commandModule({
       });
 
       return `__**${label}:**__\n${sorted
-        .map((e) => `${e.eEmojiID} ${e.name} @ ${e.time}`)
+        .map((e) => `${e.emojiID} ${e.name} @ ${e.time}`)
         .join('\n')}`;
     };
 
