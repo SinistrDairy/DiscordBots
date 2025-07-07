@@ -114,7 +114,7 @@ var add_schedule_default = commandModule({
     if (!event) {
       return await ctx.reply("<:x_russell:1375156566407381044> That event doesn't exist.");
     }
-    const emojiID = event.eEmojiID;
+    const eEmojiID = event.eEmojiID;
     const field = dayMap[day];
     const entries = schedule[field];
     const userEntry = {
@@ -122,7 +122,7 @@ var add_schedule_default = commandModule({
       id: user.id,
       event: eventName,
       time,
-      emojiID
+      eEmojiID
     };
     const isDuplicate = entries.some(
       (e) => e?.id === user.id && e?.event === eventName && e?.event !== "trivia"
@@ -143,7 +143,7 @@ var add_schedule_default = commandModule({
 `;
       }
       const valid = entries2.filter(
-        (e) => e && e.name && e.event && e.time && e.emojiID
+        (e) => e && e.name && e.event && e.time && e.eEmojiID
       );
       if (valid.length === 0)
         return `__**${label}:**__
@@ -162,7 +162,7 @@ var add_schedule_default = commandModule({
         return convertTo24Hour(a.time) - convertTo24Hour(b.time);
       });
       return `__**${label}:**__
-${sorted.map((e) => `${e.emojiID} ${e.name} @ ${e.time}`).join("\n")}`;
+${sorted.map((e) => `${e.eEmojiID} ${e.name} @ ${e.time}`).join("\n")}`;
     };
     let isActive;
     if (schedule.isCurrent === true) {
