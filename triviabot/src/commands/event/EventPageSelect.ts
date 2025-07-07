@@ -176,7 +176,7 @@ export default commandModule({
 
       case "finalize": {
         // ephemeral stub
-        await ctx.deferReply({ flags: MessageFlags.Ephemeral });
+        await ctx.deferReply({});
 
         // build your Save/Edit/Cancel buttons
         const saveBtn = new ButtonBuilder()

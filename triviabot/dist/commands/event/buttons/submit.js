@@ -2,8 +2,7 @@ import { commandModule, CommandType } from "@sern/handler";
 import {
   ActionRowBuilder,
   ButtonBuilder,
-  ButtonStyle,
-  MessageFlags
+  ButtonStyle
 } from "discord.js";
 import { eventDrafts } from "../../../utils/eventDraftCache.js";
 import {
@@ -14,7 +13,7 @@ var submit_default = commandModule({
   name: "save_event",
   type: CommandType.Button,
   async execute(ctx) {
-    await ctx.deferReply({ flags: MessageFlags.Ephemeral });
+    await ctx.deferReply({});
     const draft = eventDrafts.get(ctx.user.id);
     if (!draft) {
       return ctx.editReply({ content: "\u274C Nothing to save." });

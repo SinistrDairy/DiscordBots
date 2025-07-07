@@ -1,8 +1,4 @@
-import {
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle
-} from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 async function buildEventPreview(ctx, draft) {
   const lines = [];
   lines.push("# __**EXAMPLE**__", "");
@@ -24,19 +20,31 @@ async function buildEventPreview(ctx, draft) {
   lines.push("__**Scoring**__", "");
   const scoringArr = draft.scoring ?? [];
   const pointsArr = draft.pointList ?? [];
-  const skipPhrase = "as follows:";
-  const len = Math.min(scoringArr.length, pointsArr.length);
-  const jewelEmoji = `<:fk_jewel:1333402533439475743>`;
-  let ptI = 0;
-  for (let i = 0; i < len; i++) {
-    const description = scoringArr[i].trim();
-    if (description.endsWith(skipPhrase)) {
-      lines.push(`${description}`);
-      continue;
-    }
-    const points = pointsArr[ptI++];
-    lines.push(`<:fk_dot:1334970932657131560> ${description} __**${points}**__ ${jewelEmoji}`);
+  const dotEmoji = "<:fk_dot:1334970932657131560>";
+  const jewelEmoji = "<:fk_jewel:1333402533439475743>";
+  function shouldSkipLine(raw) {
+    const trimmed = raw.trim();
+    if (trimmed.toLowerCase().endsWith("as follows:"))
+      return true;
+    if (trimmed.toLowerCase().endsWith(jewelEmoji))
+      return true;
+    const tokens = trimmed.split(/\s+/);
+    const lastToken = tokens[tokens.length - 1] || "";
+    const unwrapped = lastToken.replace(/^[_*~`]+|[_*~`]+$/g, "");
+    return /^(\d+)(?:\/\d+)*$/.test(unwrapped);
   }
+  let pIdx = 0;
+  scoringArr.forEach((raw) => {
+    const text = raw.trim();
+    if (shouldSkipLine(text)) {
+      lines.push(`${dotEmoji} ${text}`);
+    } else if (pIdx < pointsArr.length) {
+      const pts = pointsArr[pIdx++];
+      lines.push(`${dotEmoji} ${text} __**${pts}**__ ${jewelEmoji}`);
+    } else {
+      lines.push(`${dotEmoji} ${text}`);
+    }
+  });
   lines.push("");
   if (draft.pointList?.length) {
     lines.push("__**Points**__", "");

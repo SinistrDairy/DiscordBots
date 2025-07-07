@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.16.0](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.15.0...Rv1.16.0) (2025-07-07)
+
+### Features
+
+* add migration script for event data cleanup and emoji updates ([d34e27f](https://github.com/SinistrDairy/DiscordBots/commit/d34e27f7d948cbe25042e2b6f54cf3e5ae1eb9f5))
+
 ## [1.15.0](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.13.2...Rv1.15.0) (2025-07-07)
 ## [v1.13.2](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.13.2...Rv1.15.0) (2025-07-07)
 ## [v1.13.1](https://github.com/SinistrDairy/DiscordBots/compare/Rv1.13.2...Rv1.15.0) (2025-07-07)

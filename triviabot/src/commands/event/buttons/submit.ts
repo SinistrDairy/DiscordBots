@@ -18,7 +18,7 @@ export default commandModule({
   name: "save_event",
   type: CommandType.Button,
   async execute(ctx: ButtonInteraction) {
-    await ctx.deferReply({ flags: MessageFlags.Ephemeral });
+    await ctx.deferReply({});
     const draft = eventDrafts.get(ctx.user.id) as EventDraft | undefined;
     if (!draft) {
       return ctx.editReply({ content: "❌ Nothing to save." });

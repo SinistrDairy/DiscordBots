@@ -1,15 +1,8 @@
 // src/utils/buildEventPreview.ts
-import {
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle,
-} from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 import type { EventDraft } from "./eventDraftCache.js";
 
-export async function buildEventPreview(
-  ctx: any,
-  draft: Partial<EventDraft>
-) {
+export async function buildEventPreview(ctx: any, draft: Partial<EventDraft>) {
   const lines: string[] = [];
 
   // ── HEADER ─────────────────────────────────────────────────────────────
@@ -19,7 +12,7 @@ export async function buildEventPreview(
   if (draft.name) {
     lines.push(`-# name: **${draft.name}**`, "");
   }
-  if(draft.eventEmoji){
+  if (draft.eventEmoji) {
     lines.push(`-# event emoji: ${draft.eventEmoji}`, "");
   }
 
@@ -40,23 +33,46 @@ export async function buildEventPreview(
 
   // ── SCORING ────────────────────────────────────────────────────────────
   lines.push("__**Scoring**__", "");
+
   const scoringArr = draft.scoring ?? [];
   const pointsArr = draft.pointList ?? [];
-  const skipPhrase = "as follows:"
-  const len = Math.min(scoringArr.length, pointsArr.length);
-  const jewelEmoji = `<:fk_jewel:1333402533439475743>`
-  let ptI = 0;
+  const dotEmoji = "<:fk_dot:1334970932657131560>";
+  const jewelEmoji = "<:fk_jewel:1333402533439475743>";
 
-  for (let i = 0; i < len; i++){
-    const description = scoringArr[i].trim();
-    
-    if(description.endsWith(skipPhrase)) 
-      { lines.push(`${description}`)
-    continue;}
-    
-    const points = pointsArr[ptI++];
-    lines.push(`<:fk_dot:1334970932657131560> ${description} __**${points}**__ ${jewelEmoji}`)
+  function shouldSkipLine(raw: string): boolean {
+    const trimmed = raw.trim();
+    // 1) literal skip-phrase (case-insensitive)
+    if (trimmed.toLowerCase().endsWith("as follows:")) return true;
+
+    if(trimmed.toLowerCase().endsWith(jewelEmoji)) return true;
+
+    // 2) grab the very last “word”
+    const tokens = trimmed.split(/\s+/);
+    const lastToken = tokens[tokens.length - 1] || "";
+
+    // strip markdown wrappers (* _ ~ `)
+    const unwrapped = lastToken.replace(/^[_*~`]+|[_*~`]+$/g, "");
+
+    // match either a pure number (e.g. "42") or a ratio ("75/25", "3/2/1", etc)
+    return /^(\d+)(?:\/\d+)*$/.test(unwrapped);
   }
+
+  let pIdx = 0;
+  scoringArr.forEach((raw) => {
+    const text = raw.trim();
+    if (shouldSkipLine(text)) {
+      // just the raw rule, no point‐attach
+      lines.push(`${dotEmoji} ${text}`);
+    } else if (pIdx < pointsArr.length) {
+      // attach the next point value
+      const pts = pointsArr[pIdx++];
+      lines.push(`${dotEmoji} ${text} __**${pts}**__ ${jewelEmoji}`);
+    } else {
+      // fallback if points run out
+      lines.push(`${dotEmoji} ${text}`);
+    }
+  });
+
   lines.push("");
 
   // ── POINTS LIST ────────────────────────────────────────────────────────
@@ -70,9 +86,7 @@ export async function buildEventPreview(
   const member = await ctx.guild?.members.fetch(ctx.user.id);
   lines.push("__**Hosting**__", "");
   lines.push(
-    `<a:magicjewels:859867893587509298> Your host for today's game is: ${
-      member?.displayName
-    }`
+    `<a:magicjewels:859867893587509298> Your host for today's game is: ${member?.displayName}`
   );
   lines.push("");
 
