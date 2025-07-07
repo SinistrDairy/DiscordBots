@@ -35,7 +35,7 @@ async function buildEventPreview(ctx, draft) {
       continue;
     }
     const points = pointsArr[ptI++];
-    lines.push(`<:fk_dot:1334970932657131560> ${description}, __**${points}**__ ${jewelEmoji}`);
+    lines.push(`<:fk_dot:1334970932657131560> ${description} __**${points}**__ ${jewelEmoji}`);
   }
   lines.push("");
   if (draft.pointList?.length) {

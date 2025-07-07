@@ -51,7 +51,7 @@ Sern.init({
 });
 
 // ———— connect MongoDB once at startup ————
-await mongoose.connect(process.env.MONGOURI!);
+await mongoose.connect(process.env.MONGO_URI!);
 if (mongoose.connection.readyState !== 1) {
   console.error("❌ Mongo failed to connect:", mongoose.connection.readyState);
   process.exit(1);

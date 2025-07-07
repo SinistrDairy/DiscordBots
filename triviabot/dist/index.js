@@ -39,7 +39,7 @@ Sern.init({
   commands: "dist/commands",
   events: "dist/events"
 });
-await mongoose.connect(process.env.MONGOURI);
+await mongoose.connect(process.env.MONGO_URI);
 if (mongoose.connection.readyState !== 1) {
   console.error("\u274C Mongo failed to connect:", mongoose.connection.readyState);
   process.exit(1);

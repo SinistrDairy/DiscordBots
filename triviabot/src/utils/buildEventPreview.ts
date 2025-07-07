@@ -55,7 +55,7 @@ export async function buildEventPreview(
     continue;}
     
     const points = pointsArr[ptI++];
-    lines.push(`<:fk_dot:1334970932657131560> ${description}, __**${points}**__ ${jewelEmoji}`)
+    lines.push(`<:fk_dot:1334970932657131560> ${description} __**${points}**__ ${jewelEmoji}`)
   }
   lines.push("");
 

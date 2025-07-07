@@ -69,7 +69,7 @@ export default commandModule({
         }
 
         const points = pointOrder[ptI++]?.trim() ?? "0";
-        scoreList += `${dotEmoji} ${desc}, __**${points}**__ ${jewelEmoji}\n`;
+        scoreList += `${dotEmoji} ${desc} __**${points}**__ ${jewelEmoji}\n`;
       }
 
       eventRules += `  \#\#\# ${eEmojiID} ${title} ${eEmojiID}\n

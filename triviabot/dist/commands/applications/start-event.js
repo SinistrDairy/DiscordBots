@@ -63,7 +63,7 @@ var start_event_default = commandModule({
           continue;
         }
         const points = pointOrder[ptI++]?.trim() ?? "0";
-        scoreList += `${dotEmoji} ${desc}, __**${points}**__ ${jewelEmoji}
+        scoreList += `${dotEmoji} ${desc} __**${points}**__ ${jewelEmoji}
 `;
       }
       eventRules += `  ### ${eEmojiID} ${title} ${eEmojiID}
