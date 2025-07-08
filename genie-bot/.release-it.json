@@ -1,22 +1,37 @@
 {
+  "hooks": {
+    "before:init": "git fetch origin && git rebase origin/main"
+  },
+
   "git": {
+    "requireCleanWorkingDir": true,
+    "push": true,
     "commitMessage": "ChangeLog: genie v${version}",
     "tagName": "Gv${version}",
-    "tagAnnotation": "Release Genie v${version}",
-    "push": true,
-    "requireCleanWorkingDir": false
+    "tagAnnotation": "Release Genie v${version}"
   },
+
+  "npm": {
+    "publish": false
+  },
+
   "github": {
     "release": true,
     "tokenRef": "GITHUB_TOKEN"
   },
-  "npm": {
-    "publish": false
-  },
+
   "plugins": {
     "@release-it/conventional-changelog": {
       "preset": "conventionalcommits",
       "infile": "CHANGELOG.md"
     }
-  }
+  },
+
+  "bumpFiles": [
+    "package.json",
+    {
+      "filename": "CHANGELOG.md",
+      "type": "markdown"
+    }
+  ]
 }
