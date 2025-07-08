@@ -1,18 +1,25 @@
 {
+  "hooks": {
+    "before:init": "git fetch origin && git rebase origin/main"
+  },
+
   "git": {
+    "requireCleanWorkingDir": true,
+    "push": true,
     "commitMessage": "ChangeLog: russell v${version}",
     "tagName": "Rv${version}",
-    "tagAnnotation": "Release Russell v${version}",
-    "push": true,
-    "requireCleanWorkingDir": false
+    "tagAnnotation": "Release Russell v${version}"
   },
+
+  "npm": {
+    "publish": false
+  },
+
   "github": {
     "release": true,
     "tokenRef": "GITHUB_TOKEN"
   },
-  "npm": {
-    "publish": false
-  },
+
   "plugins": {
     "@release-it/conventional-changelog": {
       "infile": "CHANGELOG.md",
@@ -25,10 +32,18 @@
           { "type": "docs", "section": "Documentation" }
         ]
       },
-      "writerOpts":{
+      "writerOpts": {
         "linkCompare": false,
         "linkReferences": false
       }
     }
-  }
+  },
+
+  "bumpFiles": [
+    "package.json",
+    {
+      "filename": "CHANGELOG.md",
+      "type": "markdown"
+    }
+  ]
 }
