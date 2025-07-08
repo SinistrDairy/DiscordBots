@@ -1,8 +1,4 @@
-import {
-  ApplicationCommandOptionType,
-  PermissionFlagsBits,
-  PermissionsBitField,
-} from "discord.js";
+import { ApplicationCommandOptionType, PermissionFlagsBits } from "discord.js";
 import { CommandType, commandModule } from "@sern/handler";
 import { requirePermission } from "../../plugins/requirePermission.js";
 import eventSchema from "../../models/profiles/event-schema.js";
@@ -35,52 +31,78 @@ export default commandModule({
   ],
 
   execute: async (ctx) => {
-    if (!ctx) {
-      return;
-    }
-
     const name = ctx.options.getString("event", true);
     const hostID = ctx.user.id;
     const event = await eventSchema.findOne({ name });
-    if (event) {
-      let { daRulez, tags, title, scoring, eEmojiID, rEmojiID, pointList } =
-        event;
-      let eventRules = ``;
-      let rulesOrder = ``;
-      let scoreList = ``;
-      let scoreOrder = scoring ?? [];
-      let pointOrder = pointList ?? [];
-      const skipPhrase = "as follows:";
-      tags = tags.replace(/,/g, " ");
-      // tags = `<@&1277672317576548413>   <@&1277672375248224357>`
-      for (let counter = 0; counter < daRulez.length; ++counter) {
-        const rulesList = daRulez[counter];
-        rulesOrder += `${rEmojiID} ${rulesList}\n`;
-      }
-      const len = Math.min(scoreOrder.length, pointOrder.length);
-      const jewelEmoji = `<:fk_jewel:1333402533439475743>`;
-      const dotEmoji   = "<:fk_dot:1334970932657131560>";
-      for (let i = 0, ptI = 0; i < len; ++i) {
-        const desc = scoreOrder[i].trim();
+    if (!event) return "This event does not exist";
 
-        if (desc.endsWith(skipPhrase)) {
-          scoreList += `${desc}\n`;
-          continue;
-        }
+    // unpack
+    let { daRulez, tags, title, scoring, eEmojiID, rEmojiID, pointList } =
+      event;
+    tags = tags.replace(/,/g, " ");
+    const rulesEmoji = rEmojiID;
+    const dotEmoji = "<:fk_dot:1334970932657131560>";
+    const jewelEmoji = "<:fk_jewel:1333402533439475743>";
+    const skipPhrase = "as follows:";
 
-        const points = pointOrder[ptI++]?.trim() ?? "0";
-        scoreList += `${dotEmoji} ${desc} __**${points}**__ ${jewelEmoji}\n`;
-      }
-
-      eventRules += `  \#\#\# ${eEmojiID} ${title} ${eEmojiID}\n
-            \n\#\#\# **__Rules__**\n\n${rulesOrder}\n\#\#\# **__Scoring__**\n\n${scoreList}\n<a:magicjewels:859867893587509298> Your host for today's game is: <@${hostID}>!\n\n${tags}`;
-
-      ctx.reply({
-        content: eventRules,
-        allowedMentions: { parse: ["roles", "users"] },
-      });
-    } else {
-      return "This event does not exist";
+    // helper to strip markdown wrappers
+    function stripMarkdown(w: string) {
+      return w.replace(/^[_*~`]+|[_*~`]+$/g, "");
     }
+
+    // return true if we should NOT attach a point value
+    function shouldSkipLine(raw: string): boolean {
+      const txt = raw.trim();
+      // 1) literal skip-phrase
+      if (txt.toLowerCase().endsWith(skipPhrase)) return true;
+      // 2) ends with the raw jewel emoji
+      if (txt.endsWith(jewelEmoji)) return true;
+      // 3) last “word” is a number or ratio (e.g. 75/25)
+      const tokens = txt.split(/\s+/);
+      const lastToken = stripMarkdown(tokens[tokens.length - 1] || "");
+      return /^(\d+)(?:\/\d+)*$/.test(lastToken);
+    }
+
+    // build the rules block
+    const rulesLines = daRulez
+      .map((rule) => `${rulesEmoji} ${rule.trim()}`)
+      .join("\n");
+
+    // build the scoring block
+    const scoreLines: string[] = [];
+    let pIdx = 0;
+    (scoring ?? []).forEach((raw) => {
+      const txt = raw.trim();
+      if (shouldSkipLine(txt)) {
+        // skip attaching a point, but still bullet it
+        scoreLines.push(`${dotEmoji} ${txt}`);
+      } else if (pIdx < (pointList ?? []).length) {
+        const pts = (pointList![pIdx++] ?? "0").trim();
+        scoreLines.push(`${dotEmoji} ${txt} __**${pts}**__ ${jewelEmoji}`);
+      } else {
+        // fallback if points run out
+        scoreLines.push(`${dotEmoji} ${txt}`);
+      }
+    });
+
+    // assemble full message
+    const content = [
+      `## ${eEmojiID} ${title} ${eEmojiID}`,
+      "",
+      `__**Rules**__`,
+      rulesLines,
+      "",
+      `__**Scoring**__`,
+      scoreLines.join("\n"),
+      "",
+      `<a:magicjewels:859867893587509298> Your host for today's game is: <@${hostID}>!`,
+      "",
+      tags,
+    ].join("\n");
+
+    return ctx.reply({
+      content,
+      allowedMentions: { parse: ["roles", "users"] },
+    });
   },
 });

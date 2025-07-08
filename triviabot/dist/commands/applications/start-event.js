@@ -1,7 +1,4 @@
-import {
-  ApplicationCommandOptionType,
-  PermissionFlagsBits
-} from "discord.js";
+import { ApplicationCommandOptionType, PermissionFlagsBits } from "discord.js";
 import { CommandType, commandModule } from "@sern/handler";
 import { requirePermission } from "../../plugins/requirePermission.js";
 import eventSchema from "../../models/profiles/event-schema.js";
@@ -32,59 +29,61 @@ var start_event_default = commandModule({
     }
   ],
   execute: async (ctx) => {
-    if (!ctx) {
-      return;
-    }
     const name = ctx.options.getString("event", true);
     const hostID = ctx.user.id;
     const event = await eventSchema.findOne({ name });
-    if (event) {
-      let { daRulez, tags, title, scoring, eEmojiID, rEmojiID, pointList } = event;
-      let eventRules = ``;
-      let rulesOrder = ``;
-      let scoreList = ``;
-      let scoreOrder = scoring ?? [];
-      let pointOrder = pointList ?? [];
-      const skipPhrase = "as follows:";
-      tags = tags.replace(/,/g, " ");
-      for (let counter = 0; counter < daRulez.length; ++counter) {
-        const rulesList = daRulez[counter];
-        rulesOrder += `${rEmojiID} ${rulesList}
-`;
-      }
-      const len = Math.min(scoreOrder.length, pointOrder.length);
-      const jewelEmoji = `<:fk_jewel:1333402533439475743>`;
-      const dotEmoji = "<:fk_dot:1334970932657131560>";
-      for (let i = 0, ptI = 0; i < len; ++i) {
-        const desc = scoreOrder[i].trim();
-        if (desc.endsWith(skipPhrase)) {
-          scoreList += `${desc}
-`;
-          continue;
-        }
-        const points = pointOrder[ptI++]?.trim() ?? "0";
-        scoreList += `${dotEmoji} ${desc} __**${points}**__ ${jewelEmoji}
-`;
-      }
-      eventRules += `  ### ${eEmojiID} ${title} ${eEmojiID}
-
-            
-### **__Rules__**
-
-${rulesOrder}
-### **__Scoring__**
-
-${scoreList}
-<a:magicjewels:859867893587509298> Your host for today's game is: <@${hostID}>!
-
-${tags}`;
-      ctx.reply({
-        content: eventRules,
-        allowedMentions: { parse: ["roles", "users"] }
-      });
-    } else {
+    if (!event)
       return "This event does not exist";
+    let { daRulez, tags, title, scoring, eEmojiID, rEmojiID, pointList } = event;
+    tags = tags.replace(/,/g, " ");
+    const rulesEmoji = rEmojiID;
+    const dotEmoji = "<:fk_dot:1334970932657131560>";
+    const jewelEmoji = "<:fk_jewel:1333402533439475743>";
+    const skipPhrase = "as follows:";
+    function stripMarkdown(w) {
+      return w.replace(/^[_*~`]+|[_*~`]+$/g, "");
     }
+    function shouldSkipLine(raw) {
+      const txt = raw.trim();
+      if (txt.toLowerCase().endsWith(skipPhrase))
+        return true;
+      if (txt.endsWith(jewelEmoji))
+        return true;
+      const tokens = txt.split(/\s+/);
+      const lastToken = stripMarkdown(tokens[tokens.length - 1] || "");
+      return /^(\d+)(?:\/\d+)*$/.test(lastToken);
+    }
+    const rulesLines = daRulez.map((rule) => `${rulesEmoji} ${rule.trim()}`).join("\n");
+    const scoreLines = [];
+    let pIdx = 0;
+    (scoring ?? []).forEach((raw) => {
+      const txt = raw.trim();
+      if (shouldSkipLine(txt)) {
+        scoreLines.push(`${dotEmoji} ${txt}`);
+      } else if (pIdx < (pointList ?? []).length) {
+        const pts = (pointList[pIdx++] ?? "0").trim();
+        scoreLines.push(`${dotEmoji} ${txt} __**${pts}**__ ${jewelEmoji}`);
+      } else {
+        scoreLines.push(`${dotEmoji} ${txt}`);
+      }
+    });
+    const content = [
+      `## ${eEmojiID} ${title} ${eEmojiID}`,
+      "",
+      `__**Rules**__`,
+      rulesLines,
+      "",
+      `__**Scoring**__`,
+      scoreLines.join("\n"),
+      "",
+      `<a:magicjewels:859867893587509298> Your host for today's game is: <@${hostID}>!`,
+      "",
+      tags
+    ].join("\n");
+    return ctx.reply({
+      content,
+      allowedMentions: { parse: ["roles", "users"] }
+    });
   }
 });
 export {
