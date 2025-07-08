@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.19.2](https://github.com/SinistrDairy/DiscordBots/compare/Gv1.19.1...Gv1.19.2) (2025-07-08)
+
+### Features
+
+* add migration script for event data cleanup and emoji updates ([d34e27f](https://github.com/SinistrDairy/DiscordBots/commit/d34e27f7d948cbe25042e2b6f54cf3e5ae1eb9f5))
+
+### Bug Fixes
+
+* Rename emojiID to eEmojiID as emojiID doesn't work anymore and it was causing failures in add-schedule command ([9fd4249](https://github.com/SinistrDairy/DiscordBots/commit/9fd4249c87695b7660e35a95b93519022420583c))
+
 ## [1.19.1](https://github.com/SinistrDairy/DiscordBots/compare/Gv1.15.0...Gv1.19.1) (2025-06-27)
 
 ### Bug Fixes
