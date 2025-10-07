@@ -7,17 +7,20 @@ on:
   workflow_dispatch:
     inputs:
       force:
-        description: "Force deploy & start all bots (bootstrap)"
+        description: "Force build/upload/start for all bots (bootstrap)"
         required: false
         default: "false"
+
+env:
+  REMOTE_ROOT: /var/www/discord-bots/DiscordBots
 
 jobs:
   filter:
     runs-on: ubuntu-latest
     outputs:
-      genie-changed: ${{ steps.filter.outputs['genie-bot'] }}
-      trivia-changed: ${{ steps.filter.outputs['triviabot'] }}
-      opie-changed: ${{ steps.filter.outputs['opie-bot'] }}
+      genie:  ${{ steps.filter.outputs['genie-bot'] }}
+      trivia: ${{ steps.filter.outputs['triviabot'] }}
+      opie:   ${{ steps.filter.outputs['opie-bot'] }}
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
@@ -39,17 +42,17 @@ jobs:
       matrix:
         include:
           - bot: genie-bot
-            name: Genie
-            changed: ${{ needs.filter.outputs.genie-changed }}
-          - bot: triviabot 
-            name: Russell
-            changed: ${{ needs.filter.outputs.trivia-changed }}
+            pretty: Genie
+            changed: ${{ needs.filter.outputs.genie }}
+          - bot: triviabot
+            pretty: Russell
+            changed: ${{ needs.filter.outputs.trivia }}
           - bot: opie-bot
-            name: Opie
-            changed: ${{ needs.filter.outputs.opie-changed }}
+            pretty: Opie
+            changed: ${{ needs.filter.outputs.opie }}
 
     steps:
-      - name: Checkout at main
+      - name: Checkout main
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -60,10 +63,9 @@ jobs:
           curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
           sudo apt-get update
           sudo apt-get install -y nodejs jq
-          npm install -g pnpm
+          npm i -g pnpm
 
-      # Build only if this bot changed OR you forced it
-      - name: Install & build bot
+      - name: Build (only when changed or forced)
         if: ${{ matrix.changed == 'true' || github.event.inputs.force == 'true' }}
         run: |
           cd ${{ matrix.bot }}
@@ -75,65 +77,137 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.VPS_PRIVATE_KEY }}
 
-      - name: Add VPS to known_hosts
+      - name: Trust VPS host key
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
 
-      # Upload only when changed or forced (so you don't overwrite unchanged bots every run)
       - name: Rsync build to server (changed or forced)
         if: ${{ matrix.changed == 'true' || github.event.inputs.force == 'true' }}
         run: |
-          REMOTE_BASE="/var/www/discord-bots/DiscordBots/${{ matrix.bot }}"
-          ssh root@${{ secrets.VPS_HOST }} "mkdir -p $REMOTE_BASE"
+          set -euo pipefail
+          REMOTE_BASE="$REMOTE_ROOT/${{ matrix.bot }}"
+          ssh root@${{ secrets.VPS_HOST }} "mkdir -p \"$REMOTE_BASE\""
           rsync -avz --delete \
             --exclude 'node_modules' \
             --exclude '.git' \
             --exclude '.sern' \
             --exclude '.github' \
             --exclude '.env' \
-            ${{ matrix.bot }}/ \
-            root@${{ secrets.VPS_HOST }}:$REMOTE_BASE
+            ./${{ matrix.bot }}/ \
+            root@${{ secrets.VPS_HOST }}:"$REMOTE_BASE"
 
-      # ← THIS runs **always** and makes sure the process exists and is online
-      - name: Ensure PM2 process is up (start if missing)
+      - name: Ensure PM2 process is up (start if missing, correct cwd & env)
         run: |
           set -euo pipefail
-          REMOTE_BASE="/var/www/discord-bots/DiscordBots/${{ matrix.bot }}"
+          NAME="${{ matrix.bot }}"
+          CWD="$REMOTE_ROOT/$NAME"
+          ENTRY="$CWD/dist/index.js"
+
           ssh root@${{ secrets.VPS_HOST }} bash -lc "
+            set -euo pipefail
+            # make node/pm2 available in non-interactive shell (adjust if you use nvm/asdf)
             export NVM_DIR=\$HOME/.nvm; [ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\" || true
             command -v pm2 >/dev/null || { echo 'pm2 not in PATH'; exit 1; }
 
-            NAME='${{ matrix.bot }}'
-            CWD=\"$REMOTE_BASE\"
-            START=\"pm2 start \$CWD/dist/index.js --name \$NAME\"
+            NAME='$NAME'; CWD='$CWD'; ENTRY='$ENTRY'
+            [ -f \"\$ENTRY\" ] || { echo '❌ Missing '\$ENTRY'. Build/rsync or SFTP not in place.'; exit 1; }
 
-            # If pm2 knows the process, restart if not online; if not known, start it.
-            if pm2 pid \$NAME >/dev/null 2>&1; then
-              STATUS=\$(pm2 info \$NAME | awk -F': ' '/status/ {print \$2; exit}')
-              echo \"\$NAME status: \$STATUS\"
-              if [ \"\$STATUS\" != \"online\" ]; then
+            # load .env from project root even though we run dist/index.js
+            export DOTENV_CONFIG_PATH=\"\$CWD/.env\"
+            export NODE_ENV=production
+
+            # does PM2 already know about it?
+            if pm2 jlist | grep -F '\"name\": \"'\$NAME'\"' >/dev/null 2>&1; then
+              STATUS=\$(pm2 info \"\$NAME\" | awk -F': ' '/status/ {print \$2; exit}' | tr -d '\r')
+              echo \"\$NAME status: \${STATUS:-unknown}\"
+              if [ \"\${STATUS:-unknown}\" != \"online\" ]; then
                 echo 'Restarting...'
-                pm2 restart \$NAME --update-env
+                pm2 restart \"\$NAME\" --update-env --cwd \"\$CWD\"
+              else
+                echo 'Already online.'
+                pm2 restart \"\$NAME\" --update-env --cwd \"\$CWD\" >/dev/null || true
               fi
             else
               echo 'Starting for the first time...'
-              [ -f \"\$CWD/dist/index.js\" ] || { echo 'dist/index.js missing. Did you run a forced build/rsync?'; exit 1; }
-              cd \"\$CWD\" && \$START
+              pm2 start \"\$ENTRY\" --name \"\$NAME\" --cwd \"\$CWD\" \
+                --node-args \"-r dotenv/config\" --update-env
             fi
+
             pm2 save
             pm2 ls --no-color || true
           "
 
-      - name: Notify Discord of Deployment
+      - name: Notify Discord of Deployment (changed or forced)
         if: ${{ matrix.changed == 'true' || github.event.inputs.force == 'true' }}
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
           VERSION=$(jq -r .version ./${{ matrix.bot }}/package.json)
-          PAYLOAD=$(jq -nc --arg bot "${{ matrix.name }}" --arg ver "$VERSION" \
-            '{content: ("# Production Notice\n **\($bot) v\($ver)** has been deployed to production")}')
+          PAYLOAD=$(jq -nc --arg bot "${{ matrix.pretty }}" --arg ver "$VERSION" \
+                    '{content: ("# Production Notice\n **\($bot) v\($ver)** has been deployed to production")}')
           curl -s -o /dev/null -w "%{http_code}" \
-            -X POST "$DISCORD_WEBHOOK_URL" \
-            -H 'Content-Type: application/json' \
-            -d "$PAYLOAD"
+               -X POST "$DISCORD_WEBHOOK_URL" \
+               -H 'Content-Type: application/json' \
+               -d "$PAYLOAD"
+
+  diagnose:
+    needs: deploy
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        bot: [genie-bot, triviabot, opie-bot]
+    steps:
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.VPS_PRIVATE_KEY }}
+
+      - name: Trust VPS host key
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Collect PM2 & app logs
+        run: |
+          set -euo pipefail
+          NAME="${{ matrix.bot }}"
+          BASE="$REMOTE_ROOT/$NAME"
+          REMOTE_LOG_DIR="/root/.pm2/logs"
+          TMP="/tmp/${NAME}-diag"
+
+          ssh root@${{ secrets.VPS_HOST }} bash -lc "
+            set -euo pipefail
+            mkdir -p $TMP
+            echo '===== PM2 LS ====='     >  $TMP/pm2-ls.txt
+            pm2 ls --no-color           >> $TMP/pm2-ls.txt || true
+
+            echo '===== PM2 INFO ====='   >  $TMP/${NAME}-pm2-info.txt
+            pm2 info $NAME --silent --no-color >> $TMP/${NAME}-pm2-info.txt || true
+
+            {
+              echo BASE: $BASE
+              [ -d \"$BASE\" ] && echo dir: OK || echo dir: MISSING
+              [ -f \"$BASE/dist/index.js\" ] && echo entry: OK || echo entry: MISSING
+              [ -f \"$BASE/.env\" ] && echo envfile: PRESENT || echo envfile: MISSING
+            } > $TMP/${NAME}-checks.txt
+
+            for kind in out err; do
+              f=\"$REMOTE_LOG_DIR/${NAME}-${kind}.log\"
+              if [ -f \"\$f\" ]; then
+                tail -n 300 \"\$f\" > \"$TMP/${NAME}-${kind}.log\"
+              else
+                echo 'no file' > \"$TMP/${NAME}-${kind}.log\"
+              fi
+            done
+
+            tar -C /tmp -czf /tmp/${NAME}-diag.tgz ${NAME}-diag
+          "
+
+          scp root@${{ secrets.VPS_HOST }}:/tmp/${NAME}-diag.tgz ./
+
+      - name: Upload diagnostics
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.bot }}-diagnostics
+          path: ./*.tgz
