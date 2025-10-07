@@ -103,37 +103,32 @@ jobs:
           NAME="${{ matrix.bot }}"
           CWD="$REMOTE_ROOT/$NAME"
           ENTRY="$CWD/dist/index.js"
-
+      
           ssh root@${{ secrets.VPS_HOST }} bash -lc "
             set -euo pipefail
-            # make node/pm2 available in non-interactive shell (adjust if you use nvm/asdf)
             export NVM_DIR=\$HOME/.nvm; [ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\" || true
             command -v pm2 >/dev/null || { echo 'pm2 not in PATH'; exit 1; }
-
+      
             NAME='$NAME'; CWD='$CWD'; ENTRY='$ENTRY'
             [ -f \"\$ENTRY\" ] || { echo '❌ Missing '\$ENTRY'. Build/rsync or SFTP not in place.'; exit 1; }
-
-            # load .env from project root even though we run dist/index.js
+      
+            # Load .env from project root while running dist/index.js
             export DOTENV_CONFIG_PATH=\"\$CWD/.env\"
             export NODE_ENV=production
-
-            # does PM2 already know about it?
-            if pm2 jlist | grep -F '\"name\": \"'\$NAME'\"' >/dev/null 2>&1; then
+      
+            # Robust existence check: exit code 0 if PM2 knows the name
+            if pm2 status \"\$NAME\" >/dev/null 2>&1; then
               STATUS=\$(pm2 info \"\$NAME\" | awk -F': ' '/status/ {print \$2; exit}' | tr -d '\r')
               echo \"\$NAME status: \${STATUS:-unknown}\"
-              if [ \"\${STATUS:-unknown}\" != \"online\" ]; then
-                echo 'Restarting...'
-                pm2 restart \"\$NAME\" --update-env --cwd \"\$CWD\"
-              else
-                echo 'Already online.'
-                pm2 restart \"\$NAME\" --update-env --cwd \"\$CWD\" >/dev/null || true
-              fi
+              pm2 restart \"\$NAME\" --update-env --cwd \"\$CWD\"
             else
               echo 'Starting for the first time...'
+              # Start; if PM2 says "already launched" (race/different check), just restart it.
               pm2 start \"\$ENTRY\" --name \"\$NAME\" --cwd \"\$CWD\" \
-                --node-args \"-r dotenv/config\" --update-env
+                --node-args \"-r dotenv/config\" --update-env \
+              || { echo 'Start said already launched. Restarting existing process…'; pm2 restart \"\$NAME\" --update-env --cwd \"\$CWD\"; }
             fi
-
+      
             pm2 save
             pm2 ls --no-color || true
           "
