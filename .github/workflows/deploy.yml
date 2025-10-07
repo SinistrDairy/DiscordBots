@@ -4,6 +4,12 @@ on:
   workflow_run:
     workflows: ["Release Discord Bots"]
     types: [completed]
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Force deploy & start all bots (bootstrap)"
+        required: false
+        default: "false"
 
 jobs:
   filter:
@@ -13,11 +19,8 @@ jobs:
       trivia-changed: ${{ steps.filter.outputs['triviabot'] }}
       opie-changed: ${{ steps.filter.outputs['opie-bot'] }}
     steps:
-      - name: Checkout for filtering
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
       - id: filter
         uses: dorny/paths-filter@v2
         with:
@@ -46,14 +49,12 @@ jobs:
             changed: ${{ needs.filter.outputs.opie-changed }}
 
     steps:
-      # 1) **Always** checkout the exact SHA the Release run used
-      - name: Checkout at release SHA
+      - name: Checkout at main
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: refs/heads/main
 
-      # 2) Install Node.js, pnpm & jq
       - name: Setup Node.js, pnpm & jq
         run: |
           curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
@@ -61,36 +62,30 @@ jobs:
           sudo apt-get install -y nodejs jq
           npm install -g pnpm
 
-      # 3) Build only if this bot actually changed
+      # Build only if this bot changed OR you forced it
       - name: Install & build bot
-        if: ${{ matrix.changed == 'true' }}
+        if: ${{ matrix.changed == 'true' || github.event.inputs.force == 'true' }}
         run: |
           cd ${{ matrix.bot }}
           pnpm install
           pnpm build
 
-      # 4) SSH into your VPS
       - name: Setup SSH agent
-        if: ${{ matrix.changed == 'true' }}
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.VPS_PRIVATE_KEY }}
 
       - name: Add VPS to known_hosts
-        if: ${{ matrix.changed == 'true' }}
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
-      - name: Copy full bot folder and restart PM2
-        if: ${{ matrix.changed == 'true' }}
+
+      # Upload only when changed or forced (so you don't overwrite unchanged bots every run)
+      - name: Rsync build to server (changed or forced)
+        if: ${{ matrix.changed == 'true' || github.event.inputs.force == 'true' }}
         run: |
           REMOTE_BASE="/var/www/discord-bots/DiscordBots/${{ matrix.bot }}"
-
-          # Create remote dir
-          ssh root@${{ secrets.VPS_HOST }} \
-            "mkdir -p $REMOTE_BASE"
-
-          # Rsync everything except node_modules and Git history
+          ssh root@${{ secrets.VPS_HOST }} "mkdir -p $REMOTE_BASE"
           rsync -avz --delete \
             --exclude 'node_modules' \
             --exclude '.git' \
@@ -100,40 +95,45 @@ jobs:
             ${{ matrix.bot }}/ \
             root@${{ secrets.VPS_HOST }}:$REMOTE_BASE
 
-          # Now restart
-          ssh root@${{ secrets.VPS_HOST }} \
-            "pm2 restart ${{ matrix.bot }} || pm2 start $REMOTE_BASE/dist/index.js --name ${{ matrix.bot }}"
+      # ← THIS runs **always** and makes sure the process exists and is online
+      - name: Ensure PM2 process is up (start if missing)
+        run: |
+          set -euo pipefail
+          REMOTE_BASE="/var/www/discord-bots/DiscordBots/${{ matrix.bot }}"
+          ssh root@${{ secrets.VPS_HOST }} bash -lc "
+            export NVM_DIR=\$HOME/.nvm; [ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\" || true
+            command -v pm2 >/dev/null || { echo 'pm2 not in PATH'; exit 1; }
 
+            NAME='${{ matrix.bot }}'
+            CWD=\"$REMOTE_BASE\"
+            START=\"pm2 start \$CWD/dist/index.js --name \$NAME\"
+
+            # If pm2 knows the process, restart if not online; if not known, start it.
+            if pm2 pid \$NAME >/dev/null 2>&1; then
+              STATUS=\$(pm2 info \$NAME | awk -F': ' '/status/ {print \$2; exit}')
+              echo \"\$NAME status: \$STATUS\"
+              if [ \"\$STATUS\" != \"online\" ]; then
+                echo 'Restarting...'
+                pm2 restart \$NAME --update-env
+              fi
+            else
+              echo 'Starting for the first time...'
+              [ -f \"\$CWD/dist/index.js\" ] || { echo 'dist/index.js missing. Did you run a forced build/rsync?'; exit 1; }
+              cd \"\$CWD\" && \$START
+            fi
+            pm2 save
+            pm2 ls --no-color || true
+          "
 
       - name: Notify Discord of Deployment
-        if: ${{ matrix.changed == 'true' }}
+        if: ${{ matrix.changed == 'true' || github.event.inputs.force == 'true' }}
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          set -x
-          # Read version from package.json
           VERSION=$(jq -r .version ./${{ matrix.bot }}/package.json)
-          
-          # Build a clean JSON payload
-          PAYLOAD=$(
-            jq -nc --arg bot "${{ matrix.name }}" \
-                   --arg ver "$VERSION" \
-                   '{content: ("# Production Notice\n **\($bot) v\($ver)** has been deployed to production")}'
-          )
-          
-          echo "Payload:"
-          echo "$PAYLOAD"
-          
-          # POST and capture HTTP status
-          HTTP_STATUS=$(
-            curl -s -o /dev/null -w "%{http_code}" \
-              -X POST "$DISCORD_WEBHOOK_URL" \
-              -H 'Content-Type: application/json' \
-              -d "$PAYLOAD"
-          )
-          
-          echo "Discord API responded with HTTP $HTTP_STATUS"
-          if [ "$HTTP_STATUS" -ge 400 ]; then
-            echo "❌ Failed to notify Discord"
-            exit 1
-          fi
+          PAYLOAD=$(jq -nc --arg bot "${{ matrix.name }}" --arg ver "$VERSION" \
+            '{content: ("# Production Notice\n **\($bot) v\($ver)** has been deployed to production")}')
+          curl -s -o /dev/null -w "%{http_code}" \
+            -X POST "$DISCORD_WEBHOOK_URL" \
+            -H 'Content-Type: application/json' \
+            -d "$PAYLOAD"
