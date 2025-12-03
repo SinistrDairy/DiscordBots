@@ -63,7 +63,6 @@ export function startArchiveScheduler(client: Client) {
           archived: false,
           archiveAt: { $lte: now },
         });
-
         for (const job of toArchive) {
           let ch;
           try {
