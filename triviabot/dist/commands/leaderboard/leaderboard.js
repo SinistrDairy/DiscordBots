@@ -21,50 +21,41 @@ var leaderboard_default = commandModule({
     if (!ctx) {
       return;
     }
-    let leaderboard = ``;
-    let triviaOrder = ``;
-    let list = [];
-    let landEmoji;
-    let tTotals = 0;
-    let pTotals = 0;
-    let totals = 0;
-    const users = await userSchema.find({});
-    if (users) {
-      for (const results of users) {
-        const { userID, land, nickName } = results;
-        const landName = land.split(" ").map((word) => {
-          return word.charAt(0).toUpperCase() + word.slice(1);
-        }).join(" ");
-        const user = await userSchema.findOne({ userID });
-        if (user) {
-          for (const event of user.events) {
-            const { name, firsts = 0, seconds = 0, thirds = 0 } = event;
-            if (name === "trivia") {
-              tTotals = firsts + seconds + thirds;
-            }
-            if (name === "pop quiz") {
-              pTotals = firsts + seconds + thirds;
-            }
-            totals = tTotals + pTotals;
-          }
-          const lProfile = await landsSchema.findOne({ name: landName });
-          landEmoji = lProfile.emojiID;
-          list.push({ userID, totals, landEmoji });
-        }
+    await ctx.interaction.deferReply();
+    const list = [];
+    const users = await userSchema.find({}).lean();
+    for (const u of users) {
+      const { userID, land } = u;
+      let triviaTotal = 0;
+      let popQuizTotal = 0;
+      const events = Array.isArray(u.events) ? u.events : [];
+      for (const event of events) {
+        if (!event || typeof event !== "object")
+          continue;
+        const name = event.name;
+        const firsts = Number(event.firsts ?? 0);
+        const seconds = Number(event.seconds ?? 0);
+        const thirds = Number(event.thirds ?? 0);
+        const total = firsts + seconds + thirds;
+        if (name === "trivia")
+          triviaTotal = total;
+        if (name === "pop quiz")
+          popQuizTotal = total;
       }
+      const totals = triviaTotal + popQuizTotal;
+      const landName = typeof land === "string" ? land.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ") : "";
+      const lProfile = await landsSchema.findOne({ name: landName }).lean();
+      const landEmoji = lProfile?.emojiID ?? "";
+      list.push({ userID, totals, landEmoji });
     }
     const sortedList = list.sort((a, b) => b.totals - a.totals).slice(0, 20);
-    for (let counter = 0; counter < sortedList.length; ++counter) {
-      const { userID, totals: totals2, landEmoji: landEmoji2 } = sortedList[counter];
-      triviaOrder += `${counter + 1}.) <@${userID}> with **${totals2}** ${landEmoji2}
-`;
-    }
-    leaderboard = `
-        ### __LEADERBOARD__
+    const triviaOrder = sortedList.map(
+      (x, i) => `${i + 1}.) <@${x.userID}> with **${x.totals}** ${x.landEmoji}`
+    ).join("\n");
+    const leaderboard = `### __LEADERBOARD__
 ${triviaOrder}
-
-      `;
-    ctx.reply({
+`;
+    await ctx.interaction.editReply({
       content: leaderboard,
       allowedMentions: { parse: ["roles", "users"] }
     });

@@ -25,63 +25,66 @@ export default commandModule({
       return;
     }
 
-    //#region let vars
-    let leaderboard = ``;
-    let triviaOrder = ``;
-    let list = [];
-    let landEmoji;
-    let tTotals = 0;
-    let pTotals = 0;
-    let totals = 0;
-    //#endregion
+    await ctx.interaction.deferReply();
 
     //#region const vars
-    const users = await userSchema.find({});
+    const list: {userID: string; totals: number; landEmoji: string}[] = [];
 
-    if (users) {
-      for (const results of users) {
-        const { userID, land, nickName } = results;
-        const landName = land
-          .split(" ")
-          .map((word: any) => {
-            return word.charAt(0).toUpperCase() + word.slice(1);
-          })
-          .join(" ");
-        const user = await userSchema.findOne({ userID: userID });
-        //console.log(`${nickName}, ${land}`)
-        if (user) {
-          for (const event of user.events) {
-            const { name, firsts = 0, seconds = 0, thirds = 0 } = event;
-            if (name === "trivia") {
-              tTotals = firsts + seconds + thirds;
-            }
-            if (name === "pop quiz") {
-              pTotals = firsts + seconds + thirds;
-            }
-            totals = tTotals + pTotals;
-          }
+    const users = await userSchema.find({}).lean();
 
-          const lProfile = await landsSchema.findOne({ name: landName });
-          landEmoji = lProfile.emojiID;
-          list.push({ userID, totals, landEmoji });
-        }
+    for (const u of users as any[]) {
+      const { userID, land } = u;
+
+      // reset per user
+      let triviaTotal = 0;
+      let popQuizTotal = 0;
+
+      const events = Array.isArray(u.events) ? u.events : [];
+      for (const event of events) {
+        if (!event || typeof event !== "object") continue;
+
+        const name = event.name;
+        const firsts = Number(event.firsts ?? 0);
+        const seconds = Number(event.seconds ?? 0);
+        const thirds = Number(event.thirds ?? 0);
+
+        const total = firsts + seconds + thirds;
+
+        if (name === "trivia") triviaTotal = total;
+        if (name === "pop quiz") popQuizTotal = total;
       }
+
+      const totals = triviaTotal + popQuizTotal;
+
+      // land -> Title Case to match lands.name
+      const landName =
+        typeof land === "string"
+          ? land
+              .split(" ")
+              .map((w: string) => w.charAt(0).toUpperCase() + w.slice(1))
+              .join(" ")
+          : "";
+
+      const lProfile = await landsSchema.findOne({ name: landName }).lean();
+      const landEmoji = (lProfile as any)?.emojiID ?? "";
+
+      list.push({ userID, totals, landEmoji });
     }
+
     const sortedList = list.sort((a, b) => b.totals - a.totals).slice(0, 20);
-    for (let counter = 0; counter < sortedList.length; ++counter) {
-      const { userID, totals, landEmoji } = sortedList[counter];
-      triviaOrder += `${counter + 1}.) <@${userID}> with **${totals}** ${landEmoji}\n`;
-    }
 
-    leaderboard = `
-        \#\#\# __LEADERBOARD__\n${triviaOrder}\n
-      `;
+    const triviaOrder = sortedList
+      .map(
+        (x, i) => `${i + 1}.) <@${x.userID}> with **${x.totals}** ${x.landEmoji}`
+      )
+      .join("\n");
 
-    //#endregion
+    const leaderboard = `### __LEADERBOARD__\n${triviaOrder}\n`;
 
-    ctx.reply({
+    await ctx.interaction.editReply({
       content: leaderboard,
       allowedMentions: { parse: ["roles", "users"] },
     });
+
   },
 });
