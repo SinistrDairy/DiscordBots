@@ -24,17 +24,17 @@
 	"dependencies": {
 		"@sern/handler": "^4.2.6",
 		"@sern/publisher": "^1.1.4",
-		"discord.js": "latest",
-		"dotenv": "^16.6.1",
+		"discord.js": "^14",
+		"dotenv": "^17.2.3",
 		"mongoose": "^8.21.1"
 	},
 	"devDependencies": {
 		"@release-it/conventional-changelog": "^10.0.4",
 		"@sern/cli": "^1.4.0",
-		"@types/node": "^17.0.25",
+		"@types/node": "^22.19.7",
 		"concurrently": "^9.2.1",
 		"nodemon": "^3.1.11",
-		"pnpm": "^10.12.1",
+		"pnpm": "^10.28.2",
 		"release-it": "^19.2.4",
 		"typescript": "^5.9.3"
 	},
