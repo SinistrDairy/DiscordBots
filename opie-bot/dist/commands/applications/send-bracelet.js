@@ -15,7 +15,7 @@ var send_bracelet_default = commandModule({
   type: CommandType.Slash,
   plugins: [
     publishConfig({
-      guildIds: [process.env.GUILD_ID1, process.env.GUILD_ID2]
+      guildIds: [process.env.GUILD_ID2]
     })
   ],
   options: [

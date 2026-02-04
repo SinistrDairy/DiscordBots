@@ -12,7 +12,7 @@
 		"build": "sern build",
 		"start": "node .",
 		"clear": "rm -rf ./dist",
-		"dev": "concurrently \"sern build --watch\" \"nodemon dist/index.js\"",
+		"dev": "concurrently \"sern build --watch\" \"nodemon --watch dist --ext js,mjs,json --delay 500ms dist/index.js\"",
 		"install": "sern build",
 		"commands:publish": "sern commands publish"
 	},
@@ -26,7 +26,8 @@
 		"@sern/publisher": "^1.1.4",
 		"discord.js": "^14",
 		"dotenv": "^17.2.3",
-		"mongoose": "^8.21.1"
+		"mongoose": "^8.21.1",
+		"node-cron": "^4.2.1"
 	},
 	"devDependencies": {
 		"@release-it/conventional-changelog": "^10.0.4",

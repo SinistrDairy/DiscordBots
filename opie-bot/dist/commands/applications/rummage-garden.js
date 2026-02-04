@@ -7,6 +7,7 @@ import landsSchema from "../../models/profiles/lands-schema.js";
 import userSchema from "../../models/profiles/user-schema.js";
 import plantSchema from "../../models/core/plant-Schema.js";
 import { getRemainingCooldown, handleCooldown } from "../../utils/cooldown.js";
+import { logJewelsFromCtx } from "../../utils/economy/log-jewels.js";
 import { publishConfig } from "@sern/publisher";
 import { randomInt } from "crypto";
 var rummage_garden_default = commandModule({
@@ -15,7 +16,7 @@ var rummage_garden_default = commandModule({
   type: CommandType.Slash,
   plugins: [
     publishConfig({
-      guildIds: [process.env.GUILD_ID1, process.env.GUILD_ID2]
+      guildIds: [process.env.GUILD_ID2]
     })
   ],
   execute: async (ctx) => {
@@ -39,7 +40,10 @@ var rummage_garden_default = commandModule({
       return;
     const user = await userSchema.findOne({ userID: ctx.user.id });
     if (!user) {
-      return ctx.reply({ content: "User profile not found.", flags: MessageFlags.Ephemeral });
+      return ctx.reply({
+        content: "User profile not found.",
+        flags: MessageFlags.Ephemeral
+      });
     }
     const jewels = randomInt(25, 150);
     const rounded = Math.round(jewels / 25) * 25;
@@ -50,7 +54,10 @@ var rummage_garden_default = commandModule({
       { new: true }
     );
     if (!land)
-      return ctx.reply({ content: "Land not found.", flags: MessageFlags.Ephemeral });
+      return ctx.reply({
+        content: "Land not found.",
+        flags: MessageFlags.Ephemeral
+      });
     const plants = await plantSchema.find();
     const choice = plants[Math.floor(Math.random() * plants.length)];
     const embed = new EmbedBuilder().setColor("#ffd483").setTitle(`<:fk_rabbit:1365333465285001236> RABBIT'S GARDEN`).setThumbnail(choice.plantImage).setDescription(
@@ -62,17 +69,18 @@ var rummage_garden_default = commandModule({
         `-# <:fk_rabbitarr:1377672191239524372> They've earned __**${rounded}**__ <:fk_jewel:1333402533439475743>`
       ].join("\n")
     ).setImage("https://i.imgur.com/uU9T6eF.png");
-    const log = ctx.client.channels.cache.get(
-      "1368568447822467102"
-    );
-    log?.send(
-      `<:v_opie:1376727584435474542> ${ctx.user.globalName} earned ${rounded} jewels from /garden`
-    );
+    const res = await logJewelsFromCtx(ctx, {
+      jewels: rounded,
+      source: "/garden"
+    });
+    if (!res.ok) {
+      return ctx.reply({ content: res.reason, flags: MessageFlags.Ephemeral });
+    }
     await ctx.reply({ embeds: [embed] });
   }
 });
 const config = {
-  guildIds: [process.env.GUILD_ID1, process.env.GUILD_ID2],
+  guildIds: [process.env.GUILD_ID2],
   dmPermission: false
 };
 export {

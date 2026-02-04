@@ -17,7 +17,7 @@ export default commandModule({
   type: CommandType.Slash,
   plugins: [
     publishConfig({
-      guildIds: [process.env.GUILD_ID1, process.env.GUILD_ID2],
+      guildIds: [process.env.GUILD_ID2],
       defaultMemberPermissions: PermissionFlagsBits.Administrator,
     }),
     requirePermission("user", [PermissionFlagsBits.Administrator]),
@@ -130,7 +130,7 @@ export default commandModule({
 });
 
 export const config = {
-  guildIds: [process.env.GUILD_ID], // Guild ID where this command is allowed to run
+  guildIds: [process.env.GUILD_ID2], // Guild ID where this command is allowed to run
   dmPermission: false, // Disallow the command in DMs
   defaultMemberPermissions: [PermissionsBitField.Flags.Administrator], // Only admins can use this command
 };

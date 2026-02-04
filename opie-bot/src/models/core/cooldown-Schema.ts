@@ -9,13 +9,13 @@ const cdSchema = new Schema(
     expires: {
       type: Date,
       required: true,
-      index: { expires: 0 }, // TTL index: remove doc as soon as expires passes
     },
   },
-  { timestamps: false }
+  { timestamps: false },
 );
 
-// Compound unique so findOneAndUpdate upsert “just works”
+cdSchema.index({ expires: 1 }, { expireAfterSeconds: 0 });
+
 cdSchema.index({ userId: 1, COMMAND_NAME: 1 }, { unique: true });
 
 const name = "cooldowns";

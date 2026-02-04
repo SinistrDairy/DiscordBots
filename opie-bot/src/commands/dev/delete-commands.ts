@@ -8,7 +8,7 @@ import {
 } from "discord.js";
 import { requirePermission } from "../../plugins/requirePermission.js";
 
-const DEVELOPER_IDS = ["239426866157453313"]; // <-- Add your Discord user ID(s) here
+const DEVELOPER_IDS = ["239426866157453313"];
 
 export default commandModule({
   name: "delete-command",

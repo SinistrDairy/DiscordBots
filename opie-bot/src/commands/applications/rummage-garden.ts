@@ -11,6 +11,7 @@ import landsSchema from "../../models/profiles/lands-schema.js";
 import userSchema from "../../models/profiles/user-schema.js";
 import plantSchema from "../../models/core/plant-Schema.js";
 import { getRemainingCooldown, handleCooldown } from "../../utils/cooldown.js";
+import { logJewelsFromCtx } from "../../utils/economy/log-jewels.js";
 import { publishConfig } from "@sern/publisher";
 import { randomInt } from "crypto";
 
@@ -20,7 +21,7 @@ export default commandModule({
   type: CommandType.Slash,
   plugins: [
     publishConfig({
-      guildIds: [process.env.GUILD_ID1!, process.env.GUILD_ID2!]
+      guildIds: [process.env.GUILD_ID2!],
     }),
   ],
 
@@ -34,27 +35,33 @@ export default commandModule({
         .setTitle("__Subscription Not Found__")
         .setThumbnail("https://i.imgur.com/vG26e94.png")
         .setDescription(
-          `We're sorry, but to use this command you must be an active subscriber.`
+          `We're sorry, but to use this command you must be an active subscriber.`,
         );
       return ctx.reply({ embeds: [noRole], flags: MessageFlags.Ephemeral });
     }
-    const remaining = await getRemainingCooldown("garden", ctx)
+    const remaining = await getRemainingCooldown("garden", ctx);
     const endTime = Math.floor((Date.now() + remaining) / 1000);
 
     // 2) Cooldown check with human-readable duration
     //    "6h" → 6 hours
-    if (!(await handleCooldown("garden", ctx, "6h",{
-      useTimestampEmbed: true,
-      title: "RABBIT'S GARDEN",
-      color: "#ffd483",
-      description1: `Well, well, well - it looks like *someone* is trying to pick plants before they've ripened.`,
-      description2: `You can help Rabbit again <t:${endTime}:R>`
-    }))) return;
+    if (
+      !(await handleCooldown("garden", ctx, "6h", {
+        useTimestampEmbed: true,
+        title: "RABBIT'S GARDEN",
+        color: "#ffd483",
+        description1: `Well, well, well - it looks like *someone* is trying to pick plants before they've ripened.`,
+        description2: `You can help Rabbit again <t:${endTime}:R>`,
+      }))
+    )
+      return;
 
     // 3) Main logic...
     const user = await userSchema.findOne({ userID: ctx.user.id });
     if (!user) {
-      return ctx.reply({ content: "User profile not found.", flags: MessageFlags.Ephemeral });
+      return ctx.reply({
+        content: "User profile not found.",
+        flags: MessageFlags.Ephemeral,
+      });
     }
 
     const jewels = randomInt(25, 150);
@@ -68,9 +75,13 @@ export default commandModule({
     const land = await landsSchema.findOneAndUpdate(
       { name: landName },
       { $inc: { totalPoints: rounded } },
-      { new: true }
+      { new: true },
     );
-    if (!land) return ctx.reply({ content: "Land not found.", flags: MessageFlags.Ephemeral });
+    if (!land)
+      return ctx.reply({
+        content: "Land not found.",
+        flags: MessageFlags.Ephemeral,
+      });
 
     const plants = await plantSchema.find();
     const choice = plants[Math.floor(Math.random() * plants.length)];
@@ -86,17 +97,19 @@ export default commandModule({
           "",
           `-# <:fk_rabbitarr:1377672191239524372> ${member.displayName} picked **${choice.plantName}**`,
           `-# <:fk_rabbitarr:1377672191239524372> They've earned __**${rounded}**__ <:fk_jewel:1333402533439475743>`,
-        ].join('\n')
+        ].join("\n"),
       )
       .setImage("https://i.imgur.com/uU9T6eF.png");
 
     // Public log
-    const log = ctx.client.channels.cache.get(
-      "1368568447822467102"
-    ) as TextChannel;
-    log?.send(
-      `<:v_opie:1376727584435474542> ${ctx.user.globalName} earned ${rounded} jewels from /garden`
-    );
+    const res = await logJewelsFromCtx(ctx, {
+      jewels: rounded,
+      source: "/garden",
+    });
+
+    if (!res.ok) {
+      return ctx.reply({ content: res.reason, flags: MessageFlags.Ephemeral });
+    }
 
     // 4) Ephemeral reply to user
     await ctx.reply({ embeds: [embed] });
@@ -104,6 +117,6 @@ export default commandModule({
 });
 
 export const config = {
-  guildIds: [process.env.GUILD_ID1!, process.env.GUILD_ID2!],
+  guildIds: [process.env.GUILD_ID2!],
   dmPermission: false,
 };

@@ -9,7 +9,7 @@ var wg_profile_default = commandModule({
   type: CommandType.Slash,
   plugins: [
     publishConfig({
-      guildIds: [process.env.GUILD_ID1, process.env.GUILD_ID2]
+      guildIds: [process.env.GUILD_ID2]
     })
   ],
   execute: async (ctx) => {
@@ -76,7 +76,7 @@ var wg_profile_default = commandModule({
   }
 });
 const config = {
-  guildIds: [process.env.GUILD_ID1, process.env.GUILD_ID2],
+  guildIds: [process.env.GUILD_ID2],
   dmPermission: false
   // defaultMemberPermissions: [PermissionFlagsBits.ManageMessages],
 };

@@ -13,7 +13,7 @@ var add_character_default = commandModule({
   description: "Use this command to add more characters to the list.",
   plugins: [
     publishConfig({
-      guildIds: [process.env.GUILD_ID1, process.env.GUILD_ID2],
+      guildIds: [process.env.GUILD_ID2],
       defaultMemberPermissions: PermissionFlagsBits.Administrator
     }),
     requirePermission("user", [PermissionFlagsBits.Administrator])

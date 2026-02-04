@@ -13,7 +13,7 @@ var reset_all_default = commandModule({
   type: CommandType.Slash,
   plugins: [
     publishConfig({
-      guildIds: [process.env.GUILD_ID1, process.env.GUILD_ID2],
+      guildIds: [process.env.GUILD_ID2],
       defaultMemberPermissions: PermissionFlagsBits.Administrator
     }),
     requirePermission("user", [PermissionFlagsBits.Administrator])
@@ -116,7 +116,7 @@ var reset_all_default = commandModule({
   }
 });
 const config = {
-  guildIds: [process.env.GUILD_ID],
+  guildIds: [process.env.GUILD_ID2],
   // Guild ID where this command is allowed to run
   dmPermission: false,
   // Disallow the command in DMs

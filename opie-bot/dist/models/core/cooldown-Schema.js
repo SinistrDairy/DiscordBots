@@ -6,13 +6,12 @@ const cdSchema = new Schema(
     COMMAND_NAME: { type: String, required: true },
     expires: {
       type: Date,
-      required: true,
-      index: { expires: 0 }
-      // TTL index: remove doc as soon as expires passes
+      required: true
     }
   },
   { timestamps: false }
 );
+cdSchema.index({ expires: 1 }, { expireAfterSeconds: 0 });
 cdSchema.index({ userId: 1, COMMAND_NAME: 1 }, { unique: true });
 const name = "cooldowns";
 var cooldown_Schema_default = mongo.models[name] || mongo.model(name, cdSchema);

@@ -86,37 +86,6 @@
             "nsfw": false
         },
         {
-            "id": "1383065229398642690",
-            "application_id": "1365134052402925590",
-            "version": "1383065229516341301",
-            "default_member_permissions": "8",
-            "type": 1,
-            "name": "add-character",
-            "name_localizations": null,
-            "description": "Use this command to add more characters to the list.",
-            "description_localizations": null,
-            "guild_id": "1324370750131404893",
-            "options": [
-                {
-                    "type": 3,
-                    "name": "new-character",
-                    "name_localizations": null,
-                    "description": "The name of the character.",
-                    "description_localizations": null,
-                    "required": true
-                },
-                {
-                    "type": 3,
-                    "name": "character-image",
-                    "name_localizations": null,
-                    "description": "Link to the character image.",
-                    "description_localizations": null,
-                    "required": true
-                }
-            ],
-            "nsfw": false
-        },
-        {
             "id": "1383065229398642691",
             "application_id": "1365134052402925590",
             "version": "1383083669023100990",
@@ -127,6 +96,61 @@
             "description": "🔧 Initialize water-gun profiles for everyone in GUILD_ID2 (admin only)",
             "description_localizations": null,
             "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1466801084151369739",
+            "application_id": "1365134052402925590",
+            "version": "1466802338626015266",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "manage-cooldowns",
+            "name_localizations": null,
+            "description": "Dev: list and clear active cooldowns",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 1,
+                    "name": "list",
+                    "name_localizations": null,
+                    "description": "List active cooldowns",
+                    "description_localizations": null,
+                    "options": [
+                        {
+                            "type": 3,
+                            "name": "game",
+                            "name_localizations": null,
+                            "description": "Optional COMMAND_NAME to filter (e.g., garden, mine)",
+                            "description_localizations": null
+                        }
+                    ]
+                },
+                {
+                    "type": 1,
+                    "name": "clear",
+                    "name_localizations": null,
+                    "description": "Clear cooldowns for a COMMAND_NAME (optionally one user)",
+                    "description_localizations": null,
+                    "options": [
+                        {
+                            "type": 3,
+                            "name": "game",
+                            "name_localizations": null,
+                            "description": "COMMAND_NAME to clear (e.g., garden, mine)",
+                            "description_localizations": null,
+                            "required": true
+                        },
+                        {
+                            "type": 6,
+                            "name": "user",
+                            "name_localizations": null,
+                            "description": "Optional user to clear only their cooldown for that game",
+                            "description_localizations": null
+                        }
+                    ]
+                }
+            ],
             "nsfw": false
         },
         {
@@ -160,225 +184,31 @@
             "nsfw": false
         },
         {
-            "id": "1377623543348461645",
+            "id": "1467618924374921258",
             "application_id": "1365134052402925590",
-            "version": "1377623543717691397",
-            "default_member_permissions": null,
-            "type": 1,
-            "name": "watergun-profile",
-            "name_localizations": null,
-            "description": "View your water-gun stats",
-            "description_localizations": null,
-            "guild_id": "1324370750131404893",
-            "nsfw": false
-        },
-        {
-            "id": "1383065229398642693",
-            "application_id": "1365134052402925590",
-            "version": "1383065229516341304",
-            "default_member_permissions": null,
-            "type": 1,
-            "name": "view-bracelet",
-            "name_localizations": null,
-            "description": "View your bracelet and extra charms.",
-            "description_localizations": null,
-            "guild_id": "1324370750131404893",
-            "nsfw": false
-        },
-        {
-            "id": "1377623543348461646",
-            "application_id": "1365134052402925590",
-            "version": "1383060569929814037",
-            "default_member_permissions": "8192",
-            "type": 1,
-            "name": "startfight",
-            "name_localizations": null,
-            "description": "Begin the Splash Showdown",
-            "description_localizations": null,
-            "guild_id": "1324370750131404893",
-            "nsfw": false
-        },
-        {
-            "id": "1377623543348461647",
-            "application_id": "1365134052402925590",
-            "version": "1377623543717691399",
-            "default_member_permissions": null,
-            "type": 1,
-            "name": "spray",
-            "name_localizations": null,
-            "description": "Spray someone with your water gun",
-            "description_localizations": null,
-            "guild_id": "1324370750131404893",
-            "options": [
-                {
-                    "type": 6,
-                    "name": "target",
-                    "name_localizations": null,
-                    "description": "Who would you like to spray?",
-                    "description_localizations": null,
-                    "required": true
-                }
-            ],
-            "nsfw": false
-        },
-        {
-            "id": "1383065229398642694",
-            "application_id": "1365134052402925590",
-            "version": "1383065229516341305",
-            "default_member_permissions": null,
-            "type": 1,
-            "name": "send-bracelet",
-            "name_localizations": null,
-            "description": "Send your finished bracelet to another member in the server.",
-            "description_localizations": null,
-            "guild_id": "1324370750131404893",
-            "options": [
-                {
-                    "type": 6,
-                    "name": "member",
-                    "name_localizations": null,
-                    "description": "Which member would you like to send a bracelet to?",
-                    "description_localizations": null,
-                    "required": true
-                }
-            ],
-            "nsfw": false
-        },
-        {
-            "id": "1365843381653082274",
-            "application_id": "1365134052402925590",
-            "version": "1365843381653082275",
-            "default_member_permissions": null,
-            "type": 1,
-            "name": "garden",
-            "name_localizations": null,
-            "description": "Rummage through Rabbit's Garden to see what you can find!",
-            "description_localizations": null,
-            "guild_id": "1324370750131404893",
-            "nsfw": false
-        },
-        {
-            "id": "1383065229398642695",
-            "application_id": "1365134052402925590",
-            "version": "1383065229516341306",
+            "version": "1467618924374921260",
             "default_member_permissions": "8",
             "type": 1,
-            "name": "reset-user-profiles",
+            "name": "birthday-test",
             "name_localizations": null,
-            "description": "Resets collected beads and marks user profiles as incomplete (admins only).",
-            "description_localizations": null,
-            "guild_id": "1324370750131404893",
-            "nsfw": false
-        },
-        {
-            "id": "1377623543348461648",
-            "application_id": "1365134052402925590",
-            "version": "1379609539141308517",
-            "default_member_permissions": null,
-            "type": 1,
-            "name": "fill",
-            "name_localizations": null,
-            "description": "Fill your water gun (takes 1 minute to complete)",
-            "description_localizations": null,
-            "guild_id": "1324370750131404893",
-            "nsfw": false
-        },
-        {
-            "id": "1377623543717691392",
-            "application_id": "1365134052402925590",
-            "version": "1383060569929814038",
-            "default_member_permissions": "8192",
-            "type": 1,
-            "name": "endfight",
-            "name_localizations": null,
-            "description": "End the Splash Showdown",
-            "description_localizations": null,
-            "guild_id": "1324370750131404893",
-            "nsfw": false
-        },
-        {
-            "id": "1383065229398642696",
-            "application_id": "1365134052402925590",
-            "version": "1383083669023100992",
-            "default_member_permissions": "8",
-            "type": 1,
-            "name": "check-profile",
-            "name_localizations": null,
-            "description": "Admins use this command to view target user's bracelet profile.",
+            "description": "DEV: Post a test birthday message with buttons in this channel",
             "description_localizations": null,
             "guild_id": "1324370750131404893",
             "options": [
                 {
                     "type": 6,
-                    "name": "member",
+                    "name": "user",
                     "name_localizations": null,
-                    "description": "Which member's bracelet profile would you like to view?",
-                    "description_localizations": null,
-                    "required": true
-                }
-            ],
-            "nsfw": false
-        },
-        {
-            "id": "1367904691203215512",
-            "application_id": "1365134052402925590",
-            "version": "1383065229516341308",
-            "default_member_permissions": null,
-            "type": 1,
-            "name": "collect-bead",
-            "name_localizations": null,
-            "description": "Use this command to collect a bead for your friendship bracelet.",
-            "description_localizations": null,
-            "guild_id": "1324370750131404893",
-            "nsfw": false
-        },
-        {
-            "id": "1383065229398642697",
-            "application_id": "1365134052402925590",
-            "version": "1383065229541244999",
-            "default_member_permissions": "8",
-            "type": 1,
-            "name": "adjust-beads",
-            "name_localizations": null,
-            "description": "Admins use this command to adjust beads on target user's bracelet profile.",
-            "description_localizations": null,
-            "guild_id": "1324370750131404893",
-            "options": [
-                {
-                    "type": 6,
-                    "name": "member",
-                    "name_localizations": null,
-                    "description": "Which member's bracelet profile would you like to adjust?",
+                    "description": "User to simulate as the birthday person",
                     "description_localizations": null,
                     "required": true
                 },
                 {
-                    "type": 10,
-                    "name": "bead-option1",
+                    "type": 5,
+                    "name": "reset",
                     "name_localizations": null,
-                    "description": "Would you like to give them all beads, or a specific bead?",
-                    "description_localizations": null,
-                    "required": true,
-                    "choices": [
-                        {
-                            "name": "Single Bead",
-                            "name_localizations": null,
-                            "value": 1
-                        },
-                        {
-                            "name": "All Beads",
-                            "name_localizations": null,
-                            "value": 2
-                        }
-                    ]
-                },
-                {
-                    "type": 3,
-                    "name": "specific-bead",
-                    "name_localizations": null,
-                    "description": "Which bead would you like to give them?",
-                    "description_localizations": null,
-                    "autocomplete": true
+                    "description": "Reset today’s birthday state for that user",
+                    "description_localizations": null
                 }
             ],
             "nsfw": false
@@ -511,6 +341,61 @@
             "description": "🔧 Initialize water-gun profiles for everyone in GUILD_ID2 (admin only)",
             "description_localizations": null,
             "guild_id": "830604135748337673",
+            "nsfw": false
+        },
+        {
+            "id": "1466801084734636280",
+            "application_id": "1365134052402925590",
+            "version": "1466802345479241884",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "manage-cooldowns",
+            "name_localizations": null,
+            "description": "Dev: list and clear active cooldowns",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "options": [
+                {
+                    "type": 1,
+                    "name": "list",
+                    "name_localizations": null,
+                    "description": "List active cooldowns",
+                    "description_localizations": null,
+                    "options": [
+                        {
+                            "type": 3,
+                            "name": "game",
+                            "name_localizations": null,
+                            "description": "Optional COMMAND_NAME to filter (e.g., garden, mine)",
+                            "description_localizations": null
+                        }
+                    ]
+                },
+                {
+                    "type": 1,
+                    "name": "clear",
+                    "name_localizations": null,
+                    "description": "Clear cooldowns for a COMMAND_NAME (optionally one user)",
+                    "description_localizations": null,
+                    "options": [
+                        {
+                            "type": 3,
+                            "name": "game",
+                            "name_localizations": null,
+                            "description": "COMMAND_NAME to clear (e.g., garden, mine)",
+                            "description_localizations": null,
+                            "required": true
+                        },
+                        {
+                            "type": 6,
+                            "name": "user",
+                            "name_localizations": null,
+                            "description": "Optional user to clear only their cooldown for that game",
+                            "description_localizations": null
+                        }
+                    ]
+                }
+            ],
             "nsfw": false
         },
         {
@@ -712,6 +597,32 @@
             "name": "collect-bead",
             "name_localizations": null,
             "description": "Use this command to collect a bead for your friendship bracelet.",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "nsfw": false
+        },
+        {
+            "id": "1467983656424439912",
+            "application_id": "1365134052402925590",
+            "version": "1467983657128956008",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "birthday-run",
+            "name_localizations": null,
+            "description": "ADMIN: Force the birthday announcer to run right now",
+            "description_localizations": null,
+            "guild_id": "830604135748337673",
+            "nsfw": false
+        },
+        {
+            "id": "1467983656424439913",
+            "application_id": "1365134052402925590",
+            "version": "1467983657128956009",
+            "default_member_permissions": "8",
+            "type": 1,
+            "name": "birthday-debug",
+            "name_localizations": null,
+            "description": "ADMIN: Debug birthday announcer configuration + today’s state",
             "description_localizations": null,
             "guild_id": "830604135748337673",
             "nsfw": false

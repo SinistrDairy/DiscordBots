@@ -6,6 +6,9 @@ declare namespace NodeJS {
         ACLOCAL_PATH:string
         ALLUSERSPROFILE:string
         APPDATA:string
+        BIRTHDAY_COMMUNITY_ROLE_ID:string
+        BIRTHDAY_ROLE_ID:string
+        CELEBRATE_CHANNEL_ID:string
         ChocolateyInstall:string
         ChocolateyLastPathUpdate:string
         CHROME_CRASHPAD_PIPE_NAME:string
@@ -19,12 +22,15 @@ declare namespace NodeJS {
         DISCORD_TOKEN:string
         DISPLAY:string
         DriverData:string
-        EFC_9792_1262719628:string
-        EFC_9792_1592913036:string
-        EFC_9792_2283032206:string
-        EFC_9792_2775293581:string
-        EFC_9792_3789132940:string
+        ECONOMY_LOG_CHANNEL_ID:string
+        EFC_7180_1262719628:string
+        EFC_7180_1592913036:string
+        EFC_7180_2283032206:string
+        EFC_7180_2775293581:string
+        EFC_7180_344590478:string
+        EFC_7180_3789132940:string
         EXEPATH:string
+        FORCE_COLOR:string
         FPS_BROWSER_APP_PROFILE_STRING:string
         FPS_BROWSER_USER_PROFILE_STRING:string
         GIT_ASKPASS:string
@@ -54,8 +60,10 @@ declare namespace NodeJS {
         NODE_PATH:string
         npm_command:string
         npm_config_frozen_lockfile:string
+        npm_config_globalconfig:string
         npm_config_global_bin_dir:string
         npm_config_node_gyp:string
+        npm_config_npm_globalconfig:string
         npm_config_registry:string
         npm_config_user_agent:string
         npm_config_verify_deps_before_run:string
@@ -118,5 +126,6 @@ declare namespace NodeJS {
         VSCODE_PYTHON_AUTOACTIVATE_GUARD:string
         WINDIR:string
         ZES_ENABLE_SYSMAN:string
+        __COMPAT_LAYER:string
     }
 }

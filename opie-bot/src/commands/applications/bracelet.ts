@@ -20,7 +20,7 @@ export default commandModule({
   type: CommandType.Slash,
   plugins: [
     publishConfig({
-      guildIds: [process.env.GUILD_ID1!, process.env.GUILD_ID2!]
+      guildIds: [process.env.GUILD_ID2!]
     }),
   ],
 
@@ -203,7 +203,7 @@ export default commandModule({
 });
 
 export const config = {
-  guildIds: [process.env.GUILD_ID1!, process.env.GUILD_ID2!],
+  guildIds: [process.env.GUILD_ID2!],
   dmPermission: false,
   defaultMemberPermissions: [PermissionFlagsBits.Administrator]
 };
