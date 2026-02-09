@@ -1,6 +1,5 @@
 {
   "hooks": {
-    "before:init": "git fetch origin && git rebase origin/main"
   },
 
   "git": {
