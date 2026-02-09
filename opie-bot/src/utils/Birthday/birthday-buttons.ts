@@ -9,7 +9,10 @@ import BirthdayClaim from "../../models/core/birthday-schema.js";
 import landSchema from "../../models/profiles/lands-schema.js";
 import { addPointsToUserLand } from "../economy/addPointsToLand.js";
 import { logJewelsFromInteraction } from "../economy/log-jewels.js";
-import { getRemainingCooldownFromInteraction, setCooldownFromInteraction } from "../cooldown-int.js";
+import {
+  getRemainingCooldownFromInteraction,
+  setCooldownFromInteraction,
+} from "../cooldown-int.js";
 
 const BIRTHDAY_ROLE_ID = process.env.BIRTHDAY_ROLE_ID!;
 
@@ -57,9 +60,12 @@ export async function handleBirthdayButtons(
     await interaction.deferUpdate().catch(() => {});
 
     //cooldown
-    const remaining = await getRemainingCooldownFromInteraction("birthday_wish", interaction);
+    const remaining = await getRemainingCooldownFromInteraction(
+      "birthday_wish",
+      interaction,
+    );
 
-    if(remaining > 0) return true;
+    if (remaining > 0) return true;
 
     await setCooldownFromInteraction("birthday_wish", interaction, "24h");
 
@@ -100,10 +106,26 @@ export async function handleBirthdayButtons(
     // ACK immediately, silently
     await interaction.deferUpdate().catch(() => {});
 
-    if (!interaction.guildId || !interaction.guild) return true;
+    if (!interaction.guildId || !interaction.guild) {
+      await interaction
+        .followUp({
+          content: "This button can only be used in a server.",
+          ephemeral: true,
+        })
+        .catch(() => {});
+      return false;
+    }
 
     // Must be the intended target user
-    if (interaction.user.id !== targetUserId) return true;
+    if (interaction.user.id !== targetUserId) {
+      await interaction
+        .followUp({
+          content: "🎂 This birthday claim isn’t for you.",
+          ephemeral: true,
+        })
+        .catch(() => {});
+      return false;
+    }
 
     // Must still have the birthday role
     const member =
@@ -112,7 +134,15 @@ export async function handleBirthdayButtons(
         .fetch(interaction.user.id)
         .catch(() => null));
 
-    if (!member || !member.roles.cache.has(BIRTHDAY_ROLE_ID)) return true;
+    if (!member) {
+      await interaction
+        .followUp({
+          content: "I couldn’t find your member record in this server.",
+          ephemeral: true,
+        })
+        .catch(() => {});
+      return false;
+    }
 
     // Atomic claim gate (once per dayKey)
     const rec = await BirthdayClaim.findOneAndUpdate(

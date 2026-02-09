@@ -30,11 +30,9 @@ declare namespace NodeJS {
         EFC_7180_344590478:string
         EFC_7180_3789132940:string
         EXEPATH:string
-        FORCE_COLOR:string
         FPS_BROWSER_APP_PROFILE_STRING:string
         FPS_BROWSER_USER_PROFILE_STRING:string
         GIT_ASKPASS:string
-        GUILD_ID1:string
         GUILD_ID2:string
         HOME:string
         HOMEDRIVE:string
