@@ -1,5 +1,7 @@
 # Changelog
 
+# [1.3.0](https://github.com/SinistrDairy/DiscordBots/compare/Ov1.2.0...Ov1.3.0) (2026-02-10)
+
 # [1.2.0](https://github.com/SinistrDairy/DiscordBots/compare/Ov1.1.0...Ov1.2.0) (2026-02-09)
 
 # [1.1.0](https://github.com/SinistrDairy/DiscordBots/compare/Ov1.0.5...Ov1.1.0) (2026-02-04)
