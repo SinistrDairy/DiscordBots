@@ -80,16 +80,6 @@ jobs:
           cd ${{ matrix.bot }}
           pnpm install
 
-      - name: Sync and stash upstream changes
-        if: ${{ github.event_name == 'workflow_dispatch' || matrix.changed == 'true' }}
-        run: |
-          cd ${{ matrix.bot }}
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
-          git stash --include-untracked || true
-          git pull --rebase origin main || git rebase --abort || true
-          git stash pop || true
-
       - name: Run release-it
         if: ${{ github.event_name == 'workflow_dispatch' || matrix.changed == 'true' }}
         id: release
