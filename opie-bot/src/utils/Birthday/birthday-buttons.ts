@@ -51,8 +51,6 @@ export async function handleBirthdayButtons(
 
   const [action, dayKey] = parts;
 
-  const targetUserId = interaction.user.id;
-
   // -------------------------
   // WISH BUTTON: anyone can use (public)
   // -------------------------
@@ -116,17 +114,6 @@ export async function handleBirthdayButtons(
       return false;
     }
 
-    // Must be the intended target user
-    if (interaction.user.id !== targetUserId) {
-      await interaction
-        .followUp({
-          content: "🎂 This birthday claim isn’t for you.",
-          ephemeral: true,
-        })
-        .catch(() => {});
-      return false;
-    }
-
     // Must still have the birthday role
     const member =
       interaction.guild.members.cache.get(interaction.user.id) ??
@@ -144,11 +131,22 @@ export async function handleBirthdayButtons(
       return false;
     }
 
+    if (!member.roles.cache.has(BIRTHDAY_ROLE_ID)) {
+      await interaction
+        .followUp({
+          content:
+            "🎂 This claim is only available to members with the Birthday role today.",
+          ephemeral: true,
+        })
+        .catch((e) => console.error("[birthday] followUp failed:", e));
+      return true;
+    }
+
     // Atomic claim gate (once per dayKey)
     const rec = await BirthdayClaim.findOneAndUpdate(
       {
         guildId: interaction.guildId!,
-        userId: targetUserId,
+        userId: interaction.user.id, // IMPORTANT: the clicker
         dayKey,
         claimed: false,
       },
@@ -156,7 +154,16 @@ export async function handleBirthdayButtons(
       { new: true },
     );
 
-    if (!rec) return true;
+    if (!rec) {
+      await interaction
+        .followUp({
+          content:
+            "🎂 You don’t have a birthday claim available for today (or you already claimed).",
+          ephemeral: true,
+        })
+        .catch((e) => console.error("[birthday] followUp failed:", e));
+      return true;
+    }
 
     const jewels =
       Math.floor(Math.random() * (MAX_JEWELS - MIN_JEWELS + 1)) + MIN_JEWELS;
@@ -189,7 +196,7 @@ export async function handleBirthdayButtons(
       )
       .setColor("#ffd966")
       .setDescription(
-        `## Hip, hip, hooray! <@${targetUserId}> has received __**${jewels}**__ <:fk_jewel:1333402533439475743>! Happy Birthday!`,
+        `## Hip, hip, hooray! <@${interaction.user.id}> has received __**${jewels}**__ <:fk_jewel:1333402533439475743>! Happy Birthday!`,
       )
       .setImage(
         "https://cdn.discordapp.com/attachments/1467969861715230965/1467970194847826166/67b7f78d4e10db899f923bc18674cd1a4e1bd653e353b5590a9f299d447df91e.png?ex=69825148&is=6980ffc8&hm=8d4c55d4372e54c1f93057291afda9a05505ecc04c30f614f57b957776612ff2&",
@@ -198,7 +205,7 @@ export async function handleBirthdayButtons(
     // PUBLIC POST (not an interaction reply)
     await ch.send({
       embeds: [embed],
-      allowedMentions: { users: [targetUserId] },
+      allowedMentions: { users: [interaction.user.id] },
     });
 
     // Public log
