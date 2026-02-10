@@ -1,8 +1,0 @@
-{
-  "extends": "./.sern/tsconfig.json",
-  "compilerOptions": {
-    // you can also re-declare any compilerOptions you want to tweak here
-  },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist", "node_modules/@sern/handler"]
-}
