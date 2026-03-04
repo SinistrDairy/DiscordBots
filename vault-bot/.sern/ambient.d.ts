@@ -6,28 +6,36 @@ declare namespace NodeJS {
         ACLOCAL_PATH:string
         ALLUSERSPROFILE:string
         APPDATA:string
+        BANISHED_ROLE_ID:string
+        ChocolateyInstall:string
+        ChocolateyLastPathUpdate:string
         CHROME_CRASHPAD_PIPE_NAME:string
         COLORTERM:string
         COMMONPROGRAMFILES:string
+        "CommonProgramFiles(x86)": string
+        CommonProgramW6432:string
         COMPUTERNAME:string
         COMSPEC:string
         CONFIG_SITE:string
-        ChocolateyInstall:string
-        ChocolateyLastPathUpdate:string
-        "CommonProgramFiles(x86)": string
-        CommonProgramW6432:string
         DISCORD_TOKEN:string
         DISPLAY:string
         DriverData:string
-        EFC_3660:string
+        EFC_9976_1262719628:string
+        EFC_9976_1592913036:string
+        EFC_9976_2283032206:string
+        EFC_9976_2775293581:string
+        EFC_9976_3789132940:string
         EXEPATH:string
+        FORCE_COLOR:string
         GIT_ASKPASS:string
         GUILD_ID:string
         HOME:string
         HOMEDRIVE:string
         HOMEPATH:string
         HOSTNAME:string
+        HOST_ROLE_ID:string
         INFOPATH:string
+        INIT_CWD:string
         LANG:string
         LOCALAPPDATA:string
         LOGONSERVER:string
@@ -35,38 +43,62 @@ declare namespace NodeJS {
         MINGW_CHOST:string
         MINGW_PACKAGE_PREFIX:string
         MINGW_PREFIX:string
-        MONGOURI:string
+        MONGO_URI:string
         MSYS:string
         MSYSTEM:string
         MSYSTEM_CARCH:string
         MSYSTEM_CHOST:string
         MSYSTEM_PREFIX:string
+        MURDERED_ROLE_ID:string
+        NODE:string
         NODE_ENV:string
+        NODE_PATH:string
+        npm_command:string
+        npm_config_frozen_lockfile:string
+        npm_config_globalconfig:string
+        npm_config_global_bin_dir:string
+        npm_config_node_gyp:string
+        npm_config_npm_globalconfig:string
+        npm_config_registry:string
+        npm_config_user_agent:string
+        npm_config_verify_deps_before_run:string
+        npm_config__jsr_registry:string
+        npm_execpath:string
+        npm_lifecycle_event:string
+        npm_lifecycle_script:string
+        npm_node_execpath:string
+        npm_package_json:string
+        npm_package_name:string
+        npm_package_version:string
         NUMBER_OF_PROCESSORS:string
+        OneDrive:string
+        OneDriveConsumer:string
         ORIGINAL_PATH:string
         ORIGINAL_TEMP:string
         ORIGINAL_TMP:string
-        ORIGINAL_XDG_CURRENT_DESKTOP:string
         OS:string
-        OneDrive:string
-        OneDriveConsumer:string
         PATH:string
         PATHEXT:string
         PKG_CONFIG_PATH:string
         PKG_CONFIG_SYSTEM_INCLUDE_PATH:string
         PKG_CONFIG_SYSTEM_LIBRARY_PATH:string
+        PLAYER_ROLE_ID:string
         PLINK_PROTOCOL:string
+        pnpm_config_verify_deps_before_run:string
+        PNPM_HOME:string
+        PNPM_SCRIPT_SRC_DIR:string
         PROCESSOR_ARCHITECTURE:string
         PROCESSOR_IDENTIFIER:string
         PROCESSOR_LEVEL:string
         PROCESSOR_REVISION:string
+        ProgramData:string
         PROGRAMFILES:string
+        "ProgramFiles(x86)": string
+        ProgramW6432:string
+        PROMPT:string
         PSModulePath:string
         PUBLIC:string
         PWD:string
-        ProgramData:string
-        "ProgramFiles(x86)": string
-        ProgramW6432:string
         SESSIONNAME:string
         SHELL:string
         SHLVL:string
@@ -87,6 +119,7 @@ declare namespace NodeJS {
         VSCODE_GIT_ASKPASS_MAIN:string
         VSCODE_GIT_ASKPASS_NODE:string
         VSCODE_GIT_IPC_HANDLE:string
+        VSCODE_PYTHON_AUTOACTIVATE_GUARD:string
         WINDIR:string
         ZES_ENABLE_SYSMAN:string
     }

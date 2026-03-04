@@ -4,5 +4,5 @@
 export const commands = './dist/commands'
 
 // defaultPrefix: if omitted, sern will disable all text/prefix commands
-export const defaultPrefix = '$'
+export const defaultPrefix = '?'
 

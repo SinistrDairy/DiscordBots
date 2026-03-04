@@ -1,0 +1,154 @@
+{
+    "global": [
+        {
+            "id": "1478802791014207562",
+            "application_id": "1478797410154184935",
+            "version": "1478802791014207563",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "ping",
+            "name_localizations": null,
+            "description": "A ping command",
+            "description_localizations": null,
+            "dm_permission": true,
+            "contexts": null,
+            "integration_types": [
+                0,
+                1
+            ],
+            "nsfw": false
+        }
+    ],
+    "1324370750131404893": [
+        {
+            "id": "1478874291557630024",
+            "application_id": "1478797410154184935",
+            "version": "1478874291557630025",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "reset-season",
+            "name_localizations": null,
+            "description": "Hard reset the season by removing all player profiles.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1478877460626935981",
+            "application_id": "1478797410154184935",
+            "version": "1478877460626935982",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "remove-players",
+            "name_localizations": null,
+            "description": "Inactivate players who have been banished or murdered.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1478877235757842432",
+            "application_id": "1478797410154184935",
+            "version": "1478877235757842433",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "remove-player",
+            "name_localizations": null,
+            "description": "Inactivate players who have been banished or murdered.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1478872383057301627",
+            "application_id": "1478797410154184935",
+            "version": "1478873393129586820",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "register-players",
+            "name_localizations": null,
+            "description": "Create player profiles from the Player role (start of season).",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1478884793717620809",
+            "application_id": "1478797410154184935",
+            "version": "1478884793717620810",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "leaderboard-create",
+            "name_localizations": null,
+            "description": "Create the leaderboard message.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "nsfw": false
+        },
+        {
+            "id": "1478880879492468883",
+            "application_id": "1478797410154184935",
+            "version": "1478880879492468884",
+            "default_member_permissions": null,
+            "type": 1,
+            "name": "gold",
+            "name_localizations": null,
+            "description": "Manage player gold.",
+            "description_localizations": null,
+            "guild_id": "1324370750131404893",
+            "options": [
+                {
+                    "type": 1,
+                    "name": "add",
+                    "name_localizations": null,
+                    "description": "Add gold to a player",
+                    "description_localizations": null,
+                    "options": [
+                        {
+                            "type": 6,
+                            "name": "player",
+                            "name_localizations": null,
+                            "description": "Player",
+                            "description_localizations": null,
+                            "required": true
+                        },
+                        {
+                            "type": 4,
+                            "name": "amount",
+                            "name_localizations": null,
+                            "description": "Gold amount",
+                            "description_localizations": null,
+                            "required": true
+                        }
+                    ]
+                },
+                {
+                    "type": 1,
+                    "name": "subtract",
+                    "name_localizations": null,
+                    "description": "Subtract gold from a player",
+                    "description_localizations": null,
+                    "options": [
+                        {
+                            "type": 6,
+                            "name": "player",
+                            "name_localizations": null,
+                            "description": "Player",
+                            "description_localizations": null,
+                            "required": true
+                        },
+                        {
+                            "type": 4,
+                            "name": "amount",
+                            "name_localizations": null,
+                            "description": "Gold amount",
+                            "description_localizations": null,
+                            "required": true
+                        }
+                    ]
+                }
+            ],
+            "nsfw": false
+        }
+    ]
+}
