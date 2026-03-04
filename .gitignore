@@ -2,3 +2,5 @@
 **/dist
 .env
 misc-files/github-recovery-codes.txt
+
+**/vault-bot
