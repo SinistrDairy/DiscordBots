@@ -85,7 +85,7 @@ jobs:
       - name: Rsync build to server (changed or forced)
         if: ${{ matrix.changed == 'true' || github.event.inputs.force == 'true' }}
         run: |
-          set -e -o pipefail
+          set -euo pipefail
           REMOTE_BASE="$REMOTE_ROOT/${{ matrix.bot }}"
           ssh root@${{ secrets.VPS_HOST }} "mkdir -p \"$REMOTE_BASE\""
           rsync -avz --delete \
@@ -99,38 +99,33 @@ jobs:
 
       - name: Ensure PM2 process is up (start if missing, correct cwd & env)
         run: |
-          set -e -o pipefail
+          set -euo pipefail
+
           NAME="${{ matrix.bot }}"
           CWD="$REMOTE_ROOT/$NAME"
           ENTRY="$CWD/dist/index.js"
 
-          ssh root@${{ secrets.VPS_HOST }} bash -lc '
-            set -e -o pipefail
-            export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
-            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" || true
-            command -v pm2 >/dev/null || { echo "pm2 not in PATH"; exit 1; }
+          ssh root@${{ secrets.VPS_HOST }} "NAME='$NAME' CWD='$CWD' ENTRY='$ENTRY' bash -seuo pipefail" << 'EOF'
+          export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+          [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" || true
+          command -v pm2 >/dev/null || { echo "pm2 not in PATH"; exit 1; }
 
-            NAME='"$NAME"'
-            CWD='"$CWD"'
-            ENTRY='"$ENTRY"'
+          [ -f "$ENTRY" ] || { echo "❌ Missing $ENTRY. Build/rsync not in place."; exit 1; }
 
-            [ -f "$ENTRY" ] || { echo "❌ Missing $ENTRY. Build/rsync not in place."; exit 1; }
+          export DOTENV_CONFIG_PATH="$CWD/.env"
+          export NODE_ENV=production
 
-            export DOTENV_CONFIG_PATH="$CWD/.env"
-            export NODE_ENV=production
+          if pm2 describe "$NAME" >/dev/null 2>&1; then
+            echo "$NAME exists → restarting"
+            pm2 restart "$NAME" --update-env --cwd "$CWD"
+          else
+            echo "Starting $NAME for the first time…"
+            pm2 start "$ENTRY" --name "$NAME" --cwd "$CWD" --node-args "-r dotenv/config"
+          fi
 
-            if pm2 describe "$NAME" >/dev/null 2>&1; then
-              echo "$NAME exists → restarting"
-              pm2 restart "$NAME" --update-env --cwd "$CWD"
-            else
-              echo "Starting $NAME for the first time…"
-              pm2 start "$ENTRY" --name "$NAME" --cwd "$CWD" \
-                --node-args "-r dotenv/config" --update-env
-            fi
-
-            pm2 save
-            pm2 ls --no-color || true
-          '
+          pm2 save --force
+          pm2 ls --no-color || true
+          EOF
 
       - name: Notify Discord of Deployment (changed or forced)
         if: ${{ matrix.changed == 'true' || github.event.inputs.force == 'true' }}
@@ -164,14 +159,14 @@ jobs:
 
       - name: Collect PM2 & app logs
         run: |
-          set -e -o pipefail
+          set -euo pipefail
           NAME="${{ matrix.bot }}"
           BASE="$REMOTE_ROOT/$NAME"
           REMOTE_LOG_DIR="/root/.pm2/logs"
           TMP="/tmp/${NAME}-diag"
 
           ssh root@${{ secrets.VPS_HOST }} bash -lc "
-            set -e -o pipefail
+            set -euo pipefail
             export NVM_DIR=\"\${NVM_DIR:-\$HOME/.nvm}\"
             [ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\" || true
 
