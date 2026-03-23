@@ -1,9 +1,15 @@
 import "dotenv/config";
 import { commandModule, CommandType } from "@sern/handler";
 import { publishConfig } from "@sern/publisher";
-import { ApplicationCommand, ApplicationCommandOptionType, GuildMember, MessageFlags } from "discord.js";
+import {
+  ApplicationCommand,
+  ApplicationCommandOptionType,
+  GuildMember,
+  MessageFlags,
+} from "discord.js";
 import VaultPlayer from "../models/vaultPlayer.js";
 import { updateLeaderboard } from "../utils/updateLeaderboard.js";
+import { logGoldChange } from "../utils/gold-logs.js";
 
 const HOST_ROLE_ID = process.env.HOST_ROLE_ID ?? "HOST_ROLE_PLACEHOLDER";
 
@@ -60,7 +66,6 @@ export default commandModule({
   ],
 
   execute: async (ctx) => {
-
     if (!ctx.guild) {
       return ctx.interaction.reply({
         content: "This command must be used in a server.",
@@ -102,20 +107,34 @@ export default commandModule({
         $inc: { gold: delta },
         $set: { displayName: guildMember.displayName },
       },
-      { returnDocument: "after" }
+      { returnDocument: "after" },
     );
 
     if (!result) {
       return ctx.interaction.editReply(
-        "Player profile not found or player is inactive."
+        "Player profile not found or player is inactive.",
       );
     }
+
+    const before = result.gold - delta;
+    const after = result.gold;
+
+    await logGoldChange({
+      client: ctx.client,
+      user: {
+        id: user.id,
+        globalName: user.globalName,
+        username: user.username,
+      },
+      gold: delta,
+      source: `/gold ${sub}`,
+      reason: `${member.displayName} (${before} → ${after})`,
+    });
 
     await updateLeaderboard(ctx.client, ctx.guildId!);
 
     return ctx.interaction.editReply(
-      `${guildMember.displayName} now has ${result.gold} gold.`
+      `${guildMember.displayName} now has ${result.gold} gold.`,
     );
   },
-  
 });

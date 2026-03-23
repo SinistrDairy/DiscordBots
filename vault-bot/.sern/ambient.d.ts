@@ -20,14 +20,16 @@ declare namespace NodeJS {
         DISCORD_TOKEN:string
         DISPLAY:string
         DriverData:string
-        EFC_9976_1262719628:string
-        EFC_9976_1592913036:string
-        EFC_9976_2283032206:string
-        EFC_9976_2775293581:string
-        EFC_9976_3789132940:string
+        ECONOMY_LOG_CHANNEL_ID:string
+        EFC_9880_1262719628:string
+        EFC_9880_1592913036:string
+        EFC_9880_2283032206:string
+        EFC_9880_2775293581:string
+        EFC_9880_3789132940:string
         EXEPATH:string
-        FORCE_COLOR:string
         GIT_ASKPASS:string
+        GK_GL_ADDR:string
+        GK_GL_PATH:string
         GUILD_ID:string
         HOME:string
         HOMEDRIVE:string
@@ -52,7 +54,6 @@ declare namespace NodeJS {
         MURDERED_ROLE_ID:string
         NODE:string
         NODE_ENV:string
-        NODE_PATH:string
         npm_command:string
         npm_config_frozen_lockfile:string
         npm_config_globalconfig:string
@@ -122,5 +123,6 @@ declare namespace NodeJS {
         VSCODE_PYTHON_AUTOACTIVATE_GUARD:string
         WINDIR:string
         ZES_ENABLE_SYSMAN:string
+        __COMPAT_LAYER:string
     }
 }
