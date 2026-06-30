@@ -74,6 +74,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: true
 
       - name: Setup pnpm
         if: ${{ steps.should_skip.outputs.skip == 'false' }}
@@ -94,6 +95,22 @@ jobs:
         run: |
           cd ${{ matrix.bot }}
           pnpm install --frozen-lockfile
+
+      - name: Prepare Git for release
+        if: ${{ steps.should_skip.outputs.skip == 'false' }}
+        run: |
+          cd ${{ matrix.bot }}
+          echo "=== Git status BEFORE cleaning ==="
+          git status --porcelain --untracked-files=all || true
+          git rev-parse --abbrev-ref HEAD || true
+          # Set a CI git identity so release-it can create commits
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Make workspace clean for release-it (removes untracked files and discards modifications)
+          git reset --hard
+          git clean -fdx
+          echo "=== Git status AFTER cleaning ==="
+          git status --porcelain || true
 
       - name: Run release-it
         if: ${{ steps.should_skip.outputs.skip == 'false' }}
