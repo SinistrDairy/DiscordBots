@@ -85,7 +85,7 @@ jobs:
         if: ${{ github.event_name == 'workflow_dispatch' || matrix.changed == 'true' }}
         run: |
           cd ${{ matrix.bot }}
-          pnpm install --allow-scripts
+          pnpm install --allow-scripts=build
 
       - name: Run release-it
         if: ${{ github.event_name == 'workflow_dispatch' || matrix.changed == 'true' }}
