@@ -74,6 +74,13 @@ jobs:
           sudo apt-get install -y nodejs
           npm install -g pnpm
 
+      - name: Approve pnpm build scripts
+        if: ${{ github.event_name == 'workflow_dispatch' || matrix.changed == 'true' }}
+        run: |
+          cd ${{ matrix.bot }}
+          # Non-interactively approve pnpm build scripts so installers like esbuild are allowed to run in CI
+          yes | pnpm approve-builds || true
+
       - name: Install dependencies
         if: ${{ github.event_name == 'workflow_dispatch' || matrix.changed == 'true' }}
         run: |
