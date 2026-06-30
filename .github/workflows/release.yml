@@ -56,18 +56,27 @@ jobs:
             changed: ${{ needs.filter.outputs.opie-changed }}
 
     steps:
+      - name: Check if should skip
+        id: should_skip
+        run: |
+          if [[ "${{ github.event_name }}" != "workflow_dispatch" && "${{ matrix.changed }}" != "true" ]]; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Skip if unchanged on push
-        if: ${{ github.event_name != 'workflow_dispatch' && matrix.changed != 'true' }}
+        if: ${{ steps.should_skip.outputs.skip == 'true' }}
         run: echo "No changes in ${{ matrix.bot }}, skipping release."
 
       - name: Checkout code
-        if: ${{ github.event_name == 'workflow_dispatch' || matrix.changed == 'true' }}
+        if: ${{ steps.should_skip.outputs.skip == 'false' }}
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup Node.js & pnpm
-        if: ${{ github.event_name == 'workflow_dispatch' || matrix.changed == 'true' }}
+        if: ${{ steps.should_skip.outputs.skip == 'false' }}
         run: |
           curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
           sudo apt-get update
@@ -75,20 +84,20 @@ jobs:
           npm install -g pnpm
 
       - name: Approve pnpm build scripts
-        if: ${{ github.event_name == 'workflow_dispatch' || matrix.changed == 'true' }}
+        if: ${{ steps.should_skip.outputs.skip == 'false' }}
         run: |
           cd ${{ matrix.bot }}
           # Non-interactively approve pnpm build scripts so installers like esbuild are allowed to run in CI
           yes | pnpm approve-builds || true
 
       - name: Install dependencies
-        if: ${{ github.event_name == 'workflow_dispatch' || matrix.changed == 'true' }}
+        if: ${{ steps.should_skip.outputs.skip == 'false' }}
         run: |
           cd ${{ matrix.bot }}
           pnpm install
 
       - name: Run release-it
-        if: ${{ github.event_name == 'workflow_dispatch' || matrix.changed == 'true' }}
+        if: ${{ steps.should_skip.outputs.skip == 'false' }}
         id: release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -98,7 +107,7 @@ jobs:
           echo "RELEASE_VERSION=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
 
       - name: Post release to Discord
-        if: ${{ github.event_name == 'workflow_dispatch' || matrix.changed == 'true' }}
+        if: ${{ steps.should_skip.outputs.skip == 'false' }}
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           RELEASE_VERSION: ${{ steps.release.outputs.RELEASE_VERSION }}
