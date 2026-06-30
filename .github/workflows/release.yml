@@ -92,8 +92,8 @@ jobs:
 
       - name: Install dependencies
         if: ${{ steps.should_skip.outputs.skip == 'false' }}
-        run: pnpm install --frozen-lockfile
         working-directory: ${{ matrix.bot }}
+        run: pnpm install --frozen-lockfile
 
       - name: Prepare Git for release
         if: ${{ steps.should_skip.outputs.skip == 'false' }}
