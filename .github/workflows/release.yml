@@ -75,19 +75,25 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup pnpm
+        if: ${{ steps.should_skip.outputs.skip == 'false' }}
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
       - name: Setup Node.js
         if: ${{ steps.should_skip.outputs.skip == 'false' }}
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-          cache-dependency-path: '${{ matrix.bot }}/package-lock.json'
+          cache: 'pnpm'
+          cache-dependency-path: '${{ matrix.bot }}/pnpm-lock.yaml'
 
       - name: Install dependencies
         if: ${{ steps.should_skip.outputs.skip == 'false' }}
         run: |
           cd ${{ matrix.bot }}
-          npm ci --legacy-peer-deps
+          pnpm install --frozen-lockfile
 
       - name: Run release-it
         if: ${{ steps.should_skip.outputs.skip == 'false' }}
@@ -96,7 +102,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd ${{ matrix.bot }}
-          npx release-it --ci --increment patch --tag-prefix=${{ matrix.tagPrefix }}
+          pnpm exec release-it --ci --increment patch --tag-prefix=${{ matrix.tagPrefix }}
           echo "RELEASE_VERSION=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
 
       - name: Post release to Discord
