@@ -22,7 +22,7 @@ export async function updateLeaderboard(client: Client, guildId: string) {
     guildId,
     active: true,
   })
-    .sort({ gold: -1 })
+    .sort({ gold: -1, displayName: 1})
     .limit(15)
     .lean();
 
@@ -34,30 +34,22 @@ export async function updateLeaderboard(client: Client, guildId: string) {
     return;
   }
 
-  const names: string[] = [];
-  const gold: string[] = [];
+  const lines = players.map((player, index) => {
+    const rank = `${index + 1}.`.padEnd(4, " ");
+    const name = player.displayName.slice(0, 16).padEnd(16, " ");
+    const gold = player.gold.toLocaleString().padStart(6, " ");
 
-  players.forEach((player) => {
-    names.push(`${player.displayName}`);
-    gold.push(`${player.gold.toLocaleString()}`);
+    return `${rank}${name}${gold}`;
   });
 
   embed
-    .setDescription(`## <:t_gold:1478796803855089828> GOLD COUNT`)
-    .setColor("#a16c2a")
-    .addFields(
-      {
-        name: "Name",
-        value: names.join("\n"),
-        inline: true,
-      },
-      {
-        name: "Gold",
-        value: gold.join("\n"),
-        inline: true,
-      }
+    .setDescription(
+      `## <:t_gold:1478796803855089828> GOLD COUNT\n\`\`\`\n${lines.join("\n")}\n\`\`\``,
     )
-    .setImage("https://cdn.discordapp.com/attachments/801181759559172137/1485736832053416127/Copy_of_fk_embed_footers_2.png?ex=69c2f3c0&is=69c1a240&hm=affd0432277f86e90d634bfdd6a36d7e4f1aeca95506ed4eecbbcb81280af430&")
+    .setColor("#a16c2a")
+    .setImage(
+      "https://cdn.discordapp.com/attachments/801181759559172137/1485736832053416127/Copy_of_fk_embed_footers_2.png?ex=69c2f3c0&is=69c1a240&hm=affd0432277f86e90d634bfdd6a36d7e4f1aeca95506ed4eecbbcb81280af430&",
+    );
 
   await message.edit({
     content: "",

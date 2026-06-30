@@ -14,6 +14,8 @@ import userSchema from "../../models/profiles/user-schema.js";
 import Profile from "../../models/profiles/sprof-Schema.js";
 import FightState from "../../models/core/fightstate-Schema.js";
 import { getPronoun } from "../../utils/pronoun.js";
+import { getImage } from "../../utils/getImage.js";
+import { Images } from "../../constants/images.js";
 
 const COOLDOWN = 10_000;
 const HIT_CHANCE = 0.55;
@@ -26,19 +28,6 @@ const POINTS = {
   hit: 25,
   miss: 10,
   stitch: 100,
-};
-
-const IMAGES = {
-  thumbnail:
-    "https://emhuf.xyz/uploads/Splash_Showdown/1750365367669-13945623.png",
-  stitchThumbnail:
-    "https://emhuf.xyz/uploads/Splash_Showdown/1750365357200-398162764.png",
-  footer:
-    "https://emhuf.xyz/uploads/Splash_Showdown/1750365372826-250831930.png",
-  stitchFooter:
-    "https://emhuf.xyz/uploads/Splash_Showdown/1750365362072-804297575.png",
-  missedThumbnail:
-    "https://emhuf.xyz/uploads/Splash_Showdown/1750365779962-166341448.png",
 };
 
 export default commandModule({
@@ -92,7 +81,7 @@ export default commandModule({
     }
 
     const isAdmin = shooterMember.permissions.has(
-      PermissionFlagsBits.Administrator
+      PermissionFlagsBits.Administrator,
     );
 
     // 1) Channel restriction
@@ -167,7 +156,7 @@ export default commandModule({
             "<:fk_waterhose:1377697793984168016> Your gun is still refilling!",
             "",
             `You can /spray again <t:${endTime}:R>`,
-          ].join("\n")
+          ].join("\n"),
         );
 
       // Send ephemeral embed and auto‐delete after actual refill time
@@ -198,7 +187,7 @@ export default commandModule({
     // 8) Global cooldown check
     if (shooter.lastSprayTime && now - shooter.lastSprayTime < COOLDOWN) {
       const waitSec = Math.ceil(
-        (COOLDOWN - (now - shooter.lastSprayTime)) / 1000
+        (COOLDOWN - (now - shooter.lastSprayTime)) / 1000,
       );
       return ctx.reply({
         content: `Wait ${waitSec}s. You're still lining up your shot.`,
@@ -228,6 +217,12 @@ export default commandModule({
       isStitchEvent = !hit && Math.random() < STITCH_PROB;
     }
 
+    const footerImage = getImage(Images.footer);
+    const hitThumbnail = getImage(Images.waterEmoji);
+    const missThumbnail = getImage(Images.splashShowdown);
+    const stitchThumbnail = getImage(Images.stitchTongue);
+    const slimeThumbnail = getImage(Images.slimeEmoji);
+
     // 13) Build embed
     const embed = new EmbedBuilder();
     if (hit) {
@@ -238,11 +233,11 @@ export default commandModule({
       await Profile.findOneAndUpdate(
         { userID: targetUser.id, serverID: guild.id },
         { $inc: { allTimeRec: 1 } },
-        { upsert: true }
+        { upsert: true },
       );
       await landsSchema.findOneAndUpdate(
         { name: landName },
-        { $inc: { totalPoints: POINTS.hit } }
+        { $inc: { totalPoints: POINTS.hit } },
       );
 
       embed
@@ -257,21 +252,17 @@ export default commandModule({
             "",
             `-# <:fk_arrY:1377386327619801188> ${shooterMember.displayName} earned __**25**__ <:fk_jewel:1333402533439475743>`,
             `-# <:fk_arrB:1377386241187778769> Water Level: **${shooter.currSprays}**`,
-          ].join("\n")
+          ].join("\n"),
         )
-        .setThumbnail(
-          IMAGES.thumbnail
-        )
-        .setImage(
-          IMAGES.footer
-        );
+        .setThumbnail(hitThumbnail.url)
+        .setImage(footerImage.url);
 
       const feed = guild.channels.cache.get(CHANNELS.announce) as
         | TextChannel
         | undefined;
       if (feed?.isTextBased()) {
         feed.send(
-          `<:v_opie:1376727584435474542> ${shooterMember.displayName} sprayed ${targetMember.displayName}!`
+          `<:v_opie:1376727584435474542> ${shooterMember.displayName} sprayed ${targetMember.displayName}!`,
         );
       }
     } else if (isStitchEvent) {
@@ -281,7 +272,7 @@ export default commandModule({
 
       await landsSchema.findOneAndUpdate(
         { name: landName },
-        { $inc: { totalPoints: POINTS.stitch } }
+        { $inc: { totalPoints: POINTS.stitch } },
       );
 
       embed
@@ -293,19 +284,15 @@ export default commandModule({
             `Everyone sees **Stitch** <:stitch_tongue:1377640945159245844> running away giggling and from behind a tree, a pair of mischievous ears peek out...`,
             "",
             `<:fk_arrG:1377636867675263170> ${shooterMember.displayName} got drenched in slime, but ${subjectLower} earned __**100**__ <:fk_jewel:1333402533439475743>`,
-          ].join("\n")
+          ].join("\n"),
         )
-        .setThumbnail(
-          IMAGES.stitchThumbnail
-        )
-        .setImage(
-          IMAGES.stitchFooter
-        );
+        .setThumbnail(slimeThumbnail.url)
+        .setImage(footerImage.url);
     } else {
       await shooter.save();
       await landsSchema.findOneAndUpdate(
         { name: landName },
-        { $inc: { totalPoints: POINTS.miss } }
+        { $inc: { totalPoints: POINTS.miss } },
       );
 
       embed
@@ -320,14 +307,10 @@ export default commandModule({
             "",
             `-# <:fk_arrR:1377386356048920709> ${shooterMember.displayName} has earned __**10**__ <:fk_jewel:1333402533439475743>`,
             `-# <:fk_arrB:1377386241187778769> Water Level: **${shooter.currSprays}**`,
-          ].join("\n")
+          ].join("\n"),
         )
-        .setThumbnail(
-          IMAGES.missedThumbnail
-        )
-        .setImage(
-          IMAGES.footer
-        );
+        .setThumbnail(missThumbnail.url)
+        .setImage(footerImage.url);
     }
 
     // 14) Final response (edit the deferred “thinking…”)

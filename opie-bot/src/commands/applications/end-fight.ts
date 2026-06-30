@@ -11,6 +11,8 @@ import { requirePermission } from "../../plugins/requirePermission.js";
 import FightState from "../../models/core/fightstate-Schema.js";
 import charSchema from "../../models/core/char-Schema.js";
 import Profile from "../../models/profiles/sprof-Schema.js";
+import { getImage } from "../../utils/getImage.js";
+import { CharacterImages, CharacterName, Images } from "../../constants/images.js";
 
 export default commandModule({
   name: "endfight",
@@ -59,6 +61,13 @@ export default commandModule({
     character.isChosen = false;
     character.save();
 
+        const footerImage = getImage(Images.footer);
+    
+        const characterFile = 
+          CharacterImages[character.name as CharacterName] ?? Images.splashShowdown;
+    
+        const CharacterImage = getImage(characterFile);
+
     const embed = new EmbedBuilder()
       .setColor("#01dddd")
       .setTitle("THE SPLASH SHOWDOWN IS OVER!")
@@ -69,9 +78,9 @@ export default commandModule({
           "Everyone is told to go home! But, keep an eye out... who knows if another fight will start soon!",
         ].join("\n")
       )
-      .setThumbnail(character.image)
+      .setThumbnail(CharacterImage.url)
       .setImage(
-        "http://www.emhuf.xyz/uploads/Water_Gun_Event/1748307466248-611376657.png"
+        footerImage.url
       );
 
     await Profile.updateMany(

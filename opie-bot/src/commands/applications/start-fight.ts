@@ -10,8 +10,12 @@ import { publishConfig } from "@sern/publisher";
 import { requirePermission } from "../../plugins/requirePermission.js";
 import FightState from "../../models/core/fightstate-Schema.js";
 import charSchema from "../../models/core/char-Schema.js";
-import { NonEmptyArray } from "../../plugins/publish.js";
-
+import { getImage } from "../../utils/getImage.js";
+import {
+  Images,
+  CharacterImages,
+  type CharacterName,
+} from "../../constants/images.js";
 
 export default commandModule({
   name: "startfight",
@@ -46,7 +50,7 @@ export default commandModule({
     await FightState.findOneAndUpdate(
       { serverID: ctx.guild!.id },
       { active: true },
-      { upsert: true }
+      { upsert: true },
     );
 
     const characters = await charSchema.find({});
@@ -62,8 +66,14 @@ export default commandModule({
       characters[Math.floor(Math.random() * characters.length)];
 
     chosenCharacter.isChosen = true;
+    await chosenCharacter.save();
 
-    chosenCharacter.save();
+    const footerImage = getImage(Images.footer);
+
+    const characterFile = 
+      CharacterImages[chosenCharacter.name as CharacterName] ?? Images.splashShowdown;
+
+    const CharacterImage = getImage(characterFile);
 
     const embed = new EmbedBuilder()
       .setColor("#01dddd")
@@ -80,12 +90,10 @@ export default commandModule({
           `-# <:fk_arrT:1377386293012463626> Your water level starts at 6. Once it reaches 0 you'll need to \u0060/refill\u0060`,
           `-# <:fk_arrY:1377386327619801188> 10s cooldown between sprays. Refills take __**1 minute**__`,
           `-# <:fk_arrR:1377386356048920709> Don’t spray the same person twice in a row!`,
-        ].join("\n")
+        ].join("\n"),
       )
-      .setThumbnail(chosenCharacter.image)
-      .setImage(
-        "https://www.emhuf.xyz/uploads/Water_Gun_Event/1748463125796-193033977.png"
-      );
+      .setThumbnail(CharacterImage.url)
+      .setImage(footerImage.url);
 
     await ctx.reply({
       allowedMentions: { parse: ["roles"] },
@@ -94,10 +102,10 @@ export default commandModule({
     });
 
     const channel = ctx.client.channels.cache.get(
-      "1368568447822467102"
+      "1368568447822467102",
     ) as TextChannel;
     channel.send(
-      `<:v_opie:1376727584435474542> ${member?.nickname} has started a water gun fight.`
+      `<:v_opie:1376727584435474542> ${member?.nickname} has started a water gun fight.`,
     );
   },
 });
