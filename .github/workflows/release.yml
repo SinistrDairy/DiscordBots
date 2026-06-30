@@ -75,26 +75,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js & pnpm
+      - name: Setup Node.js
         if: ${{ steps.should_skip.outputs.skip == 'false' }}
-        run: |
-          curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-          sudo apt-get update
-          sudo apt-get install -y nodejs
-          npm install -g pnpm
-
-      - name: Approve pnpm build scripts
-        if: ${{ steps.should_skip.outputs.skip == 'false' }}
-        run: |
-          cd ${{ matrix.bot }}
-          # Non-interactively approve pnpm build scripts so installers like esbuild are allowed to run in CI
-          yes | pnpm approve-builds || true
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: '${{ matrix.bot }}/package-lock.json'
 
       - name: Install dependencies
         if: ${{ steps.should_skip.outputs.skip == 'false' }}
         run: |
           cd ${{ matrix.bot }}
-          pnpm install
+          npm ci
 
       - name: Run release-it
         if: ${{ steps.should_skip.outputs.skip == 'false' }}
@@ -103,7 +96,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd ${{ matrix.bot }}
-          pnpm exec release-it --ci --increment patch --tag-prefix=${{ matrix.tagPrefix }}
+          npx release-it --ci --increment patch --tag-prefix=${{ matrix.tagPrefix }}
           echo "RELEASE_VERSION=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
 
       - name: Post release to Discord
