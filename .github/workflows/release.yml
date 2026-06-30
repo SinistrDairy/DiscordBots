@@ -18,7 +18,7 @@ jobs:
     outputs:
       genie-changed: ${{ steps.filter.outputs['genie-bot'] }}
       trivia-changed: ${{ steps.filter.outputs['triviabot'] }}
-      opie-changed:  ${{ steps.filter.outputs['opie-bot'] }}
+      opie-changed: ${{ steps.filter.outputs['opie-bot'] }}
     steps:
       - name: Checkout for filtering
         uses: actions/checkout@v4
@@ -79,18 +79,15 @@ jobs:
         if: ${{ steps.should_skip.outputs.skip == 'false' }}
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
-          cache-dependency-path: |
-            genie-bot/package-lock.json
-            triviabot/package-lock.json
-            opie-bot/package-lock.json
+          cache-dependency-path: '${{ matrix.bot }}/package-lock.json'
 
       - name: Install dependencies
         if: ${{ steps.should_skip.outputs.skip == 'false' }}
         run: |
           cd ${{ matrix.bot }}
-          npm ci
+          npm ci --legacy-peer-deps
 
       - name: Run release-it
         if: ${{ steps.should_skip.outputs.skip == 'false' }}
@@ -103,18 +100,28 @@ jobs:
           echo "RELEASE_VERSION=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
 
       - name: Post release to Discord
-        if: ${{ steps.should_skip.outputs.skip == 'false' }}
+        if: ${{ steps.should_skip.outputs.skip == 'false' && env.DISCORD_WEBHOOK_URL != '' }}
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           RELEASE_VERSION: ${{ steps.release.outputs.RELEASE_VERSION }}
           BOT_NAME: ${{ matrix.botName }}
         run: |
           cd ${{ matrix.bot }}
-          CHANGELOG=$(awk 'BEGIN{p=0} /^## /{if(p++)exit} {if(p)print}' CHANGELOG.md)
-          PAYLOAD=$(jq -Rn --arg name "$BOT_NAME" \
-                          --arg ver "$RELEASE_VERSION" \
-                          --arg changelog "$CHANGELOG" \
-                          '{content: ("# " + $name + "\n### Version: `" + $ver + "`\n\n### Features & Fixes\n\n" + $changelog)}')
+          
+          # Extract changelog safely
+          if [ -f CHANGELOG.md ]; then
+            CHANGELOG=$(awk 'BEGIN{p=0} /^## /{if(p++)exit} {if(p)print}' CHANGELOG.md)
+          else
+            CHANGELOG="No changelog available"
+          fi
+          
+          # Build and send Discord payload
+          PAYLOAD=$(jq -Rn \
+            --arg name "$BOT_NAME" \
+            --arg ver "$RELEASE_VERSION" \
+            --arg changelog "$CHANGELOG" \
+            '{content: ("# " + $name + "\n### Version: `" + $ver + "`\n\n### Features & Fixes\n\n" + $changelog)}')
+          
           curl -X POST "$DISCORD_WEBHOOK_URL" \
-               -H "Content-Type: application/json" \
-               -d "$PAYLOAD"
+            -H "Content-Type: application/json" \
+            -d "$PAYLOAD" || echo "Discord notification failed, but release succeeded"
