@@ -81,7 +81,10 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: '${{ matrix.bot }}/package-lock.json'
+          cache-dependency-path: |
+            genie-bot/package-lock.json
+            triviabot/package-lock.json
+            opie-bot/package-lock.json
 
       - name: Install dependencies
         if: ${{ steps.should_skip.outputs.skip == 'false' }}
