@@ -88,7 +88,7 @@ export default commandModule({
       { $unset: { lastTarget: "" }, $set: { currSprays: 6, needsRefill: false, refillReadyAt: 0 } }
     );
 
-    await ctx.reply({ embeds: [embed] });
+    await ctx.reply({ embeds: [embed],files: [CharacterImage.attachment, footerImage.attachment]  });
 
     const channel = ctx.client.channels.cache.get(
       "1368568447822467102"

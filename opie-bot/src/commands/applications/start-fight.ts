@@ -75,6 +75,8 @@ export default commandModule({
 
     const CharacterImage = getImage(characterFile);
 
+    console.log(footerImage.url, CharacterImage.url)
+
     const embed = new EmbedBuilder()
       .setColor("#01dddd")
       .setTitle("LET THE SPLASH SHOWDOWN BEGIN!")
@@ -99,6 +101,7 @@ export default commandModule({
       allowedMentions: { parse: ["roles"] },
       content: `<@&1377631158845837312>`,
       embeds: [embed],
+      files: [CharacterImage.attachment, footerImage.attachment]
     });
 
     const channel = ctx.client.channels.cache.get(

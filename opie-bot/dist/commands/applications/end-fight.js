@@ -9,6 +9,8 @@ import { requirePermission } from "../../plugins/requirePermission.js";
 import FightState from "../../models/core/fightstate-Schema.js";
 import charSchema from "../../models/core/char-Schema.js";
 import Profile from "../../models/profiles/sprof-Schema.js";
+import { getImage } from "../../utils/getImage.js";
+import { CharacterImages, Images } from "../../constants/images.js";
 var end_fight_default = commandModule({
   name: "endfight",
   description: "End the Splash Showdown",
@@ -47,20 +49,23 @@ var end_fight_default = commandModule({
     }
     character.isChosen = false;
     character.save();
+    const footerImage = getImage(Images.footer);
+    const characterFile = CharacterImages[character.name] ?? Images.splashShowdown;
+    const CharacterImage = getImage(characterFile);
     const embed = new EmbedBuilder().setColor("#01dddd").setTitle("THE SPLASH SHOWDOWN IS OVER!").setDescription(
       [
         `OH NO, **${character.badGuy}** is here to break up the fun!`,
         "",
         "Everyone is told to go home! But, keep an eye out... who knows if another fight will start soon!"
       ].join("\n")
-    ).setThumbnail(character.image).setImage(
-      "http://www.emhuf.xyz/uploads/Water_Gun_Event/1748307466248-611376657.png"
+    ).setThumbnail(CharacterImage.url).setImage(
+      footerImage.url
     );
     await Profile.updateMany(
       { serverID: guild.id },
       { $unset: { lastTarget: "" }, $set: { currSprays: 6, needsRefill: false, refillReadyAt: 0 } }
     );
-    await ctx.reply({ embeds: [embed] });
+    await ctx.reply({ embeds: [embed], files: [CharacterImage.attachment, footerImage.attachment] });
     const channel = ctx.client.channels.cache.get(
       "1368568447822467102"
     );

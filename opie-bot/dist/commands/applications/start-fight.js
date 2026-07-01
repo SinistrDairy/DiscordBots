@@ -8,6 +8,11 @@ import { publishConfig } from "@sern/publisher";
 import { requirePermission } from "../../plugins/requirePermission.js";
 import FightState from "../../models/core/fightstate-Schema.js";
 import charSchema from "../../models/core/char-Schema.js";
+import { getImage } from "../../utils/getImage.js";
+import {
+  Images,
+  CharacterImages
+} from "../../constants/images.js";
 var start_fight_default = commandModule({
   name: "startfight",
   description: "Begin the Splash Showdown",
@@ -46,7 +51,11 @@ var start_fight_default = commandModule({
     }
     const chosenCharacter = characters[Math.floor(Math.random() * characters.length)];
     chosenCharacter.isChosen = true;
-    chosenCharacter.save();
+    await chosenCharacter.save();
+    const footerImage = getImage(Images.footer);
+    const characterFile = CharacterImages[chosenCharacter.name] ?? Images.splashShowdown;
+    const CharacterImage = getImage(characterFile);
+    console.log(footerImage.url, CharacterImage.url);
     const embed = new EmbedBuilder().setColor("#01dddd").setTitle("LET THE SPLASH SHOWDOWN BEGIN!").setDescription(
       [
         `> From behind a bush, **${chosenCharacter.name}** lets out a giggle and then **SPLASH** A surprise water blast flies your way! The **Splash Showdown** has begun!`,
@@ -60,13 +69,12 @@ var start_fight_default = commandModule({
         `-# <:fk_arrY:1377386327619801188> 10s cooldown between sprays. Refills take __**1 minute**__`,
         `-# <:fk_arrR:1377386356048920709> Don\u2019t spray the same person twice in a row!`
       ].join("\n")
-    ).setThumbnail(chosenCharacter.image).setImage(
-      "https://www.emhuf.xyz/uploads/Water_Gun_Event/1748463125796-193033977.png"
-    );
+    ).setThumbnail(CharacterImage.url).setImage(footerImage.url);
     await ctx.reply({
       allowedMentions: { parse: ["roles"] },
       content: `<@&1377631158845837312>`,
-      embeds: [embed]
+      embeds: [embed],
+      files: [CharacterImage.attachment, footerImage.attachment]
     });
     const channel = ctx.client.channels.cache.get(
       "1368568447822467102"

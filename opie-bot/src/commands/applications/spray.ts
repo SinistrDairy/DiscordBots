@@ -30,6 +30,14 @@ const POINTS = {
   stitch: 100,
 };
 
+const IMAGES = {
+  hitImage: "https://cdn.discordapp.com/attachments/1376324476509229097/1376357685930233906/watergun_splash.png?ex=6a45093b&is=6a43b7bb&hm=a2c6c7daab92a4fc51c0afb382b0daf4f3a9f917661035f70bc82d145f1895d3&",
+  slimed: "https://media.discordapp.net/attachments/1376324476509229097/1521561212956180681/fk_splash_showdown.png?ex=6a4547ce&is=6a43f64e&hm=9c895bcd2afef11995f0be2603d6dc5e990504bc4b28b2d84778cb464cae78b8&=&format=webp&quality=lossless",
+  missImage: "https://media.discordapp.net/attachments/1376324476509229097/1521561212628893887/fk_splash_showdown_1.png?ex=6a4547ce&is=6a43f64e&hm=17fa846717d427b045261f16df0e246c39fa610b3ae0beb00b39c2b07da3e9f4&=&format=webp&quality=lossless",
+  slimeFooter: "https://media.discordapp.net/attachments/1376324476509229097/1521605811078434968/FK_Embed_Footers_3.png?ex=6a457157&is=6a441fd7&hm=e543317c695b229cf0048e671c65fbb0d32bc904194fca961661a9ce72716416&=&format=webp&quality=lossless",
+  footer: "https://media.discordapp.net/attachments/1376324476509229097/1521601891644215387/fk_embed_footers_5.png?ex=6a456db0&is=6a441c30&hm=dfda0c458c4fc2eb2917e014d4264aabd8b294e39b261398b7dbb44b886fa51e&=&format=webp&quality=lossless"
+} as const;
+
 export default commandModule({
   name: "spray",
   description: "Spray someone with your water gun",
@@ -217,11 +225,11 @@ export default commandModule({
       isStitchEvent = !hit && Math.random() < STITCH_PROB;
     }
 
-    const footerImage = getImage(Images.footer);
-    const hitThumbnail = getImage(Images.waterEmoji);
-    const missThumbnail = getImage(Images.splashShowdown);
-    const stitchThumbnail = getImage(Images.stitchTongue);
-    const slimeThumbnail = getImage(Images.slimeEmoji);
+    const footerImage = IMAGES.footer;
+    const hitThumbnail = IMAGES.hitImage;
+    const missThumbnail = IMAGES.missImage;
+    const slimeThumbnail = IMAGES.slimed;
+    const slimeFooter = IMAGES.slimeFooter;
 
     // 13) Build embed
     const embed = new EmbedBuilder();
@@ -254,8 +262,8 @@ export default commandModule({
             `-# <:fk_arrB:1377386241187778769> Water Level: **${shooter.currSprays}**`,
           ].join("\n"),
         )
-        .setThumbnail(hitThumbnail.url)
-        .setImage(footerImage.url);
+        .setThumbnail(hitThumbnail)
+        .setImage(footerImage);
 
       const feed = guild.channels.cache.get(CHANNELS.announce) as
         | TextChannel
@@ -286,8 +294,8 @@ export default commandModule({
             `<:fk_arrG:1377636867675263170> ${shooterMember.displayName} got drenched in slime, but ${subjectLower} earned __**100**__ <:fk_jewel:1333402533439475743>`,
           ].join("\n"),
         )
-        .setThumbnail(slimeThumbnail.url)
-        .setImage(footerImage.url);
+        .setThumbnail(slimeThumbnail)
+        .setImage(slimeFooter);
     } else {
       await shooter.save();
       await landsSchema.findOneAndUpdate(
@@ -309,8 +317,8 @@ export default commandModule({
             `-# <:fk_arrB:1377386241187778769> Water Level: **${shooter.currSprays}**`,
           ].join("\n"),
         )
-        .setThumbnail(missThumbnail.url)
-        .setImage(footerImage.url);
+        .setThumbnail(missThumbnail)
+        .setImage(footerImage);
     }
 
     // 14) Final response (edit the deferred “thinking…”)

@@ -4,13 +4,13 @@ export const Images = {
   // Splash Showdown
   splashShowdown: "FK_Splash_Showdown.png",
   splashShowdown2: "FK_Splash_Showdown_2.png",
-  footer: "FK_Embed_Footers_3.png",
+  footer: "FK_waterFooter.png",
 
   // Emojis / Special
   waterEmoji: "FK_SplashEmoji_water.png",
   slimeEmoji: "FK_SplashEmoji_slime.png",
   stitchTongue: "stitch_tongue.png",
-  stitchWG: "stitch-WG.png",
+  stitchWG: "stitch-wG.png",
 
   // Characters
   abuu: "Abuu.png",
@@ -34,6 +34,7 @@ export const CharacterImages = {
   Cheshire: Images.cheshire,
   Figment: Images.figment,
   Mushu: Images.mushu,
+  Stitch: Images.stitchWG,
 } as const;
 
 export type CharacterName = keyof typeof CharacterImages;
