@@ -23,7 +23,7 @@ var fill_default = commandModule({
     const guildId = guild.id;
     const member = await guild.members.fetch(userId);
     const now = Date.now();
-    const allowedChannelId = "1378866276314779779";
+    const allowedChannelId = "1521559634387800345";
     const isAdmin = member.permissions.has(PermissionFlagsBits.Administrator);
     if (ctx.channel?.id !== allowedChannelId && !isAdmin) {
       return ctx.reply({
