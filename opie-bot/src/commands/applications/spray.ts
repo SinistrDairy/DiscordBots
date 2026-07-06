@@ -14,15 +14,13 @@ import userSchema from "../../models/profiles/user-schema.js";
 import Profile from "../../models/profiles/sprof-Schema.js";
 import FightState from "../../models/core/fightstate-Schema.js";
 import { getPronoun } from "../../utils/pronoun.js";
-import { getImage } from "../../utils/getImage.js";
-import { Images } from "../../constants/images.js";
 
 const COOLDOWN = 10_000;
 const HIT_CHANCE = 0.55;
 const STITCH_PROB = 0.00371923;
 const CHANNELS = {
   announce: "1368568447822467102",
-  allowed: "1378866276314779779",
+  allowed: "1521559634387800345",
 };
 const POINTS = {
   hit: 25,

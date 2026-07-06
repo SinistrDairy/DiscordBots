@@ -16,7 +16,7 @@ const HIT_CHANCE = 0.55;
 const STITCH_PROB = 371923e-8;
 const CHANNELS = {
   announce: "1368568447822467102",
-  allowed: "1378866276314779779"
+  allowed: "1521559634387800345"
 };
 const POINTS = {
   hit: 25,
