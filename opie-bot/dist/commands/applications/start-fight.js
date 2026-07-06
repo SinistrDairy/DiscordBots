@@ -72,7 +72,7 @@ var start_fight_default = commandModule({
     ).setThumbnail(CharacterImage.url).setImage(footerImage.url);
     await ctx.reply({
       allowedMentions: { parse: ["roles"] },
-      content: `<@&1377631158845837312>`,
+      content: `<@&1523462005934260224>`,
       embeds: [embed],
       files: [CharacterImage.attachment, footerImage.attachment]
     });

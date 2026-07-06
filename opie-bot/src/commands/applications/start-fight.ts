@@ -99,7 +99,7 @@ export default commandModule({
 
     await ctx.reply({
       allowedMentions: { parse: ["roles"] },
-      content: `<@&1377631158845837312>`,
+      content: `<@&1523462005934260224>`,
       embeds: [embed],
       files: [CharacterImage.attachment, footerImage.attachment]
     });
