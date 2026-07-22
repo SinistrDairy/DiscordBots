@@ -2,6 +2,7 @@ import cron from "node-cron";
 import type { Client } from "discord.js";
 import { ThreadArchive } from "../models/ThreadArchive.js";
 import { connectDB, disconnectDB } from "../db.js";
+import { Images } from '../../../opie-bot/src/constants/images';
 
 const IMAGES = "https://tinyurl.com/4ewkshyt"
 
@@ -44,7 +45,7 @@ export function startArchiveScheduler(client: Client) {
           try {
             await ch.send({
               files: [
-                IMAGES
+                {attachment: IMAGES, name: "end_quest.png"}
               ],
             });
             await ThreadArchive.updateOne(

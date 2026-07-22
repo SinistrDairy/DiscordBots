@@ -34,7 +34,7 @@ function startArchiveScheduler(client) {
           try {
             await ch.send({
               files: [
-                IMAGES
+                { attachment: IMAGES, name: "end_quest.png" }
               ]
             });
             await ThreadArchive.updateOne(
