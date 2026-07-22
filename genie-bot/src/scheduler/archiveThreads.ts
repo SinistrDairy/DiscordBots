@@ -3,6 +3,8 @@ import type { Client } from "discord.js";
 import { ThreadArchive } from "../models/ThreadArchive.js";
 import { connectDB, disconnectDB } from "../db.js";
 
+const IMAGES = "https://tinyurl.com/4ewkshyt"
+
 export function startArchiveScheduler(client: Client) {
   client.once("ready", async () => {
     console.log("Archive scheduler starting…");
@@ -42,7 +44,7 @@ export function startArchiveScheduler(client: Client) {
           try {
             await ch.send({
               files: [
-                "https://www.emhuf.xyz/uploads/genie/1750358677651-963394123.png",
+                IMAGES
               ],
             });
             await ThreadArchive.updateOne(

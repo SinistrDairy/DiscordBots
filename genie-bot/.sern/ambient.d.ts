@@ -10,7 +10,6 @@ declare namespace NodeJS {
         ChocolateyInstall:string
         ChocolateyLastPathUpdate:string
         CHROME_CRASHPAD_PIPE_NAME:string
-        COLOR:string
         COLORTERM:string
         COMMONPROGRAMFILES:string
         "CommonProgramFiles(x86)": string
@@ -18,12 +17,17 @@ declare namespace NodeJS {
         COMPUTERNAME:string
         COMSPEC:string
         CONFIG_SITE:string
+        COPILOT_DEBUG_NONCE:string
         DATABASE_URL:string
         DISCORD_TOKEN:string
         DISPLAY:string
         DriverData:string
-        EDITOR:string
-        EFC_10884_1592913036:string
+        EFC_2380_1262719628:string
+        EFC_2380_1592913036:string
+        EFC_2380_2283032206:string
+        EFC_2380_2775293581:string
+        EFC_2380_3789132940:string
+        EFC_2380_4126798990:string
         EXEPATH:string
         FPS_BROWSER_APP_PROFILE_STRING:string
         FPS_BROWSER_USER_PROFILE_STRING:string
@@ -52,18 +56,12 @@ declare namespace NodeJS {
         NODE_ENV:string
         NODE_PATH:string
         npm_command:string
-        npm_config_cache:string
         npm_config_frozen_lockfile:string
         npm_config_globalconfig:string
         npm_config_global_bin_dir:string
-        npm_config_global_prefix:string
-        npm_config_init_module:string
-        npm_config_local_prefix:string
         npm_config_node_gyp:string
-        npm_config_npm_version:string
-        npm_config_prefix:string
+        npm_config_npm_globalconfig:string
         npm_config_registry:string
-        npm_config_userconfig:string
         npm_config_user_agent:string
         npm_config_verify_deps_before_run:string
         npm_config__jsr_registry:string
@@ -75,12 +73,12 @@ declare namespace NodeJS {
         npm_package_name:string
         npm_package_version:string
         NUMBER_OF_PROCESSORS:string
+        OLDPWD:string
         OneDrive:string
         OneDriveConsumer:string
         ORIGINAL_PATH:string
         ORIGINAL_TEMP:string
         ORIGINAL_TMP:string
-        ORIGINAL_XDG_CURRENT_DESKTOP:string
         OS:string
         PATH:string
         PATHEXT:string
@@ -126,6 +124,5 @@ declare namespace NodeJS {
         VSCODE_PYTHON_AUTOACTIVATE_GUARD:string
         WINDIR:string
         ZES_ENABLE_SYSMAN:string
-        _:string
     }
 }

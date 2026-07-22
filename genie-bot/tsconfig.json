@@ -1,7 +1,7 @@
 {
   "extends": "./.sern/tsconfig.json",
   "compilerOptions": {
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
   },
   "include": [
     "src",

@@ -12,6 +12,7 @@ import Land from "../models/Land.js";
 
 const ANNOUNCEMENT_CHANNEL_ID = "1220081937906008144"; // Channel ID for event announcements
 
+
 export default commandModule({
   name: "submit",
   description: "Distribute cow-post jewels × participants to each land",

@@ -1,6 +1,7 @@
 import cron from "node-cron";
 import { ThreadArchive } from "../models/ThreadArchive.js";
 import { connectDB, disconnectDB } from "../db.js";
+const IMAGES = "https://tinyurl.com/4ewkshyt";
 function startArchiveScheduler(client) {
   client.once("ready", async () => {
     console.log("Archive scheduler starting\u2026");
@@ -33,7 +34,7 @@ function startArchiveScheduler(client) {
           try {
             await ch.send({
               files: [
-                "https://www.emhuf.xyz/uploads/genie/1750358677651-963394123.png"
+                IMAGES
               ]
             });
             await ThreadArchive.updateOne(
