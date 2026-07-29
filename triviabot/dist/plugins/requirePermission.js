@@ -19,7 +19,11 @@ function requirePermission(target, perm, response) {
     const bot = await ctx.guild.members.fetchMe({
       cache: false
     });
-    const memm = ctx.member;
+    const memm = await ctx.guild.memberCount.fetch({
+      user: ctx.user.id,
+      force: true,
+      cache: false
+    });
     switch (target) {
       case "bot":
         if (!bot.permissions.has(perm)) {

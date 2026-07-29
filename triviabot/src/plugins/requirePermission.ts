@@ -48,7 +48,11 @@ export function requirePermission(
 		const bot = (await ctx.guild.members.fetchMe({
 			cache: false,
 		})!) as GuildMember;
-		const memm = ctx.member! as GuildMember;
+		const memm = await ctx.guild.memberCount.fetch({
+			user: ctx.user.id,
+			force: true,
+			cache: false,
+		});
 		switch (target) {
 			//*********************************************************************************************************************//
 			case "bot":
