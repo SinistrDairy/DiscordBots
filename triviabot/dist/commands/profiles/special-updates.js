@@ -50,11 +50,11 @@ var special_updates_default = commandModule({
     const mentionRole = ctx.options.getRole("mention_role");
     const landDoc = await landsSchema.findOne({
       name: new RegExp(`^${landInput}$`, "i"),
-      server: ctx.guildId
+      serverID: ctx.guildId
     });
     if (!landDoc) {
       return ctx.reply({
-        content: `\u2139\uFE0F Land "${landInput} not found in DB"`,
+        content: `\u2139\uFE0F Land "${landInput}" not found in DB"`,
         flags: MessageFlags.Ephemeral
       });
     }
