@@ -40,32 +40,30 @@ var special_updates_default = commandModule({
     },
     {
       type: ApplicationCommandOptionType.Role,
-      name: "transfer_role",
-      description: "Role assigned to the users transferring to this land",
-      required: true
+      name: "mention_role",
+      description: "Optional: role to mention when announcing",
+      required: false
     }
   ],
   execute: async (ctx) => {
-    const landInput = ctx.options.getString("new_land", true).trim().toLowerCase();
-    const selectedRole = ctx.options.getRole("transfer_role", true);
-    if (!ctx.guild) {
+    const landInput = ctx.options.getString("new_land", true).toLowerCase();
+    const mentionRole = ctx.options.getRole("mention_role");
+    const landDoc = await landsSchema.findOne({
+      name: new RegExp(`^${landInput}$`, "i"),
+      server: ctx.guildId
+    });
+    if (!landDoc) {
       return ctx.reply({
-        content: "\u274C This command can only be used inside a server.",
+        content: `\u2139\uFE0F Land "${landInput} not found in DB"`,
         flags: MessageFlags.Ephemeral
       });
     }
+    const roleId = landDoc.roleID;
     await ctx.guild.members.fetch();
-    const transferRole = await ctx.guild.roles.fetch(selectedRole.id);
-    if (!transferRole) {
+    const members = ctx.guild.roles.cache.get(roleId)?.members;
+    if (!members || members.size === 0) {
       return ctx.reply({
-        content: `\u2139\uFE0F Transfer role not found.`,
-        flags: MessageFlags.Ephemeral
-      });
-    }
-    const members = transferRole.members;
-    if (members.size === 0) {
-      return ctx.reply({
-        content: `\u2139\uFE0F No users found with the role "${transferRole}" to update.`,
+        content: `\u2139\uFE0F No users found in land "${landInput}" to update.`,
         flags: MessageFlags.Ephemeral
       });
     }
@@ -78,13 +76,13 @@ var special_updates_default = commandModule({
     if (logId) {
       const ch = ctx.client.channels.cache.get(logId);
       const changer = await ctx.guild.members.fetch(ctx.user.id);
-      const mention = selectedRole ? `<@&${selectedRole.id}> ` : "";
+      const mention = mentionRole ? `<@&${mentionRole.id}> ` : "";
       await ch.send(
-        `${mention}<:v_russell:1375161867152130182> ${changer.displayName} moved **${res.modifiedCount}** users to **${landInput}**.`
+        `${mention}<:v_russell:1375161867152130182> ${changer.displayName} moved **${res.modifiedCount}** users to **${landDoc.name}**.`
       );
     }
     await ctx.reply({
-      content: `\u2705 Updated **${res.modifiedCount}** profiles to land **${landInput}**.`,
+      content: `\u2705 Updated **${res.modifiedCount}** profiles to land **${landDoc.name}**.`,
       flags: MessageFlags.Ephemeral
     });
   }
