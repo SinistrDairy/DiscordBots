@@ -10,16 +10,6 @@ import landsSchema from "../../models/trivia/lands-schema.js";
 import { requirePermission } from "../../plugins/requirePermission.js";
 import { publishConfig } from "@sern/publisher";
 
-// Maps land names to corresponding role IDs
-const LAND_ROLE_MAP: Record<string, string> = {
-  monstropolis: "1324823193789272146", // monsters
-  "hundred acre wood": "1324823285904707707", // rabbits
-  agrabah: "1324823449197215908", // sultans
-  "halloween town": "830604135748337678", // hweens
-  neverland: "830604878190870538", // neverland
-  wonderland: "830604824763695124", // wonderland
-};
-
 export default commandModule({
   name: "special-updates",
   description: "Batch-update users moving to a new land",
@@ -46,7 +36,7 @@ export default commandModule({
           const choices = lands
             .map((l) => l.name)
             .filter((name) =>
-              name.toLowerCase().startsWith(focused.toLowerCase())
+              name.toLowerCase().startsWith(focused.toLowerCase()),
             )
             .slice(0, 25)
             .map((name) => ({ name, value: name }));
@@ -56,33 +46,38 @@ export default commandModule({
     },
     {
       type: ApplicationCommandOptionType.Role,
-      name: "mention_role",
-      description: "Optional: role to mention when announcing",
-      required: false,
+      name: "transfer_role",
+      description: "Role assigned to the users transferring to this land",
+      required: true,
     },
   ],
 
   execute: async (ctx) => {
-    const landInput = ctx.options.getString("new_land", true).toLowerCase();
-    const mentionRole = ctx.options.getRole("mention_role");
+    const landInput = ctx.options.getString("new_land", true).trim().toLowerCase();
+    const selectedRole = ctx.options.getRole("transfer_role", true);
 
-    // Validate land and find associated role ID
-    const landDoc = await landsSchema.findOne({
-      name: new RegExp(`^${landInput}$`, "i"),
-    });
-    if (!landDoc || !(landInput in LAND_ROLE_MAP)) {
+    if (!ctx.guild) {
       return ctx.reply({
-        content: `❌ Land "${landInput}" is not recognized.`,
+        content: "❌ This command can only be used inside a server.",
         flags: MessageFlags.Ephemeral,
       });
     }
 
-    const roleId = LAND_ROLE_MAP[landInput];
-    await ctx.guild!.members.fetch();
-    const members = ctx.guild!.roles.cache.get(roleId)?.members;
-    if (!members || members.size === 0) {
+    await ctx.guild.members.fetch();
+    const transferRole = await ctx.guild.roles.fetch(selectedRole.id);
+
+    if (!transferRole) {
       return ctx.reply({
-        content: `ℹ️ No users found in land "${landInput}" to update.`,
+        content: `ℹ️ Transfer role not found.`,
+        flags: MessageFlags.Ephemeral,
+      });
+    }
+
+    const members = transferRole.members;
+
+    if (members.size === 0) {
+      return ctx.reply({
+        content: `ℹ️ No users found with the role "${transferRole}" to update.`,
         flags: MessageFlags.Ephemeral,
       });
     }
@@ -91,7 +86,7 @@ export default commandModule({
     const ids = Array.from(members.keys());
     const res = await profileSchema.updateMany(
       { userID: { $in: ids } },
-      { $set: { land: landInput } }
+      { $set: { land: landInput } },
     );
 
     // Announce in log channel
@@ -99,15 +94,15 @@ export default commandModule({
     if (logId) {
       const ch = ctx.client.channels.cache.get(logId) as TextChannel;
       const changer = await ctx.guild!.members.fetch(ctx.user.id);
-      const mention = mentionRole ? `<@&${mentionRole.id}> ` : "";
+      const mention = selectedRole ? `<@&${selectedRole.id}> ` : "";
       await ch.send(
-        `${mention}<:v_russell:1375161867152130182> ${changer.displayName} moved **${res.modifiedCount}** users to **${landDoc.name}**.`
+        `${mention}<:v_russell:1375161867152130182> ${changer.displayName} moved **${res.modifiedCount}** users to **${landInput}**.`,
       );
     }
 
     // Respond to issuer
     await ctx.reply({
-      content: `✅ Updated **${res.modifiedCount}** profiles to land **${landDoc.name}**.`,
+      content: `✅ Updated **${res.modifiedCount}** profiles to land **${landInput}**.`,
       flags: MessageFlags.Ephemeral,
     });
   },

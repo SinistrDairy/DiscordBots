@@ -8,20 +8,6 @@ import profileSchema from "../../models/profiles/user-schema.js";
 import landsSchema from "../../models/trivia/lands-schema.js";
 import { requirePermission } from "../../plugins/requirePermission.js";
 import { publishConfig } from "@sern/publisher";
-const LAND_ROLE_MAP = {
-  monstropolis: "1324823193789272146",
-  // monsters
-  "hundred acre wood": "1324823285904707707",
-  // rabbits
-  agrabah: "1324823449197215908",
-  // sultans
-  "halloween town": "830604135748337678",
-  // hweens
-  neverland: "830604878190870538",
-  // neverland
-  wonderland: "830604824763695124"
-  // wonderland
-};
 var special_updates_default = commandModule({
   name: "special-updates",
   description: "Batch-update users moving to a new land",
@@ -54,29 +40,32 @@ var special_updates_default = commandModule({
     },
     {
       type: ApplicationCommandOptionType.Role,
-      name: "mention_role",
-      description: "Optional: role to mention when announcing",
-      required: false
+      name: "transfer_role",
+      description: "Role assigned to the users transferring to this land",
+      required: true
     }
   ],
   execute: async (ctx) => {
-    const landInput = ctx.options.getString("new_land", true).toLowerCase();
-    const mentionRole = ctx.options.getRole("mention_role");
-    const landDoc = await landsSchema.findOne({
-      name: new RegExp(`^${landInput}$`, "i")
-    });
-    if (!landDoc || !(landInput in LAND_ROLE_MAP)) {
+    const landInput = ctx.options.getString("new_land", true).trim().toLowerCase();
+    const selectedRole = ctx.options.getRole("transfer_role", true);
+    if (!ctx.guild) {
       return ctx.reply({
-        content: `\u274C Land "${landInput}" is not recognized.`,
+        content: "\u274C This command can only be used inside a server.",
         flags: MessageFlags.Ephemeral
       });
     }
-    const roleId = LAND_ROLE_MAP[landInput];
     await ctx.guild.members.fetch();
-    const members = ctx.guild.roles.cache.get(roleId)?.members;
-    if (!members || members.size === 0) {
+    const transferRole = await ctx.guild.roles.fetch(selectedRole.id);
+    if (!transferRole) {
       return ctx.reply({
-        content: `\u2139\uFE0F No users found in land "${landInput}" to update.`,
+        content: `\u2139\uFE0F Transfer role not found.`,
+        flags: MessageFlags.Ephemeral
+      });
+    }
+    const members = transferRole.members;
+    if (members.size === 0) {
+      return ctx.reply({
+        content: `\u2139\uFE0F No users found with the role "${transferRole}" to update.`,
         flags: MessageFlags.Ephemeral
       });
     }
@@ -89,13 +78,13 @@ var special_updates_default = commandModule({
     if (logId) {
       const ch = ctx.client.channels.cache.get(logId);
       const changer = await ctx.guild.members.fetch(ctx.user.id);
-      const mention = mentionRole ? `<@&${mentionRole.id}> ` : "";
+      const mention = selectedRole ? `<@&${selectedRole.id}> ` : "";
       await ch.send(
-        `${mention}<:v_russell:1375161867152130182> ${changer.displayName} moved **${res.modifiedCount}** users to **${landDoc.name}**.`
+        `${mention}<:v_russell:1375161867152130182> ${changer.displayName} moved **${res.modifiedCount}** users to **${landInput}**.`
       );
     }
     await ctx.reply({
-      content: `\u2705 Updated **${res.modifiedCount}** profiles to land **${landDoc.name}**.`,
+      content: `\u2705 Updated **${res.modifiedCount}** profiles to land **${landInput}**.`,
       flags: MessageFlags.Ephemeral
     });
   }
