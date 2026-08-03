@@ -53,7 +53,7 @@ export default commandModule({
   ],
 
   execute: async (ctx) => {
-    const landInput = ctx.options.getString("new_land", true).toLowerCase();
+    const landInput = ctx.options.getString("new_land", true).trim().toLowerCase();
     const mentionRole = ctx.options.getRole("mention_role");
 
     // Validate land and find associated role ID

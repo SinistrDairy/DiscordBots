@@ -46,7 +46,7 @@ var special_updates_default = commandModule({
     }
   ],
   execute: async (ctx) => {
-    const landInput = ctx.options.getString("new_land", true).toLowerCase();
+    const landInput = ctx.options.getString("new_land", true).trim().toLowerCase();
     const mentionRole = ctx.options.getRole("mention_role");
     const landDoc = await landsSchema.findOne({
       name: new RegExp(`^${landInput}$`, "i"),
