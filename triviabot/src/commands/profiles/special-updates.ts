@@ -10,6 +10,8 @@ import landsSchema from "../../models/trivia/lands-schema.js";
 import { requirePermission } from "../../plugins/requirePermission.js";
 import { publishConfig } from "@sern/publisher";
 
+
+
 export default commandModule({
   name: "special-updates",
   description: "Batch-update users moving to a new land",
